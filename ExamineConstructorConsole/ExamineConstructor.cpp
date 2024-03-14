@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// is the array has the element
 bool isHas(string* arr, string an) {
 	for (int i = 0; i < 4; i++) {
 		if (arr[i] == an) return true;
@@ -342,69 +343,47 @@ public:
 // get all public tests from file
 TestsContainer getAllPublicTests() {
 	TestsContainer testsContainer;
-	/*ifstream file("./tests/publicTests.txt");
-	if (file.is_open()) {
-		string name;
-		string description;
-		string author;
-		bool isPublic;
-		string sizeStandart1;
-		int sizeStandart;
-		int sizeTypeGuest;
-		string sizeTypeGuest1;
-		QuestionStandart* questionsStandart;
-		QuestionTypeGuest* questionsTypeGuest;
-
-
-		file >> name >> description >> author >> isPublic;
-		file >> sizeStandart1 >> sizeTypeGuest1;
-		sizeStandart = stoi("1");
-		sizeTypeGuest = stoi("0");
-		
-		questionsStandart = new QuestionStandart[sizeStandart];
-		questionsTypeGuest = new QuestionTypeGuest[sizeTypeGuest];
-		
-		for (int i = 0; i < sizeStandart; i++) {
-			string question;
-			string* answers = new string[4];
-			string comment;
-			int difficulty;
-			string difficulty1;
-
-			file >> question;
-			for (int j = 0; j < 4; j++) {
-				file >> answers[j];
-			}
-			file >> comment;
-			file >> difficulty1;
- 			difficulty = stoi((string)difficulty1);
-			questionsStandart[i] = QuestionStandart(question, answers, comment, difficulty);
+	ifstream file("./tests/publicTests.txt");
+	cout << "File try to open" << endl;
+	cout << "File is Open" << endl;
+	string name, description, author, isPublic;
+	int num_of_q_standart, num_of_q_guest, diff, right_q;
+	QuestionStandart* questionsStandart;
+	QuestionTypeGuest* questionsTypeGuest;
+	string question, answer1, answer2, answer3, answer4, comment;
+	
+	while (file >> name >> description >> author >> isPublic >> num_of_q_standart >> num_of_q_guest) {
+		cout << name << " " << description << " " << author <<" " << isPublic << " " << num_of_q_standart << " " << num_of_q_guest << endl;
+		questionsStandart = new QuestionStandart[num_of_q_standart];
+		questionsTypeGuest = new QuestionTypeGuest[num_of_q_guest];
+		for (int i = 0; i < num_of_q_standart; i++) {
+			file >> question >> answer1 >> answer2 >> answer3 >> answer4>> comment >> diff;
+			questionsStandart[i] = QuestionStandart(question, new string[4]{ answer1, answer2, answer3, answer4 }, comment, diff);
+			cout << question << " " << answer1 << " " << answer2 << " " << answer3 << " " << answer4 << " " << comment << " " << diff << endl;
 		}
-		for (int i = 0; i < sizeTypeGuest; i++) {
-			string question;
-			string* answers = new string[4];
-			int rightAnswer;
-			string comment;
-			int difficulty;
-			file >> question;
-			for (int j = 0; j < 4; j++) {
-				file >> answers[j];
-			}
-			file >> rightAnswer;
-			file >> comment;
-			file >> difficulty;
-			questionsTypeGuest[i] = QuestionTypeGuest(question, answers, rightAnswer, comment, difficulty);
+		for (int i = 0; i < num_of_q_guest;i++) {
+			file >> question >> answer1 >> answer2 >> answer3 >> answer4 >>right_q>> comment >> diff;
+			questionsTypeGuest[i] = QuestionTypeGuest(question, new string[4]{ answer1, answer2, answer3, answer4 }, right_q, comment, diff);
+			cout << question << " " << answer1 << " " << answer2 << " " << answer3 << " " << answer4 << " " << right_q << " " << comment << " " << diff << endl;
 		}
-		testsContainer.addTest(Test(name, description, author, questionsStandart, questionsTypeGuest, sizeStandart, sizeTypeGuest, isPublic));
-		file.close();
 	}
-	else {
-		cout << "error in file";
-	}*/
+
+
+	file.close();
 	return testsContainer;
+
 }
 
-
+//
+//1
+//0
+//AreYouAMan
+//Yes
+//Yes
+//Yes
+//No
+//PiPipi
+//10
 // 1 - guest
 // 2 - user
 // 3 - admin
