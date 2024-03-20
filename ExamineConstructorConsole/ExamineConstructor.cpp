@@ -2,9 +2,8 @@
 #include <fstream>
 #include <string>
 
-
-
 using namespace std;
+
 
 // is the array has the element
 bool isHas(string* arr, string an) {
@@ -12,6 +11,15 @@ bool isHas(string* arr, string an) {
 		if (arr[i] == an) return true;
 	}
 	return false;
+}
+
+
+string Encrypt(string s) {
+	string special = ",./<>?[]{}\|!@#$%^&*()_-=+;':\"`~";
+	string alphabet_en = "qwertyuiopasdfghjklzxcvbnm";
+	string alphabet_ru = "йцукенгшщзхъфывапролджэячсмитьбю";
+
+	return s;
 }
 
 
@@ -87,25 +95,6 @@ public:
 		return users[index];
 	}
 };
-
-
-
-
-
-//get all users from file and add them to the 
-
-UserList getUsersFromFile() {
-	UserList userList;
-	ifstream file("./users/users.txt");
-	string name;
-	string login;
-	string password;
-	while (file >> name >> login >> password) {
-		userList.addUser(User(name, login, password));
-	}
-	file.close();
-	return userList;
-}
 
 
 
@@ -423,100 +412,10 @@ void StartTest(int choice, TestsContainer testsContainer) {
 //	
 //}
 int main() {
-	UserList userList = getUsersFromFile();
-	TestsContainer testsContainer = getAllPublicTests();
-	int ruleLevel = 0;
-
-	while (true) {
-		cout << "Enter a number for your choice: \n 1 - Test yourself as guest \n 2 - Login \n 3 - Register \n 4 - Exit" << endl;
-		int choice;
-		cin >> choice;
-		string password;
-		string name;
-		string login;
-		User guest;
-
-		switch (choice) {
-		case 1:
-			guest.print();
-			ruleLevel = 1;
-			break;
-		case 2:
-			cout << "Enter your login: ";
-			cin >> login;
-			cout << "Enter your password: ";
-			cin >> password;
-			for (int i = 0; i < userList.getSize(); i++) {
-				if (userList.getUsers()[i].getLogin() == login && userList.getUsers()[i].getPassword() == password) {
-					cout << "You have been logged in as " << userList.getUsers()[i].getName() << endl;
-					if (userList.getUsers()[i].getName() == "admin") {
-						ruleLevel = 3;
-						break;
-					}
-					ruleLevel = 2;
-					break;
-				}
-				else {
-					cout << "Invalid login or password\n" << endl;
-				}
-			}
-			break;
-		case 3:
-			cout << "Enter your name: ";
-			cin >> name;
-			cout << "Enter your login: ";
-			cin >> login;
-			cout << "Enter your password: ";
-			cin >> password;
-			userList.addUser(User(name, login, password));
-			cout << "You have been registered \n Try to login\n" << endl;
-			continue;
-		case 4:
-			return 1;
-		default:
-			cout << "Invalid choice" << endl;
-			continue;
-		}
-		break;
-	}
-	cout << "=========================================" << endl;
-	int testChoice;
-
-	switch (ruleLevel) {
-	case 0:
-		cout << "You are not logged in" << endl;
-		break;
-	case 1:
-		cout << "You are logged in as guest" << endl;
-		cout << "Choice your Test from public tests" << endl;
-		testChoice = getChoice(1, testsContainer);
-		StartTest(testChoice, testsContainer);
-
-
-
-		break;
-	case 2:
-		cout << "You are logged in as user" << endl;
-		cout << "Choice your Test from public tests" << endl;
-		testChoice = getChoice(2, testsContainer);
-		break;
-	case 3:
-		cout << "You are logged in as admin" << endl;
-		cout << "Choice your Test from public tests" << endl;
-		testChoice = getChoice(3, testsContainer);
-		break;
-	default:
-		cout << "Invalid choice" << endl;
-		break;
-
-	}
-
-
-	
-
-
+	setlocale(LC_ALL, "Russian");
+	cout << " Привет мир!!";
+	string p;
+	cin >> p;
+	cout << p;
 	return 0;
 }
-
-
-
