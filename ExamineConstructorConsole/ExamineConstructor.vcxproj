@@ -127,7 +127,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AdministrateModule.cpp" />
+    <ClCompile Include="BiletModule.cpp" />
+    <ClCompile Include="ControlTestModule.cpp" />
     <ClCompile Include="ExamineConstructor.cpp" />
+    <ClCompile Include="ExportModule.cpp" />
+    <ClCompile Include="FileModule.cpp" />
+    <ClCompile Include="RegisterModule.cpp" />
+    <ClCompile Include="Structures.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AdministrateModule.h" />
+    <ClInclude Include="BiletModule.h" />
+    <ClInclude Include="ControlTestModule.h" />
+    <ClInclude Include="ExportModule.h" />
+    <ClInclude Include="FileModule.h" />
+    <ClInclude Include="RegisterModule.h" />
+    <ClInclude Include="Structures.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
