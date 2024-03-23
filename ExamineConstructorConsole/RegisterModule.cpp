@@ -1,44 +1,56 @@
-//#include <iostream>
-//#include "FileModule.cpp"
-//using namespace std;
-//
-//
-//
-//void RegisterModule() {
-//
-//	cout << "–егистраци€" << endl;
-//	cout << "¬ведите логин: ";
-//	string login;
-//	cin >> login;
-//	cout << "¬ведите пароль: ";
-//	string password;
-//	cin >> password;
-//	cout << "¬ведите им€: ";
-//	string name;
-//	cin >> name;
-//	cout << "¬ведите фамилию: ";
-//	string surname;
-//	cin >> surname;
-//	cout << "¬ведите email: ";
-//	string email;
-//	cin >> email;
-//	cout << "¬ведите возраст: ";
-//	int age;
-//	cin >> age;
-//
-//	string UserPath= "users/users.txt";
-//	string UserDataPath= "users/usersData.txt";
-//	
-//	
-//
-//
-//}
-//
-///*
-//int id;
-//	string name;
-//	string surname;
-//	string login;
-//	int age;
-//	string email;
-//*/
+#include <iostream>
+#include "Structures.h"
+#include "FileModule.h"
+using namespace std;
+
+
+
+void RegisterModule() {
+
+	cout << "–егистраци€" << endl;
+	cout << "¬ведите логин: ";
+	string login;
+	cin >> login;
+	cout << "¬ведите пароль: ";
+	string password;
+	cin >> password;
+	cout << "¬ведите им€: ";
+	string name;
+	cin >> name;
+	cout << "¬ведите фамилию: ";
+	string surname;
+	cin >> surname;
+	cout << "¬ведите email: ";
+	string email;
+	cin >> email;
+	cout << "¬ведите возраст: ";
+	int age;
+	cin >> age;
+
+	string UserPath= "users/users.txt";
+	string UserDataPath= "users/usersData.txt";
+	
+	User user = User(login, password, 1);
+	UserData userData = UserData(name, login, surname, email, age);
+
+	int status = WriteToFile(UserPath, user);
+	if (status == 0)
+		cout << "ѕользователь успешно добавлен в базу" << endl;
+	else
+		cout << "ќшибка в работе в файлами" << endl;
+	status = WriteToFile(UserDataPath, userData);
+	if (status == 0)
+		cout << "”спешна€ регистраци€" << endl;
+	else
+		cout << "ќшибка в работе в файлами" << endl;
+
+}
+
+/*
+int id;
+	string name;
+	string surname;
+	string login;
+	int age;
+	string email;
+*/
