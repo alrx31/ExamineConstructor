@@ -25,7 +25,7 @@ int main() {
 		case 2:
 		case 4:
 			cout << "До свидания!" << endl;
-			break;
+			break;	
 	}
 
 	return 0;
