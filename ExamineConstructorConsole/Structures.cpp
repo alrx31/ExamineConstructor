@@ -35,7 +35,7 @@ User::User(string login, string password, int ruleLevel) {
 	this->login = login;
 	this->password = password;
 	this->ruleLevel = ruleLevel;
-	this->id = count_users++;
+	this->id = ++count_users;
 }
 
 int User::count_users = 0;

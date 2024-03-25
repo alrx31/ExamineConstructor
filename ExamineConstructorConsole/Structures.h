@@ -44,17 +44,20 @@ public:
 };
 
 class User {
+public:
     int id;
     string login;
     string password;
     int ruleLevel;
-public:
     static int count_users;
     User();
     User(string login, string password, int ruleLevel);
+ 
 };
 
-class UserData {
+class UserData{
+    
+public:
     int id;
     string name;
     string surname;
@@ -64,10 +67,9 @@ class UserData {
 
     Test* tests;
     int count_tests;
-
-public:
     UserData();
     UserData(string name, string login, string surname, string email, int age);
+
 };
 
 class Bilet {
