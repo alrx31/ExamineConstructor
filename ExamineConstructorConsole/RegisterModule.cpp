@@ -3,7 +3,20 @@
 #include "FileModule.h"
 using namespace std;
 
-
+string encrypt(string str) {
+	string encrypted = "";
+	for (int i = 0; i < str.length(); i++) {
+		encrypted += str[i] + 1;
+	}
+	return encrypted;
+}
+string decrypt(string str) {
+	string decrypted = "";
+	for (int i = 0; i < str.length(); i++) {
+		decrypted += str[i] - 1;
+	}
+	return decrypted;
+}
 
 void RegisterModule() {
 
@@ -14,6 +27,9 @@ void RegisterModule() {
 	cout << "Введите пароль: ";
 	string password;
 	cin >> password;
+	// Шифрование пароля
+	password = encrypt(password);
+
 	cout << "Введите имя: ";
 	string name;
 	cin >> name;
@@ -45,6 +61,41 @@ void RegisterModule() {
 		cout << "Ошибка в работе в файлами" << endl;
 
 }
+
+User Login() {
+	cout << "Вход" << endl;
+	string login;
+	string password;
+	cout << "Введите логин: ";
+	cin >> login;
+	cout << "Введите пароль: ";
+	cin >> password;
+	// Шифрование пароля
+	password = encrypt(password);
+
+	string UserPath = "users/users.txt";
+	string UserDataPath = "users/usersData.txt";
+
+	User user = FindUser(UserPath, login);
+	cout << user.password << " " << password << endl;
+	if (password != user.password) {
+		cout << "Неверный пароль" << endl;
+		return User();
+	}
+	else {
+		UserData usd = getUserData(user.id, UserDataPath);
+		cout << "Вход выполнен" << endl;
+		cout << "Вы вошли как " << usd.name << endl;
+		cout << "==============" << endl;
+		return user;
+	}
+
+}
+
+
+
+
+
 
 /*
 int id;

@@ -5,7 +5,20 @@ using namespace std;
 
 
 Q_guest::Q_guest() {}
+Q_guest::Q_guest(string question, string* answer, int right_answer, int difficulty) {
+	this->question = question;
+	this->answer = answer;
+	this->right_answer = right_answer;
+	this->difficulty = difficulty;
+}
+
 Q_standart::Q_standart() {}
+Q_standart::Q_standart(string question, string answer, int difficulty) {
+	this->question = question;
+	this->answer = answer;
+	this->difficulty = difficulty;
+};
+
 
 
 Test::Test() {}
@@ -30,7 +43,7 @@ Test::Test(string name, string author, bool isPublic, int difficulty, int count_
     this->count_q_guest = count_q_guest;
     this->q_guest = q_guest;
 }
-User::User() {}
+User::User() { this->ruleLevel = 0; }
 User::User(string login, string password, int ruleLevel) {
 	this->login = login;
 	this->password = password;

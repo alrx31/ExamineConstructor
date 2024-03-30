@@ -13,6 +13,7 @@ class Q_standart {
     int difficulty;
 public:
     Q_standart();
+    Q_standart(string question, string answer, int difficulty);
 };
 
 class Q_guest {
@@ -22,9 +23,11 @@ class Q_guest {
     int difficulty;
 public:
     Q_guest();
+    Q_guest(string question, string* answer, int right_answer, int difficulty);
 };
 
 class Test {
+public:
     string name;
     string author;
     int difficulty;
@@ -36,7 +39,6 @@ class Test {
     int count_q_guest;
     Q_guest* q_guest;
 
-public:
     Test();
     Test(int size);
     Test(string name, string author, bool isPublic, int difficulty, int count_q_standart, Q_standart* q_standart, int count_q_guest, Q_guest* q_guest);
@@ -52,7 +54,7 @@ public:
     static int count_users;
     User();
     User(string login, string password, int ruleLevel);
- 
+    
 };
 
 class UserData{
