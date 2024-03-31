@@ -45,8 +45,10 @@ void RegisterModule() {
 
 	string UserPath= "users/users.txt";
 	string UserDataPath= "users/usersData.txt";
-	
+
+	User::count_users = getLastId(UserPath);
 	User user = User(login, password, 1);
+	
 	UserData userData = UserData(name, login, surname, email, age);
 
 	int status = WriteToFile(UserPath, user);
@@ -63,31 +65,34 @@ void RegisterModule() {
 }
 
 User Login() {
-	cout << "Вход" << endl;
-	string login;
-	string password;
-	cout << "Введите логин: ";
-	cin >> login;
-	cout << "Введите пароль: ";
-	cin >> password;
-	// Шифрование пароля
-	password = encrypt(password);
+	while (true) {
+		cout << "================================" << endl;
+		cout << "Вход" << endl;
+		string login;
+		string password;
+		cout << "Введите логин: ";
+		cin >> login;
+		cout << "Введите пароль: ";
+		cin >> password;
+		// Шифрование пароля
+		password = encrypt(password);
 
-	string UserPath = "users/users.txt";
-	string UserDataPath = "users/usersData.txt";
+		string UserPath = "users/users.txt";
+		string UserDataPath = "users/usersData.txt";
 
-	User user = FindUser(UserPath, login);
-	cout << user.password << " " << password << endl;
-	if (password != user.password) {
-		cout << "Неверный пароль" << endl;
-		return User();
-	}
-	else {
-		UserData usd = getUserData(user.id, UserDataPath);
-		cout << "Вход выполнен" << endl;
-		cout << "Вы вошли как " << usd.name << endl;
-		cout << "==============" << endl;
-		return user;
+		User user = FindUser(UserPath, login);
+		cout << user.password << " " << password << endl;
+		if (password != user.password) {
+			cout << "Неверный пароль" << endl;
+			continue;
+		}
+		else {
+			UserData usd = getUserData(user.id, UserDataPath);
+			cout << "Вход выполнен" << endl;
+			cout << "Вы вошли как " << usd.name << endl;
+			cout << "=========================" << endl;
+			return user;
+		}
 	}
 
 }

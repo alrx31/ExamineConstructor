@@ -59,5 +59,10 @@ UserData::UserData(string name, string login, string surname, string email ,int 
 	this->login = login;
 	this->age = age;
 	this->email = email;
+	this->count_tests = 0;
+	this->tests = new Test[count_tests];
 	this->id = User::count_users;
 }
+void UserData::addtest(Test test) {
+	tests[this->count_tests++] = test;
+};

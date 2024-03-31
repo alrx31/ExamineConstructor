@@ -16,10 +16,26 @@ int WriteToFile(string file_path, User user){
 int WriteToFile(string file_path, Test test) {
 	ofstream file(file_path,ios::app);
 	if (!file.is_open()) return 1;
-	file << test.name << test.author << test.difficulty << test.isPublic << test.count_q_standart;
+	file << test.name << " " << test.author<< " " << test.difficulty<< " " << test.isPublic << " ";
+	file << test.count_q_standart<< " ";
 	for (int i = 0; i < test.count_q_standart; i++) {
-		///.....
+		file << test.q_standart[i].question << " ";
+		file << test.q_standart[i].question << " ";
+		file << test.q_standart[i].difficulty<< " ";
 	}
+	file << test.count_q_guest<< " ";
+	
+	for (int i = 0; i < test.count_q_guest; i++) {
+		file << test.q_guest[i].question<< " ";
+		file << test.q_guest[i].right_answer<< " ";
+		for (int j = 0; j < 4; j++) {
+			file << test.q_guest[i].answer[j]<< " ";
+		}
+		file << test.q_guest[i].difficulty<< " ";
+	}
+	file << endl;
+	file.close();
+
 
 	return 0;
 }
@@ -70,5 +86,20 @@ UserData getUserData(int id,string file_path) {
 			return userData;
 		}
 	}
+	return UserData();
+}
 
+int getLastId(string path) {
+	ifstream file(path);
+	if (!file.is_open()) {
+		cout << "Ошибка открытия файла" << endl;
+		return 0;
+	}
+	int id = 0;
+	User user;
+	while (!file.eof()) {
+		file >> user.id >> user.login >> user.password >> user.ruleLevel;
+		id = user.id;
+	}
+	return id;
 }

@@ -8,20 +8,20 @@ using namespace std;
 
 // type of questions
 class Q_standart {
+public:
     string question;
     string answer;
     int difficulty;
-public:
     Q_standart();
     Q_standart(string question, string answer, int difficulty);
 };
 
 class Q_guest {
+public:
     string question;
     string* answer;
     int right_answer;
     int difficulty;
-public:
     Q_guest();
     Q_guest(string question, string* answer, int right_answer, int difficulty);
 };
@@ -71,7 +71,7 @@ public:
     int count_tests;
     UserData();
     UserData(string name, string login, string surname, string email, int age);
-
+    void addtest(Test test);
 };
 
 class Bilet {

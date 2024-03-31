@@ -1,9 +1,82 @@
 // Code for the ControlTestModule
 #include <iostream>
+#include <string>
 #include "Structures.h"
 #include "FileModule.h"
+
 using namespace std;
 
+void CreateTest(UserData user) {
+	int userId = user.id;
+	string TestPathPublic = "tests/publicTests.txt";
+	string TestPath = "tests/" + to_string(userId) + "test.txt";
+
+	cout << "ћеню создани€ теста" << endl;
+	cout << "¬ведите название теста: ";
+	string name;
+	cin >> name;
+	cout << "введите сложность теста: ";
+	int level;
+	cin >> level;
+	cout << "—делать ли тест публично доступным? (1- да, 0 - нет): ";
+	int isPublic;
+	cin >> isPublic;
+	cout << "¬ведите количество стандартных вопросов: " << endl;
+	cout << "(вопросы с одним правильным ответом)" << endl;
+	int count_q_standart;
+	cin >> count_q_standart;
+	Q_standart* q_standart = new Q_standart[count_q_standart];
+	cout << "================" << endl;
+	for (int i = 0; i < count_q_standart; i++) {
+		cout << "¬ведите вопрос: ";
+		string question;
+		cin >> question;
+		cout << "¬ведите ответ: ";
+		string answer;
+		cin >> answer;
+		cout << "¬ведите сложность вопроса: ";
+		int difficulty;
+		cin >> difficulty;
+		q_standart[i] = Q_standart(question, answer, difficulty);
+	}
+	cout << "¬ведите количество вопросов типа теста: " << endl;
+	cout << "(вопросы с несколькими вариантами ответа (а,б,в,г)" << endl;
+	int count_q_guest;
+	cin >> count_q_guest;
+	Q_guest* q_guest = new Q_guest[count_q_guest];
+	cout << "================" << endl;
+	for (int i = 0; i < count_q_guest; i++) {
+		cout << "¬ведите вопрос: ";
+		string question;
+		cin >> question;
+		cout << "¬ведите количество вариантов ответа: ";
+		int count_answers;
+		cin >> count_answers;
+		string* answers = new string[count_answers];
+		cout << "¬ведите варианты ответа: " << endl;
+		for (int j = 0; j < count_answers; j++) {
+			cout << j + 1 << ". ";
+			cin >> answers[j];
+		}
+		cout << "¬ведите номер правильного ответа: ";
+		int right_answer;
+		cin >> right_answer;
+		cout << "¬ведите сложность вопроса: ";
+		int difficulty;
+		cin >> difficulty;
+		q_guest[i] = Q_guest(question, answers, right_answer, difficulty);
+	}
+	Test test = Test(name, user.name, isPublic, level, count_q_standart, q_standart, count_q_guest, q_guest);
+
+	if (isPublic == 1) {
+		WriteToFile(TestPathPublic, test);
+	}
+	else {
+		WriteToFile(TestPath, test);
+	}
+
+
+};
 void PersonUI(User user) {
 	cout << "ƒобро пожаловать, " << user.login << "!" << endl << endl;
 	while (true) {
@@ -17,6 +90,8 @@ void PersonUI(User user) {
 		switch (choice) {
 		case 1: {
 			cout << "ћеню создани€ теста" << endl;
+			UserData data = getUserData(user.id, "users/usersData.txt");
+			CreateTest(data);
 			break;
 		}
 		case 2: {
@@ -36,73 +111,3 @@ void PersonUI(User user) {
 };
 
 
-Test CreateTest(UserData user) {
-	int userId = user.id;
-	string TestPathPublic = "tests/publicTests.txt";
-	string TestPath = "tests/" +to_string(userId) + "test.txt";
-
-	cout << "ћеню создани€ теста" << endl;
-	cout << "¬ведите название теста: ";
-	string name;
-	getline(cin,name);
-	cout << "введите сложность теста: ";
-	int level;
-	cin >> level;
-	cout << "—делать ли тест публично доступным? (1- да, 0 - нет): ";
-	bool isPublic;
-	cin >> isPublic;
-	cout<< "¬ведите количество стандартных вопросов: " << endl;
-	cout << "(вопросы с одним правильным ответом)" << endl;
-	int count_q_standart;
-	cin >> count_q_standart;
-	Q_standart* q_standart = new Q_standart[count_q_standart];
-	cout << "================" << endl;
-	for (int i = 0; i < count_q_standart; i++) {
-		cout << "¬ведите вопрос: ";
-		string question;
-		getline(cin,question);
-		cout << "¬ведите ответ: ";
-		string answer;
-		getline(cin,answer);
-		cout << "¬ведите сложность вопроса: ";
-		int difficulty;
-		cin >> difficulty;
-		q_standart[i] = Q_standart(question, answer, difficulty);
-	}
-	cout << "¬ведите количество вопросов типа теста: " << endl;
-	cout << "(вопросы с несколькими вариантами ответа (а,б,в,г)" << endl;
-	int count_q_guest;
-	cin >> count_q_guest;
-	Q_guest* q_guest = new Q_guest[count_q_guest];
-	cout << "================" << endl;
-	for (int i = 0; i < count_q_guest; i++) {
-		cout << "¬ведите вопрос: ";
-		string question;
-		getline(cin,question);
-		cout << "¬ведите количество вариантов ответа: ";
-		int count_answers;
-		cin >> count_answers;
-		string* answers = new string[count_answers];
-		cout << "¬ведите варианты ответа: " << endl;
-		for (int j = 0; j < count_answers; j++) {
-			cout << j + 1 << ". ";
-			getline(cin,answers[j]);
-		}
-		cout << "¬ведите номер правильного ответа: ";
-		int right_answer;
-		cin >> right_answer;
-		cout << "¬ведите сложность вопроса: ";
-		int difficulty;
-		cin >> difficulty;
-		q_guest[i] = Q_guest(question, answers, right_answer, difficulty);
-	}
-	Test test = Test(name, user.name, isPublic, level, count_q_standart, q_standart, count_q_guest, q_guest);
-
-	if (isPublic) {
-		WriteToFile(TestPathPublic, test);
-	}
-	else {
-		WriteToFile(TestPath, test);
-	}
-
-};
