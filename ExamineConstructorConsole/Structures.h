@@ -20,10 +20,11 @@ class Q_guest {
 public:
     string question;
     string* answer;
+    int count_answers;
     int right_answer;
     int difficulty;
     Q_guest();
-    Q_guest(string question, string* answer, int right_answer, int difficulty);
+    Q_guest(string question, string* answer,int count_answers, int right_answer, int difficulty);
 };
 
 class Test {

@@ -19,7 +19,7 @@ string decrypt(string str) {
 }
 
 void RegisterModule() {
-
+	system("cls");
 	cout << "Регистрация" << endl;
 	cout << "Введите логин: ";
 	string login;
@@ -67,6 +67,7 @@ void RegisterModule() {
 User Login() {
 	while (true) {
 		cout << "================================" << endl;
+		system("cls");
 		cout << "Вход" << endl;
 		string login;
 		string password;

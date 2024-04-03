@@ -5,9 +5,10 @@ using namespace std;
 
 
 Q_guest::Q_guest() {}
-Q_guest::Q_guest(string question, string* answer, int right_answer, int difficulty) {
+Q_guest::Q_guest(string question, string* answer,int count_answers, int right_answer, int difficulty) {
 	this->question = question;
 	this->answer = answer;
+	this->count_answers = count_answers;
 	this->right_answer = right_answer;
 	this->difficulty = difficulty;
 }

@@ -8,12 +8,8 @@
 
 using namespace std;
 
-int main() {
-	SetConsoleCP(1251); // Ввод с консоли в кодировке 1251
-	SetConsoleOutputCP(1251);
-	setlocale(LC_ALL, "Russian");
-	cout << "Добро пожаловать в Конструктор экзаменационных билетов!" << endl << endl;
-	User user;
+// Главное меню
+void Menu(User& user) {
 	while (true) {
 		cout << "Выберите действие:" << endl;
 		cout << "1. Регистрация" << endl;
@@ -23,7 +19,7 @@ int main() {
 
 		int choice;
 		cin >> choice;
-		switch(choice) {
+		switch (choice) {
 		case 1:
 			RegisterModule();
 			user.ruleLevel = -1;
@@ -37,12 +33,25 @@ int main() {
 			break;
 		case 4:
 			cout << "До свидания!" << endl;
-			return 1;
+			return;
 		}
-		if (user.ruleLevel >-1) {
+		if (user.ruleLevel > -1) {
+			system("cls");
 			break;
 		}
 	}
+}
+
+
+
+int main() {
+	SetConsoleCP(1251); // Ввод с консоли в кодировке 1251
+	SetConsoleOutputCP(1251);
+	setlocale(LC_ALL, "Russian");
+	system("cls");
+	cout << "Добро пожаловать в Конструктор экзаменационных билетов!" << endl << endl;
+	User user;
+	Menu(user);
 	switch (user.ruleLevel) {
 	case 0: {
 		cout << user.ruleLevel;
@@ -57,7 +66,6 @@ int main() {
 		break;
 	}
 	default: {
-		cout << endl << "ad" << endl;
 		break;
 	}
 

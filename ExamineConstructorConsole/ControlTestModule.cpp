@@ -10,11 +10,12 @@ void CreateTest(UserData user) {
 	int userId = user.id;
 	string TestPathPublic = "tests/publicTests.txt";
 	string TestPath = "tests/" + to_string(userId) + "test.txt";
-
+	system("cls");
 	cout << "Меню создания теста" << endl;
-	cout << "Введите название теста: ";
+	cout << "Введите название теста: " << endl;
 	string name;
-	cin >> name;
+	cin.ignore();
+	getline(cin, name);
 	cout << "введите сложность теста: ";
 	int level;
 	cin >> level;
@@ -30,10 +31,12 @@ void CreateTest(UserData user) {
 	for (int i = 0; i < count_q_standart; i++) {
 		cout << "Введите вопрос: ";
 		string question;
-		cin >> question;
+		cin.ignore();
+		getline(cin,question);
 		cout << "Введите ответ: ";
 		string answer;
-		cin >> answer;
+		cin.ignore();
+		getline(cin,answer);
 		cout << "Введите сложность вопроса: ";
 		int difficulty;
 		cin >> difficulty;
@@ -48,7 +51,8 @@ void CreateTest(UserData user) {
 	for (int i = 0; i < count_q_guest; i++) {
 		cout << "Введите вопрос: ";
 		string question;
-		cin >> question;
+		cin.ignore();
+		getline(cin, question);
 		cout << "Введите количество вариантов ответа: ";
 		int count_answers;
 		cin >> count_answers;
@@ -56,7 +60,8 @@ void CreateTest(UserData user) {
 		cout << "Введите варианты ответа: " << endl;
 		for (int j = 0; j < count_answers; j++) {
 			cout << j + 1 << ". ";
-			cin >> answers[j];
+			cin.ignore();
+			getline(cin, answers[j]);
 		}
 		cout << "Введите номер правильного ответа: ";
 		int right_answer;
@@ -64,15 +69,21 @@ void CreateTest(UserData user) {
 		cout << "Введите сложность вопроса: ";
 		int difficulty;
 		cin >> difficulty;
-		q_guest[i] = Q_guest(question, answers, right_answer, difficulty);
+		q_guest[i] = Q_guest(question, answers,count_answers, right_answer, difficulty);
 	}
 	Test test = Test(name, user.name, isPublic, level, count_q_standart, q_standart, count_q_guest, q_guest);
-
+	int res = 0;
 	if (isPublic == 1) {
-		WriteToFile(TestPathPublic, test);
+		res = WriteToFile(TestPathPublic, test);
 	}
 	else {
-		WriteToFile(TestPath, test);
+		res = WriteToFile(TestPath, test);
+	}
+	if (res == 1) {
+		cout << "Ошибка при создании теста!" << endl;
+	}
+	else {
+		cout << "Тест успешно создан!" << endl;
 	}
 
 
@@ -80,6 +91,7 @@ void CreateTest(UserData user) {
 void PersonUI(User user) {
 	cout << "Добро пожаловать, " << user.login << "!" << endl << endl;
 	while (true) {
+	system("cls");
 		cout << "Выберите действие:" << endl;
 		cout << "1. Создать тест" << endl;
 		cout << "2. Просмотреть тесты" << endl;

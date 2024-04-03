@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <fstream>
 #include "Structures.h"
 using namespace std;
@@ -16,22 +17,23 @@ int WriteToFile(string file_path, User user){
 int WriteToFile(string file_path, Test test) {
 	ofstream file(file_path,ios::app);
 	if (!file.is_open()) return 1;
-	file << test.name << " " << test.author<< " " << test.difficulty<< " " << test.isPublic << " ";
-	file << test.count_q_standart<< " ";
+	file << test.name << endl << test.author<< endl << test.difficulty<< endl << test.isPublic << endl;
+	file << test.count_q_standart<< endl;
 	for (int i = 0; i < test.count_q_standart; i++) {
-		file << test.q_standart[i].question << " ";
-		file << test.q_standart[i].question << " ";
-		file << test.q_standart[i].difficulty<< " ";
+		file << test.q_standart[i].question << endl;
+		file << test.q_standart[i].question << endl;
+		file << test.q_standart[i].difficulty<< endl;
 	}
-	file << test.count_q_guest<< " ";
+	file << test.count_q_guest<< endl;
 	
 	for (int i = 0; i < test.count_q_guest; i++) {
-		file << test.q_guest[i].question<< " ";
-		file << test.q_guest[i].right_answer<< " ";
-		for (int j = 0; j < 4; j++) {
-			file << test.q_guest[i].answer[j]<< " ";
+		file << test.q_guest[i].question<< endl;
+		file << test.q_guest[i].right_answer<< endl;
+		file << test.q_guest[i].count_answers << endl;
+		for (int j = 0; j < test.q_guest[i].count_answers; j++) {
+			file << test.q_guest[i].answer[j]<< endl;
 		}
-		file << test.q_guest[i].difficulty<< " ";
+		file << test.q_guest[i].difficulty << endl;
 	}
 	file << endl;
 	file.close();
@@ -102,4 +104,69 @@ int getLastId(string path) {
 		id = user.id;
 	}
 	return id;
+}
+
+//read test from file
+
+Test* Read(string test_path,bool isPublic) {
+	ifstream file(test_path);
+	if (!file.is_open()) {
+		cout << "Ошибка открытия файла" << endl;
+		return nullptr;
+	}
+	int size = 0;
+	Test* tests = new Test[size];
+	Test temp;
+	string name;
+	string author;
+	int difficulty;
+	bool isPublic;
+
+	int count_q_standart;
+	Q_standart* q_standart;
+
+	int count_q_guest;
+	Q_guest* q_guest;
+
+	while (!file.eof()) {
+		getline(file, name);
+		getline(file, author);
+		file >> difficulty;
+		int p;
+		file >> p;
+		if (p == 1 ) isPublic = true;
+		else isPublic = false;
+		file >> count_q_standart;
+		for (int i = 0; i < count_q_standart; i++) {
+			string question;
+			string answer;
+			int difficulty;
+			getline(file, question);
+			getline(file, answer);
+			file >> difficulty;
+			q_standart[i] = Q_standart(question, answer, difficulty);
+		}
+		file >> count_q_guest;
+		for (int i = 0; i < count_q_guest; i++) {
+			string question;
+			int right_answer;
+			int count_answers;
+			int difficulty;
+			getline(file, question);
+			file >> right_answer;
+			file >> count_answers;
+			string* answers = new string[count_answers];
+			for (int j = 0; j < count_answers; j++) {
+				getline(file, answers[j]);
+			}
+			file >> difficulty;
+			q_guest[i] = Q_guest(question, answers, count_answers, right_answer, difficulty);
+		}
+		temp = Test(name, author, difficulty, isPublic, count_q_standart, q_standart, count_q_guest, q_guest);
+		tests[size++] = temp;
+
+	}
+	file.close();
+	return tests;
+
 }
