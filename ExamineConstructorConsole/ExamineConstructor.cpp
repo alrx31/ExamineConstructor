@@ -51,10 +51,11 @@ int main() {
 	system("cls");
 	cout << "Добро пожаловать в Конструктор экзаменационных билетов!" << endl << endl;
 	User user;
+	user.ruleLevel = -1;
 	Menu(user);
 	switch (user.ruleLevel) {
 	case 0: {
-		cout << user.ruleLevel;
+		GuestUI(user);
 		break;
 	}
 	case 1: {

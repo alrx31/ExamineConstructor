@@ -3,9 +3,26 @@
 #include <string>
 #include "Structures.h"
 #include "FileModule.h"
+#include "ControlTestModule.h"
 
 using namespace std;
 
+// показать тесты (массива)
+void ShowTests(TestsContainer* tests) {
+	system("cls");
+	cout << "Список тестов: " << endl;
+	for (int i = 0; i < tests->count_tests; i++) {
+		cout << i + 1 << ". Название\t" << tests->tests[i].name << "\nСложность:\t " << tests->tests[i].difficulty << endl << endl;
+	}
+
+	cout << endl <<"================" << endl << endl;
+	
+
+}
+
+
+
+// создание теста
 void CreateTest(UserData user) {
 	int userId = user.id;
 	string TestPathPublic = "tests/publicTests.txt";
@@ -35,7 +52,7 @@ void CreateTest(UserData user) {
 		getline(cin,question);
 		cout << "Введите ответ: ";
 		string answer;
-		cin.ignore();
+		
 		getline(cin,answer);
 		cout << "Введите сложность вопроса: ";
 		int difficulty;
@@ -88,10 +105,12 @@ void CreateTest(UserData user) {
 
 
 };
+
+// меню пользователя
 void PersonUI(User user) {
+	system("cls");
 	cout << "Добро пожаловать, " << user.login << "!" << endl << endl;
 	while (true) {
-	system("cls");
 		cout << "Выберите действие:" << endl;
 		cout << "1. Создать тест" << endl;
 		cout << "2. Просмотреть тесты" << endl;
@@ -122,4 +141,327 @@ void PersonUI(User user) {
 	}
 };
 
+// меню гостя
+void GuestUI(User user) {
+	cout << "Добро пожаловать, гость!" << endl << endl;
+	while (true) {
+		system("cls");
+		cout << "Выберите действие:" << endl;
+		cout << "1. Просмотреть публичные тесты" << endl;
+		cout << "2. Пройти публичный тест" << endl;
+		cout << "3. Выйти" << endl;
+		int choice;
+		cin >> choice;
+		Test test = Test();
+		switch (choice) {
+		case 1: {
+			Test* temp = new Test();
+			TestsContainer * p = Read("tests/publicTests.txt", true, user);
+			cout << "Меню просмотра публичных тестов" << endl;
+			while (true) {
+				ShowTests(p);
+				cout << " введите -1 для выхода" << endl;
+				cout << " введите -2 для сортировки тестов (по возрастанию сложности)" << endl;
+				cout << " введите -3 для сортировки тестов (по убыванию сложности)" << endl;
+				cout << " введите -4 для сортировки тестов по названию (по возрастанию)" << endl;
+				cout << " введите -5 для сортировки тестов по названию (по убыванию)" << endl;
+				int choice;
+				cin >> choice;
+				if (choice == -1) {
+					break;
+				}
+				if (choice == -2) {
+					temp = sortTests(p->tests, p->count_tests, 2);
+					p->tests = temp;
+					continue;
+				}
+				if (choice == -3) {
+					temp = sortTests(p->tests, p->count_tests, 3);
+					p->tests = temp;
+					continue;
+				}
+				if (choice == -4) {
+					temp = sortTests(p->tests, p->count_tests, 4);
+					p->tests = temp;
+					continue;
+				}
+				if (choice == -5) {
+					temp = sortTests(p->tests, p->count_tests, 5);
+					p->tests = temp;
+					continue;
+				}
+				// cheah is valid number
+				if (choice > p->count_tests || choice < 0) {
+					cout << "Неверный номер теста!" << endl;
+					continue;
+				}
+				
+				for (int i = 0; i < p->count_tests; i++) {
+					if (i == choice - 1) {
+						test = p->tests[i];
+						break;
+					}
+				}
+				
 
+				showTestMenu(test);
+			}
+
+			break;
+		}
+		case 2: {
+			cout << "Меню прохождения публичного теста" << endl;
+
+
+			//int result = startTest(test);
+
+			break;
+		}
+		case 3: {
+			cout << "До свидания!" << endl;
+			return;
+		}
+		}
+	}
+};
+// показать тест
+void ShowTest(Test test) {
+	system("cls");
+	cout << "Название теста: " << test.name << endl;
+	cout << "Автор: " << test.author << endl;
+	cout << "Сложность: " << test.difficulty << endl;
+	cout << "================" << endl;
+	cout << "Стандартные вопросы: " << endl;
+	for (int i = 0; i < test.count_q_standart; i++) {
+		cout << i + 1 << ". " << test.q_standart[i].question << endl;
+	}
+	cout << "================" << endl;
+	cout << "Вопросы тестого типа: " << endl;
+	for (int i = 0; i < test.count_q_guest; i++) {
+		cout << i + 1 << ". " << test.q_guest[i].question << endl;
+	}
+	cout << "================" << endl;
+
+	cout << "Нажмите любую клавишу для продолжения..." << endl;
+	cin.get();
+	cin.get();
+}
+
+// показать меню теста
+void showTestMenu(Test test) {
+	while (true) {
+		system("cls");
+		cout << "Вы выбрали тест: " << test.name << endl;
+		cout << "Выберите действие:" << endl;
+		cout << "1. Начать тест" << endl;
+		cout << "2. Просмотреть тест" << endl;
+		cout << "3. Просмотреть рейтинг" << endl;
+		cout << "4. Вернуться назад" << endl;
+		int choice;
+		cin >> choice;
+		switch (choice) {
+		case 1: {
+			int result = startTest(test);
+			cout << "Тест пройден!" << endl;
+			cout << "Ваш результат: " << result << endl;
+			float mark = getMark(result);
+			cout << "Ваша оценка: " << mark << endl;
+			cout << "================" << endl;
+			cout << "Нажмите любую клавишу для продолжения..." << endl;
+			cin.get();
+			break;
+		}
+		case 2: {
+			ShowTest(test);
+			break;
+		}
+		case 3: {
+			return;
+		}
+		}
+	}
+}
+
+
+
+
+// начать тест
+int startTest(Test test) {
+	int result = 0;
+	cout << "================" << endl;
+	cout << "Тест начался!" << endl;
+	cout << "================" << endl;
+	cout << "Стандартные вопросы: " << endl;
+	for (int i = 0; i < test.count_q_standart; i++) {
+		cout << i + 1 << ". " << test.q_standart[i].question << endl;
+		string answer;
+		cout << "Введите ответ: ";
+		cin.ignore();
+		getline(cin, answer);
+		if (answer == test.q_standart[i].answer) {
+			result += test.q_standart[i].difficulty;
+		}
+	}
+	cout << "================" << endl;
+	cout << "Вопросы тестого типа: " << endl;
+	for (int i = 0; i < test.count_q_guest; i++) {
+		cout << i + 1 << ". " << test.q_guest[i].question << endl;
+		cout << "Варианты ответа: " << endl;
+		for (int j = 0; j < test.q_guest[i].count_answers; j++) {
+			cout << j + 1 << ". " << test.q_guest[i].answer[j] << endl;
+		}
+		int answer;
+		cout << "Введите номер ответа: ";
+		cin >> answer;
+		cin >> answer;
+		if (answer == test.q_guest[i].right_answer) {
+			result += test.q_guest[i].difficulty;
+		}
+	}
+	cout << "================" << endl;
+	return result;
+}
+
+
+float getMark(int result){
+	//need the mark from 0 to 10
+	if (result == 0) {
+		return 0;
+	}
+	return result % 10;
+
+}
+
+// merge sort
+Test* sortTests(Test* tests,int _size, int choice) {
+	int size = _size;
+	if (size == 1) {
+		return tests;
+	}
+	int mid = size / 2;
+	Test* left = new Test[mid];
+	Test* right = new Test[size - mid];
+	for (int i = 0; i < mid; i++) {
+		left[i] = tests[i];
+	}
+	for (int i = mid; i < size; i++) {
+		right[i - mid] = tests[i];
+	}
+	left = sortTests(left, mid,choice);
+	right = sortTests(right,size-mid,choice);
+	return merge(left, right, mid, size - mid, choice);
+}
+
+Test* merge(Test* left, Test* right, int l, int r, int choice) {
+	// 2- по возрастанию сложности
+	// 3 - по убыванию сложности
+	// 4 - по названию (по возрастанию)
+	// 5 - по названию (по убыванию)
+	Test* result = new Test[l + r];
+
+	if (choice == 2) {
+		int i = 0;
+		int j = 0;
+		int k = 0;
+		while (i < l && j < r) {
+			if (left[i].difficulty < right[j].difficulty) {
+				result[k] = left[i];
+				i++;
+			}
+			else {
+				result[k] = right[j];
+				j++;
+			}
+			k++;
+		}
+		while (i < l) {
+			result[k] = left[i];
+			i++;
+			k++;
+		}
+		while (j < r) {
+			result[k] = right[j];
+			j++;
+			k++;
+		}
+	}
+	else if (choice == 3) {
+		int i = 0;
+		int j = 0;
+		int k = 0;
+		while (i < l && j < r) {
+			if (left[i].difficulty > right[j].difficulty) {
+				result[k] = left[i];
+				i++;
+			}
+			else {
+				result[k] = right[j];
+				j++;
+			}
+			k++;
+		}
+		while (i < l) {
+			result[k] = left[i];
+			i++;
+			k++;
+		}
+		while (j < r) {
+			result[k] = right[j];
+			j++;
+			k++;
+		}
+	}
+	else if (choice == 4) {
+		int i = 0;
+		int j = 0;
+		int k = 0;
+		while (i < l && j < r) {
+			if (left[i].name < right[j].name) {
+				result[k] = left[i];
+				i++;
+			}
+			else {
+				result[k] = right[j];
+				j++;
+			}
+			k++;
+		}
+		while (i < l) {
+			result[k] = left[i];
+			i++;
+			k++;
+		}
+		while (j < r) {
+			result[k] = right[j];
+			j++;
+			k++;
+		}
+	}
+	else if (choice == 5) {
+		int i = 0;
+		int j = 0;
+		int k = 0;
+		while (i < l && j < r) {
+			if (left[i].name > right[j].name) {
+				result[k] = left[i];
+				i++;
+			}
+			else {
+				result[k] = right[j];
+				j++;
+			}
+			k++;
+		}
+		while (i < l) {
+			result[k] = left[i];
+			i++;
+			k++;
+		}
+		while (j < r) {
+			result[k] = right[j];
+			j++;
+			k++;
+		}
+	}
+	return result;
+}

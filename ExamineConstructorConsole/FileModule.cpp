@@ -21,7 +21,7 @@ int WriteToFile(string file_path, Test test) {
 	file << test.count_q_standart<< endl;
 	for (int i = 0; i < test.count_q_standart; i++) {
 		file << test.q_standart[i].question << endl;
-		file << test.q_standart[i].question << endl;
+		file << test.q_standart[i].answer << endl;
 		file << test.q_standart[i].difficulty<< endl;
 	}
 	file << test.count_q_guest<< endl;
@@ -35,7 +35,6 @@ int WriteToFile(string file_path, Test test) {
 		}
 		file << test.q_guest[i].difficulty << endl;
 	}
-	file << endl;
 	file.close();
 
 
@@ -108,20 +107,21 @@ int getLastId(string path) {
 
 //read test from file
 
-Test* Read(string test_path,bool isPublic) {
+TestsContainer* Read(string test_path,bool isPublict,User user) {
 	ifstream file(test_path);
 	if (!file.is_open()) {
 		cout << "Ошибка открытия файла" << endl;
 		return nullptr;
 	}
 	int size = 0;
-	Test* tests = new Test[size];
+	Test* tests = new Test[size+2];
 	Test temp;
 	string name;
 	string author;
+	string difficulty1;
 	int difficulty;
 	bool isPublic;
-
+	string temp1;
 	int count_q_standart;
 	Q_standart* q_standart;
 
@@ -131,42 +131,58 @@ Test* Read(string test_path,bool isPublic) {
 	while (!file.eof()) {
 		getline(file, name);
 		getline(file, author);
-		file >> difficulty;
-		int p;
-		file >> p;
-		if (p == 1 ) isPublic = true;
+		getline(file,difficulty1);
+		difficulty = stoi(difficulty1);
+		string p;
+		getline(file,p);
+		if (p == "1") isPublic = true;
 		else isPublic = false;
-		file >> count_q_standart;
+		getline(file, temp1);
+		count_q_standart = stoi(temp1);
+		q_standart = new Q_standart[count_q_standart];
 		for (int i = 0; i < count_q_standart; i++) {
 			string question;
 			string answer;
 			int difficulty;
 			getline(file, question);
-			getline(file, answer);
-			file >> difficulty;
+			getline(file,answer);
+			getline(file, temp1);
+			difficulty = stoi(temp1);
 			q_standart[i] = Q_standart(question, answer, difficulty);
 		}
-		file >> count_q_guest;
+		getline(file, temp1);
+		count_q_guest = stoi(temp1);
+		q_guest = new Q_guest[count_q_guest];
 		for (int i = 0; i < count_q_guest; i++) {
 			string question;
 			int right_answer;
 			int count_answers;
 			int difficulty;
 			getline(file, question);
-			file >> right_answer;
-			file >> count_answers;
+			getline(file, temp1);
+			right_answer = stoi(temp1);
+			getline(file, temp1);
+			count_answers = stoi(temp1);
 			string* answers = new string[count_answers];
 			for (int j = 0; j < count_answers; j++) {
 				getline(file, answers[j]);
 			}
-			file >> difficulty;
+			getline(file, temp1);
+			difficulty = stoi(temp1);
 			q_guest[i] = Q_guest(question, answers, count_answers, right_answer, difficulty);
 		}
-		temp = Test(name, author, difficulty, isPublic, count_q_standart, q_standart, count_q_guest, q_guest);
+		temp = Test(name, author, isPublic, difficulty, count_q_standart, q_standart, count_q_guest, q_guest);
 		tests[size++] = temp;
+		// update array
+		Test* temp_tests = new Test[size + 1];
+		for (int i = 0; i < size; i++) {
+			temp_tests[i] = tests[i];
+		}
+		delete[] tests;
+		tests = temp_tests;
 
 	}
 	file.close();
-	return tests;
+	return new TestsContainer(tests,size);
 
 }

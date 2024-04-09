@@ -6,17 +6,11 @@ using namespace std;
 string encrypt(string str) {
 	string encrypted = "";
 	for (int i = 0; i < str.length(); i++) {
-		encrypted += str[i] + 1;
+		encrypted += str[i]/1*31 + 1;
 	}
 	return encrypted;
 }
-string decrypt(string str) {
-	string decrypted = "";
-	for (int i = 0; i < str.length(); i++) {
-		decrypted += str[i] - 1;
-	}
-	return decrypted;
-}
+
 
 void RegisterModule() {
 	system("cls");

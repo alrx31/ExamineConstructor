@@ -10,4 +10,4 @@ UserData getUserData(int id, string file_path);
 User FindUser(string file_path, string login);
 int getLastId(string path);
 
-Test* Read(string test_path, bool isPublic);
+TestsContainer* Read(string test_path, bool isPublic,User user);
