@@ -97,28 +97,28 @@ class BiletsContainer {
     int count_bilets;
 };
 
+class Raiting_node {
+public:
+    User* user;
+    int mark;
+    int result;
+    Raiting_node* next;
+    Raiting_node();
+    Raiting_node(User* user, int mark, int result, Raiting_node* node);
+};
 
-//class Raiting {
-//public:
-//    Test* test;
-//    int count_users;
-//    Raiting_node* head;
-//    int middle_result;
-//    Raiting();
-//    Raiting(Test* test);
-//    void push(User* user, int mark, int result);
-//
-//};
-//class Raiting_node {
-//public:
-//    User* user;
-//    int mark;
-//    int result;
-//    Raiting_node* next;
-//    Raiting_node();
-//    Raiting_node(User* user, int mark, int result);
-//
-//};
+class Raiting {
+public:
+    Test* test;
+    int count_users;
+    Raiting_node* head;
+    int middle_result;
+    Raiting();
+    Raiting(Test* test);
+    void push(User* user, int mark, int result);
+    void BubleSort();
+    void swap(Raiting_node* prev, Raiting_node* curr, Raiting_node* next, Raiting_node* H);
+};
 
 
 

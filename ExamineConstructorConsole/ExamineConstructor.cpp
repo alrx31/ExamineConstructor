@@ -63,6 +63,7 @@ int main() {
 		break;
 	}
 	case 2: {
+		AdminUI(user);
 		cout << user.ruleLevel;
 		break;
 	}
@@ -70,8 +71,6 @@ int main() {
 		break;
 	}
 
-
 	}
-
 	return 0;
 }

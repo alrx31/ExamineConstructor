@@ -40,6 +40,18 @@ int WriteToFile(string file_path, Test test) {
 
 	return 0;
 }
+// запись в файл рейтинга
+int WriteToFile(string file_pass, Test*test, User* user, int result,float mark) {
+	/*fstream file(file_pass, ios::out | ios::app);	
+	if (!file.is_open()) {
+		cout << "Ошибка открытия файла рейтинга";
+		return 1;
+	}*/
+
+	// .........
+
+	return 0;
+}
 // запись в файл данных пользователя
 int WriteToFile(string file_pass, UserData user) {
 	ofstream file(file_pass, ios::app);

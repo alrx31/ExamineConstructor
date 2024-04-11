@@ -93,33 +93,71 @@ UserData::UserData(string name, string login, string surname, string email ,int 
 void UserData::addtest(Test test) {
 	tests[this->count_tests++] = test;
 };
-//
-//
-//Raiting::Raiting() {}
-//Raiting::Raiting(Test*test) {
-//	this->test = test;
-//	count_users = 0;
-//	head = nullptr;
-//	middle_result = 0;
-//}
-//void Raiting::push(User* user, int mark, int result) {
-//	Raiting_node* new_node = new Raiting_node(user, mark, result);
-//	new_node->next = head;
-//	head = new_node;
-//	// update middle result
-//	middle_result = (middle_result * count_users + result) / (count_users + 1);
-//	count_users++;
-//}
-//
-//
-//Raiting_node::Raiting_node() {}
-//Raiting_node::Raiting_node(User* user, int mark,int result) {
-//	this->user = user;
-//	this->mark = mark;
-//	this->result = result;
-//	this->next = nullptr;
-//}
-//
+
+
+Raiting::Raiting() {}
+Raiting::Raiting(Test* test) {
+	this->test = test;
+	this->count_users = 0;
+	this->middle_result = 0;
+	this->head = nullptr;
+}
+void Raiting::push(User* user, int mark, int result) {
+	Raiting_node * new_node = new Raiting_node(user, mark, result, head);
+	this->head = new_node;
+	this->count_users++;
+	this->middle_result = (middle_result*(count_users-1) + result) / count_users;
+}
+
+void Raiting::swap(Raiting_node* prev, Raiting_node* curr, Raiting_node* next, Raiting_node* H) {
+	if (curr != nullptr && next != nullptr && curr->result < next->result) {
+		if (prev == nullptr) {
+			Raiting_node* temp = curr;
+			curr->next = next->next;
+			next->next = temp;
+			head = next;
+		}
+		else {
+			Raiting_node* temp = curr;
+			prev->next = curr->next;
+			temp->next = temp->next->next;
+			prev->next->next = temp;
+		}
+	}
+	else {
+		return;
+	}
+
+}
+
+void Raiting::BubleSort() {
+	if (head == nullptr) return;
+	Raiting_node* prev;
+	Raiting_node* curr;
+
+	for (int i = 0; i < count_users; i++) {
+		prev = nullptr;
+		curr = head;
+
+		for (int j = 0; j < count_users; j++) {
+			if (curr == nullptr) break;
+			swap(prev, curr, curr->next, head);
+			prev = curr;
+			curr = curr->next;
+		}
+	}
+}
+
+
+Raiting_node::Raiting_node() {}
+Raiting_node::Raiting_node(User* user, int mark , int reuslt, Raiting_node *next) {
+	this->user = user;
+	this->mark = mark;
+	this->result = reuslt;
+	this->next = next;
+}
+
+
 
 
 TestsContainer::TestsContainer() {}

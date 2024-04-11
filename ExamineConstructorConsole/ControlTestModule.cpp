@@ -14,10 +14,7 @@ void ShowTests(TestsContainer* tests) {
 	for (int i = 0; i < tests->count_tests; i++) {
 		cout << i + 1 << ". Название\t" << tests->tests[i].name << "\nСложность:\t " << tests->tests[i].difficulty << endl << endl;
 	}
-
 	cout << endl <<"================" << endl << endl;
-	
-
 }
 
 
@@ -224,6 +221,11 @@ void GuestUI(User user) {
 		}
 	}
 };
+
+// меню администратора
+void AdminUI(User user) {}
+
+
 // показать тест
 void ShowTest(Test test) {
 	system("cls");
@@ -267,6 +269,7 @@ void showTestMenu(Test test) {
 			float mark = getMark(result);
 			cout << "Ваша оценка: " << mark << endl;
 			cout << "================" << endl;
+
 			cout << "Нажмите любую клавишу для продолжения..." << endl;
 			cin.get();
 			break;
@@ -278,6 +281,9 @@ void showTestMenu(Test test) {
 		case 3: {
 			return;
 		}
+		case 4: {
+			return;
+	}
 		}
 	}
 }
@@ -358,12 +364,12 @@ Test* merge(Test* left, Test* right, int l, int r, int choice) {
 	// 4 - по названию (по возрастанию)
 	// 5 - по названию (по убыванию)
 	Test* result = new Test[l + r];
+	int i = 0;
+	int j = 0;
+	int k = 0;
+	while (i < l && j < r) {
 
-	if (choice == 2) {
-		int i = 0;
-		int j = 0;
-		int k = 0;
-		while (i < l && j < r) {
+		if (choice == 2) {
 			if (left[i].difficulty < right[j].difficulty) {
 				result[k] = left[i];
 				i++;
@@ -372,24 +378,8 @@ Test* merge(Test* left, Test* right, int l, int r, int choice) {
 				result[k] = right[j];
 				j++;
 			}
-			k++;
 		}
-		while (i < l) {
-			result[k] = left[i];
-			i++;
-			k++;
-		}
-		while (j < r) {
-			result[k] = right[j];
-			j++;
-			k++;
-		}
-	}
-	else if (choice == 3) {
-		int i = 0;
-		int j = 0;
-		int k = 0;
-		while (i < l && j < r) {
+		else if (choice == 3) {
 			if (left[i].difficulty > right[j].difficulty) {
 				result[k] = left[i];
 				i++;
@@ -398,50 +388,8 @@ Test* merge(Test* left, Test* right, int l, int r, int choice) {
 				result[k] = right[j];
 				j++;
 			}
-			k++;
 		}
-		while (i < l) {
-			result[k] = left[i];
-			i++;
-			k++;
-		}
-		while (j < r) {
-			result[k] = right[j];
-			j++;
-			k++;
-		}
-	}
-	else if (choice == 4) {
-		int i = 0;
-		int j = 0;
-		int k = 0;
-		while (i < l && j < r) {
-			if (left[i].name < right[j].name) {
-				result[k] = left[i];
-				i++;
-			}
-			else {
-				result[k] = right[j];
-				j++;
-			}
-			k++;
-		}
-		while (i < l) {
-			result[k] = left[i];
-			i++;
-			k++;
-		}
-		while (j < r) {
-			result[k] = right[j];
-			j++;
-			k++;
-		}
-	}
-	else if (choice == 5) {
-		int i = 0;
-		int j = 0;
-		int k = 0;
-		while (i < l && j < r) {
+		else if (choice == 4) {
 			if (left[i].name > right[j].name) {
 				result[k] = left[i];
 				i++;
@@ -450,18 +398,70 @@ Test* merge(Test* left, Test* right, int l, int r, int choice) {
 				result[k] = right[j];
 				j++;
 			}
-			k++;
 		}
-		while (i < l) {
-			result[k] = left[i];
-			i++;
-			k++;
+		else if (choice == 5) {
+			if (left[i].name < right[j].name) {
+				result[k] = left[i];
+				i++;
+			}
+			else {
+				result[k] = right[j];
+				j++;
+			}
 		}
-		while (j < r) {
-			result[k] = right[j];
-			j++;
-			k++;
-		}
+
+		k++;
+	}
+	
+	while (i < l) {
+		result[k] = left[i];
+		i++;
+		k++;
+	}
+	while (j < r) {
+		result[k] = right[j];
+		j++;
+		k++;
 	}
 	return result;
 }
+
+
+void showReiting(Raiting* raiting, User* user) {
+	system("cls");
+	cout << "Рейтинг теста: " << raiting->test->name << endl;
+	cout << "Средний результат: " << raiting->middle_result << endl;
+	cout << "================" << endl;
+	cout << "Пользователи:" << endl;
+	bool isGoten = false;
+	Raiting_node* temp = raiting->head;
+	while (temp != nullptr) {
+		cout << temp->user->login << " - " << temp->result << endl;
+		if (temp->user->id == user->id) {
+			isGoten == true;
+		}
+		temp = temp->next;
+	}
+	cout << "================" << endl;
+	if (isGoten) {
+		cout << "Ваш наивысший результат: " << LinearFind(raiting, user) << endl;
+		cout << "================" << endl;
+	}
+	cout << "Нажмите любую клавишу для продолжения..." << endl;
+	cin.get();
+	cin.get();
+}
+
+int LinearFind(Raiting* raiting, User* user) {
+	int max = 0;
+	Raiting_node* temp = raiting->head;
+	while (temp != nullptr) {
+		if (temp->user->id == user->id && temp->result > max) {
+			max = temp->result;
+		}
+		temp = temp->next;
+	}
+	return max;
+}
+
+
