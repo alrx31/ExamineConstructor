@@ -12,3 +12,4 @@ User FindUser(string file_path, string login);
 int getLastId(string path);
 
 TestsContainer* Read(string test_path, bool isPublic,User user);
+Raiting* Read(string test_path,Test* test, User user);

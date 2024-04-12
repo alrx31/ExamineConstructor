@@ -11,14 +11,25 @@ using namespace std;
 // Главное меню
 void Menu(User& user) {
 	while (true) {
+		system("cls");
 		cout << "Выберите действие:" << endl;
 		cout << "1. Регистрация" << endl;
 		cout << "2. Вход" << endl;
 		cout << "3. Продолжить как гость" << endl;
 		cout << "4. Выход" << endl;
-
+		string temp;
 		int choice;
-		cin >> choice;
+		getline(cin, temp);
+		try
+		{
+			choice = stoi(temp);
+		}
+		catch (const std::exception&)
+		{
+			cout << "Неверный ввод" << endl;
+			continue;
+		}
+
 		switch (choice) {
 		case 1:
 			RegisterModule();
@@ -34,6 +45,9 @@ void Menu(User& user) {
 		case 4:
 			cout << "До свидания!" << endl;
 			return;
+		default:
+			cout << "Неверный ввод" << endl;
+			continue;
 		}
 		if (user.ruleLevel > -1) {
 			system("cls");

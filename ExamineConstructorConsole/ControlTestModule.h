@@ -12,9 +12,13 @@ float getMark(int result);
 
 void ShowTest(Test test);
 void ShowTests(TestsContainer* tests);
-void showTestMenu(Test test);
+void showTestMenu(Test test, User*user);
 void showReiting(Raiting* raiting);
 
 Test* sortTests(Test* tests,int size, int choice);
 Test* merge(Test* left, Test* right, int l, int r, int choice);
+Test* InsertionSort(Test* tests, int size);
+int LinearFind(Raiting* raiting, User* user);
+
+string customHash(const string& input);
 

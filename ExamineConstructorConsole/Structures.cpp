@@ -129,7 +129,7 @@ void Raiting::swap(Raiting_node* prev, Raiting_node* curr, Raiting_node* next, R
 	}
 
 }
-
+// шейкерная сортировка
 void Raiting::BubleSort() {
 	if (head == nullptr) return;
 	Raiting_node* prev;
@@ -140,6 +140,13 @@ void Raiting::BubleSort() {
 		curr = head;
 
 		for (int j = 0; j < count_users; j++) {
+			if (curr == nullptr) break;
+			swap(prev, curr, curr->next, head);
+			prev = curr;
+			curr = curr->next;
+		}
+
+		for(int j = count_users; j > 0; j--) {
 			if (curr == nullptr) break;
 			swap(prev, curr, curr->next, head);
 			prev = curr;

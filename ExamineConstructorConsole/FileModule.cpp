@@ -120,13 +120,16 @@ int getLastId(string path) {
 //read test from file
 
 TestsContainer* Read(string test_path,bool isPublict,User user) {
+	
+	
 	ifstream file(test_path);
+	
 	if (!file.is_open()) {
 		cout << "Ошибка открытия файла" << endl;
 		return nullptr;
 	}
 	int size = 0;
-	Test* tests = new Test[size+2];
+	Test* tests = new Test[size+1];
 	Test temp;
 	string name;
 	string author;
@@ -195,6 +198,6 @@ TestsContainer* Read(string test_path,bool isPublict,User user) {
 
 	}
 	file.close();
-	return new TestsContainer(tests,size);
+	return new TestsContainer(tests,size-1);
 
 }

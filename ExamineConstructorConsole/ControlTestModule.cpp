@@ -21,100 +21,105 @@ void ShowTests(TestsContainer* tests) {
 
 // создание теста
 void CreateTest(UserData user) {
-	int userId = user.id;
-	string TestPathPublic = "tests/publicTests.txt";
-	string TestPath = "tests/" + to_string(userId) + "test.txt";
-	system("cls");
-	cout << "Меню создания теста" << endl;
-	cout << "Введите название теста: " << endl;
-	string name;
-	cin.ignore();
-	getline(cin, name);
-	cout << "введите сложность теста: ";
-	int level;
-	cin >> level;
-	cout << "Сделать ли тест публично доступным? (1- да, 0 - нет): ";
-	int isPublic;
-	cin >> isPublic;
-	cout << "Введите количество стандартных вопросов: " << endl;
-	cout << "(вопросы с одним правильным ответом)" << endl;
-	int count_q_standart;
-	cin >> count_q_standart;
-	Q_standart* q_standart = new Q_standart[count_q_standart];
-	cout << "================" << endl;
-	for (int i = 0; i < count_q_standart; i++) {
-		cout << "Введите вопрос: ";
-		string question;
+	try {
+		int userId = user.id;
+		string TestPathPublic = "tests/publicTests.txt";
+		string TestPath = "tests/" + to_string(userId) + "test.txt";
+		system("cls");
+		cout << "Меню создания теста" << endl;
+		cout << "Введите название теста: " << endl;
+		string name;
 		cin.ignore();
-		getline(cin,question);
-		cout << "Введите ответ: ";
-		string answer;
-		
-		getline(cin,answer);
-		cout << "Введите сложность вопроса: ";
-		int difficulty;
-		cin >> difficulty;
-		q_standart[i] = Q_standart(question, answer, difficulty);
-	}
-	cout << "Введите количество вопросов типа теста: " << endl;
-	cout << "(вопросы с несколькими вариантами ответа (а,б,в,г)" << endl;
-	int count_q_guest;
-	cin >> count_q_guest;
-	Q_guest* q_guest = new Q_guest[count_q_guest];
-	cout << "================" << endl;
-	for (int i = 0; i < count_q_guest; i++) {
-		cout << "Введите вопрос: ";
-		string question;
-		cin.ignore();
-		getline(cin, question);
-		cout << "Введите количество вариантов ответа: ";
-		int count_answers;
-		cin >> count_answers;
-		string* answers = new string[count_answers];
-		cout << "Введите варианты ответа: " << endl;
-		for (int j = 0; j < count_answers; j++) {
-			cout << j + 1 << ". ";
+		getline(cin, name);
+		cout << "введите сложность теста: ";
+		int level;
+		cin >> level;
+		cout << "Сделать ли тест публично доступным? (1- да, 0 - нет): ";
+		int isPublic;
+		cin >> isPublic;
+		cout << "Введите количество стандартных вопросов: " << endl;
+		cout << "(вопросы с одним правильным ответом)" << endl;
+		int count_q_standart;
+		cin >> count_q_standart;
+		Q_standart* q_standart = new Q_standart[count_q_standart];
+		cout << "================" << endl;
+		for (int i = 0; i < count_q_standart; i++) {
+			cout << "Введите вопрос: ";
+			string question;
 			cin.ignore();
-			getline(cin, answers[j]);
+			getline(cin, question);
+			cout << "Введите ответ: ";
+			string answer;
+
+			getline(cin, answer);
+			cout << "Введите сложность вопроса: ";
+			int difficulty;
+			cin >> difficulty;
+			q_standart[i] = Q_standart(question, answer, difficulty);
 		}
-		cout << "Введите номер правильного ответа: ";
-		int right_answer;
-		cin >> right_answer;
-		cout << "Введите сложность вопроса: ";
-		int difficulty;
-		cin >> difficulty;
-		q_guest[i] = Q_guest(question, answers,count_answers, right_answer, difficulty);
+		cout << "Введите количество вопросов типа теста: " << endl;
+		cout << "(вопросы с несколькими вариантами ответа (а,б,в,г)" << endl;
+		int count_q_guest;
+		cin >> count_q_guest;
+		Q_guest* q_guest = new Q_guest[count_q_guest];
+		cout << "================" << endl;
+		for (int i = 0; i < count_q_guest; i++) {
+			cout << "Введите вопрос: ";
+			string question;
+			cin.ignore();
+			getline(cin, question);
+			cout << "Введите количество вариантов ответа: ";
+			int count_answers;
+			cin >> count_answers;
+			string* answers = new string[count_answers];
+			cout << "Введите варианты ответа: " << endl;
+			for (int j = 0; j < count_answers; j++) {
+				cout << j + 1 << ". ";
+				cin.ignore();
+				getline(cin, answers[j]);
+			}
+			cout << "Введите номер правильного ответа: ";
+			int right_answer;
+			cin >> right_answer;
+			cout << "Введите сложность вопроса: ";
+			int difficulty;
+			cin >> difficulty;
+			q_guest[i] = Q_guest(question, answers, count_answers, right_answer, difficulty);
+		}
+		Test test = Test(name, user.name, isPublic, level, count_q_standart, q_standart, count_q_guest, q_guest);
+		int res = 0;
+		if (isPublic == 1) {
+			res = WriteToFile(TestPathPublic, test);
+		}
+		else {
+			res = WriteToFile(TestPath, test);
+		}
+		if (res == 1) {
+			cout << "Ошибка при создании теста!" << endl;
+		}
+		else {
+			cout << "Тест успешно создан!" << endl;
+		}
 	}
-	Test test = Test(name, user.name, isPublic, level, count_q_standart, q_standart, count_q_guest, q_guest);
-	int res = 0;
-	if (isPublic == 1) {
-		res = WriteToFile(TestPathPublic, test);
-	}
-	else {
-		res = WriteToFile(TestPath, test);
-	}
-	if (res == 1) {
+	catch (exception e) {
 		cout << "Ошибка при создании теста!" << endl;
 	}
-	else {
-		cout << "Тест успешно создан!" << endl;
-	}
-
-
 };
 
 // меню пользователя
 void PersonUI(User user) {
-	system("cls");
-	cout << "Добро пожаловать, " << user.login << "!" << endl << endl;
 	while (true) {
+		system("cls");
+		cout << "Добро пожаловать, " << user.login << "!" << endl << endl;
 		cout << "Выберите действие:" << endl;
 		cout << "1. Создать тест" << endl;
 		cout << "2. Просмотреть тесты" << endl;
-		cout << "3. Пройти публичный тест" << endl;
+		cout << "3. Просмотреть публичные тест" << endl;
 		cout << "4. Выйти" << endl;
 		int choice;
 		cin >> choice;
+		Test test = Test();
+		Test* temp = new Test();
 		switch (choice) {
 		case 1: {
 			cout << "Меню создания теста" << endl;
@@ -124,10 +129,113 @@ void PersonUI(User user) {
 		}
 		case 2: {
 			cout << "Меню просмотра тестов" << endl;
+			TestsContainer* p = Read("tests/" + to_string(user.id) + "test.txt", false, user);
+			while (true) {
+				ShowTests(p);
+				cout << " введите номер теста для прохождения" << endl;
+				cout << " введите -1 для выхода" << endl;
+				cout << " введите -2 для сортировки тестов (по возрастанию сложности)" << endl;
+				cout << " введите -3 для сортировки тестов (по убыванию сложности)" << endl;
+				cout << " введите -4 для сортировки тестов по названию (по возрастанию)" << endl;
+				cout << " введите -5 для сортировки тестов по названию (по убыванию)" << endl;
+				int choice;
+				cin >> choice;
+				if (choice == -1) {
+					break;
+				}
+				if (choice == -2) {
+					//temp = sortTests(p->tests, p->count_tests, 2);
+					temp = InsertionSort(p->tests, p->count_tests);
+					p->tests = temp;
+					continue;
+				}
+				if (choice == -3) {
+					temp = sortTests(p->tests, p->count_tests, 3);
+					p->tests = temp;
+					continue;
+				}
+				if (choice == -4) {
+					temp = sortTests(p->tests, p->count_tests, 4);
+					p->tests = temp;
+					continue;
+				}
+				if (choice == -5) {
+					temp = sortTests(p->tests, p->count_tests, 5);
+					p->tests = temp;
+					continue;
+				}
+				// cheah is valid number
+				if (choice > p->count_tests || choice < 0) {
+					cout << "Неверный номер теста!" << endl;
+					continue;
+				}
+
+				for (int i = 0; i < p->count_tests; i++) {
+					if (i == choice - 1) {
+						test = p->tests[i];
+						break;
+					}
+				}
+
+
+				showTestMenu(test);
+			}
+
 			break;
 		}
 		case 3: {
-			cout << "Меню прохождения публичного теста" << endl;
+			cout << "Меню публичных тестов" << endl;
+			TestsContainer * p = Read("tests/publicTests.txt", true, user);
+			while (true) {
+				ShowTests(p);
+				cout << " введите -1 для выхода" << endl;
+				cout << " введите -2 для сортировки тестов (по возрастанию сложности)" << endl;
+				cout << " введите -3 для сортировки тестов (по убыванию сложности)" << endl;
+				cout << " введите -4 для сортировки тестов по названию (по возрастанию)" << endl;
+				cout << " введите -5 для сортировки тестов по названию (по убыванию)" << endl;
+				int choice;
+				cin >> choice;
+				if (choice == -1) {
+					break;
+				}
+				if (choice == -2) {
+					//temp = sortTests(p->tests, p->count_tests, 2);
+					temp = InsertionSort(p->tests, p->count_tests);
+					p->tests = temp;
+					continue;
+				}
+				if (choice == -3) {
+					temp = sortTests(p->tests, p->count_tests, 3);
+					p->tests = temp;
+					continue;
+				}
+				if (choice == -4) {
+					temp = sortTests(p->tests, p->count_tests, 4);
+					p->tests = temp;
+					continue;
+				}
+				if (choice == -5) {
+					temp = sortTests(p->tests, p->count_tests, 5);
+					p->tests = temp;
+					continue;
+				}
+				// cheah is valid number
+				if (choice > p->count_tests || choice < 0) {
+					cout << "Неверный номер теста!" << endl;
+					continue;
+				}
+
+				for (int i = 0; i < p->count_tests; i++) {
+					if (i == choice - 1) {
+						test = p->tests[i];
+						break;
+					}
+				}
+
+
+				showTestMenu(test);
+			}
+
 			break;
 		}
 		case 4: {
@@ -145,8 +253,7 @@ void GuestUI(User user) {
 		system("cls");
 		cout << "Выберите действие:" << endl;
 		cout << "1. Просмотреть публичные тесты" << endl;
-		cout << "2. Пройти публичный тест" << endl;
-		cout << "3. Выйти" << endl;
+		cout << "2. Выйти" << endl;
 		int choice;
 		cin >> choice;
 		Test test = Test();
@@ -157,6 +264,7 @@ void GuestUI(User user) {
 			cout << "Меню просмотра публичных тестов" << endl;
 			while (true) {
 				ShowTests(p);
+				cout << " введите номер теста для прохождения" << endl;
 				cout << " введите -1 для выхода" << endl;
 				cout << " введите -2 для сортировки тестов (по возрастанию сложности)" << endl;
 				cout << " введите -3 для сортировки тестов (по убыванию сложности)" << endl;
@@ -168,7 +276,8 @@ void GuestUI(User user) {
 					break;
 				}
 				if (choice == -2) {
-					temp = sortTests(p->tests, p->count_tests, 2);
+					//temp = sortTests(p->tests, p->count_tests, 2);
+					temp = InsertionSort(p->tests, p->count_tests);
 					p->tests = temp;
 					continue;
 				}
@@ -207,14 +316,6 @@ void GuestUI(User user) {
 			break;
 		}
 		case 2: {
-			cout << "Меню прохождения публичного теста" << endl;
-
-
-			//int result = startTest(test);
-
-			break;
-		}
-		case 3: {
 			cout << "До свидания!" << endl;
 			return;
 		}
@@ -250,7 +351,7 @@ void ShowTest(Test test) {
 }
 
 // показать меню теста
-void showTestMenu(Test test) {
+void showTestMenu(Test test, User*user) {
 	while (true) {
 		system("cls");
 		cout << "Вы выбрали тест: " << test.name << endl;
@@ -283,8 +384,8 @@ void showTestMenu(Test test) {
 		}
 		case 4: {
 			return;
-	}
 		}
+		}	
 	}
 }
 
@@ -316,7 +417,7 @@ int startTest(Test test) {
 		for (int j = 0; j < test.q_guest[i].count_answers; j++) {
 			cout << j + 1 << ". " << test.q_guest[i].answer[j] << endl;
 		}
-		int answer;
+		int answer; 
 		cout << "Введите номер ответа: ";
 		cin >> answer;
 		cin >> answer;
@@ -438,7 +539,7 @@ void showReiting(Raiting* raiting, User* user) {
 	while (temp != nullptr) {
 		cout << temp->user->login << " - " << temp->result << endl;
 		if (temp->user->id == user->id) {
-			isGoten == true;
+			isGoten = true;
 		}
 		temp = temp->next;
 	}
@@ -465,3 +566,22 @@ int LinearFind(Raiting* raiting, User* user) {
 }
 
 
+
+
+
+
+// insertion sort tests by difficulty
+
+Test* InsertionSort(Test* tests, int size) {
+	Test temp;
+	for (int i = 1; i < size; i++) {
+		temp = tests[i];
+		int j = i - 1;
+		while (j >= 0 && tests[j].difficulty > temp.difficulty) {
+			tests[j + 1] = tests[j];
+			j--;
+		}
+		tests[j + 1] = temp;
+	}
+	return tests;
+}

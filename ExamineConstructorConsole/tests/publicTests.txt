@@ -1,21 +1,40 @@
-AlexDev web
-asdf
-12
-1
-1
-Who create JS
-I dont know
-9999
-0
 Test
-asdf
-452
+Alex
 1
-0
+1
 1
 Are you reydy?
+1
+1
+1
+Yes?
+1
+1
+1
+1
+About Alex usov
+Alex
+99
+1
 2
-2
+am i a web dev
 yes
-o
-123
+3
+what is my framevork
+react
+9
+1
+How old am i
+3
+4
+16
+7
+8
+9
+98
+Test 2
+Alex
+1234
+1
+0
+0
