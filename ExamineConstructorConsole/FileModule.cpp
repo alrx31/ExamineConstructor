@@ -85,10 +85,6 @@ User FindUser(string file_path, string login) {
 	return User();
 }
 
-<<<<<<< HEAD
-// find user in file (id)
-=======
->>>>>>> df5a272 (b)
 UserData getUserData(int id,string file_path) {
 	ifstream file(file_path);
 	if (!file.is_open()) {
@@ -106,10 +102,6 @@ UserData getUserData(int id,string file_path) {
 	return UserData();
 }
 
-<<<<<<< HEAD
-// get last id from file
-=======
->>>>>>> df5a272 (b)
 int getLastId(string path) {
 	ifstream file(path);
 	if (!file.is_open()) {
@@ -209,45 +201,3 @@ TestsContainer* Read(string test_path,bool isPublict,User user) {
 	return new TestsContainer(tests,size-1);
 
 }
-<<<<<<< HEAD
-// read raiting from file
-Raiting* Read(string rait_path, string test_name,string user_name) {
-	ifstream file(rait_path);
-	if (!file.is_open()) {
-		cout << "Ошибка открытия файла" << endl;
-		return nullptr;
-	}
-	int size = 0;
-	Raiting* raiting = new Raiting();
-	Raiting_node* temp_node;
-	string temp;
-	string name;
-	int count_users;
-	int result;
-	while (!file.eof()) {
-		file >> name >> count_users;
-		try {
-			count_users = stoi(temp);
-		}
-		catch (const std::exception&) {
-			cout << "Ошибка преобразования строки в число" << endl;
-			return nullptr;
-		}
-		if (name == test_name) {
-			for (int i = 0; i < count_users; i++) {
-				file >> name >> temp;
-				try {
-					result = stoi(temp);
-				}
-				catch (const std::exception&) {
-					cout << "Ошибка преобразования строки в число" << endl;
-					return nullptr;
-				}
-				raiting->push(name, getMark(result), result);
-			}
-		}
-	}
-	return raiting;
-}
-=======
->>>>>>> df5a272 (b)

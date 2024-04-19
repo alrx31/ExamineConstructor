@@ -32,7 +32,9 @@ Q_standart::Q_standart(string question, string answer, int difficulty) {
 
 
 
-Test::Test() {}
+Test::Test() {
+	
+}
 Test::Test(int size) {
 	this->count_q_standart = size;
 	this->q_standart = new Q_standart[size];
@@ -100,13 +102,8 @@ Raiting::Raiting(Test* test) {
 	this->middle_result = 0;
 	this->head = nullptr;
 }
-<<<<<<< HEAD
-void Raiting::push(string user_name, int mark, int result) {
-	Raiting_node * new_node = new Raiting_node(user_name, mark, result, head);
-=======
 void Raiting::push(User* user, int mark, int result) {
 	Raiting_node * new_node = new Raiting_node(user, mark, result, head);
->>>>>>> df5a272 (b)
 	this->head = new_node;
 	this->count_users++;
 	this->middle_result = (middle_result*(count_users-1) + result) / count_users;
@@ -160,13 +157,8 @@ void Raiting::BubleSort() {
 
 
 Raiting_node::Raiting_node() {}
-<<<<<<< HEAD
-Raiting_node::Raiting_node(string user_name, int mark , int reuslt, Raiting_node *next) {
-	this->user_name = user_name;
-=======
 Raiting_node::Raiting_node(User* user, int mark , int reuslt, Raiting_node *next) {
 	this->user = user;
->>>>>>> df5a272 (b)
 	this->mark = mark;
 	this->result = reuslt;
 	this->next = next;

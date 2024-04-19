@@ -104,11 +104,7 @@ public:
     int result;
     Raiting_node* next;
     Raiting_node();
-<<<<<<< HEAD
-    Raiting_node(string user_name, int mark, int result, Raiting_node* node);
-=======
     Raiting_node(User* user, int mark, int result, Raiting_node* node);
->>>>>>> df5a272 (b)
 };
 
 class Raiting {
