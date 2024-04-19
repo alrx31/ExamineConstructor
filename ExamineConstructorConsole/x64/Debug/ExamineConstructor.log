@@ -1,1 +1,7 @@
-﻿  ExamineConstructor.vcxproj -> D:\BSUIR\BoADS\ExamineConstructor\ExamineConstructorConsole\x64\Debug\ExamineConstructor.exe
+﻿  ControlTestModule.cpp
+D:\BSUIR\BoADS\ExamineConstructor\ExamineConstructorConsole\ControlTestModule.cpp(498,16): warning C4244: return: преобразование "int" в "float", возможна потеря данных
+  ExamineConstructor.cpp
+  FileModule.cpp
+D:\BSUIR\BoADS\ExamineConstructor\ExamineConstructorConsole\FileModule.cpp(233,44): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
+  Создание кода...
+  ExamineConstructor.vcxproj -> D:\BSUIR\BoADS\ExamineConstructor\ExamineConstructorConsole\x64\Debug\ExamineConstructor.exe

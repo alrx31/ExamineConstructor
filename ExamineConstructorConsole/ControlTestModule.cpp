@@ -1,6 +1,7 @@
 // Code for the ControlTestModule
 #include <iostream>
 #include <string>
+#include <windows.h>
 #include "Structures.h"
 #include "FileModule.h"
 #include "ControlTestModule.h"
@@ -178,7 +179,7 @@ void PersonUI(User user) {
 				}
 
 
-				showTestMenu(test);
+				showTestMenu(test,&user);
 			}
 
 			break;
@@ -233,7 +234,7 @@ void PersonUI(User user) {
 				}
 
 
-				showTestMenu(test);
+				showTestMenu(test,&user);
 			}
 
 			break;
@@ -310,7 +311,7 @@ void GuestUI(User user) {
 				}
 				
 
-				showTestMenu(test);
+				showTestMenu(test,&user);
 			}
 
 			break;
@@ -352,29 +353,34 @@ void ShowTest(Test test) {
 
 // РїРѕРєР°Р·Р°С‚СЊ РјРµРЅСЋ С‚РµСЃС‚Р°
 void showTestMenu(Test test, User*user) {
-<<<<<<< HEAD
-	if (test.author == getUserData(user->id, "users/UserData.txt").name) {
+	if(test.author == user->login){
 		while (true) {
 			system("cls");
-			cout << "Р’С‹ РІС‹Р±СЂР°Р»Рё С‚РµСЃС‚: " << test.name << endl;
-			cout << "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ:" << endl;
-			cout << "1. РќР°С‡Р°С‚СЊ С‚РµСЃС‚" << endl;
-			cout << "2. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ С‚РµСЃС‚" << endl;
-			cout << "3. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ СЂРµР№С‚РёРЅРі" << endl;
-			cout << "4. Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ С‚РµСЃС‚" << endl;
-			cout << "5. Р’РµСЂРЅСѓС‚СЊСЃСЏ РЅР°Р·Р°Рґ" << endl;
+			cout << "Вы выбрали тест: " << test.name << endl;
+			cout << "Выберите действие:" << endl;
+			cout << "1. Начать тест" << endl;
+			cout << "2. Просмотреть тест" << endl;
+			cout << "3. Просмотреть рейтинг" << endl;
+			cout << "4. Редактировать тест" << endl;
+			cout << "5. Вернуться назад" << endl;
 			int choice;
 			cin >> choice;
 			switch (choice) {
 			case 1: {
 				int result = startTest(test);
-				cout << "РўРµСЃС‚ РїСЂРѕР№РґРµРЅ!" << endl;
-				cout << "Р’Р°С€ СЂРµР·СѓР»СЊС‚Р°С‚: " << result << endl;
+				cout << "Тест пройден!" << endl;
+				cout << "Ваш результат: " << result << endl;
 				float mark = getMark(result);
-				cout << "Р’Р°С€Р° РѕС†РµРЅРєР°: " << mark << endl;
+				cout << "Ваша оценка: " << mark << endl;
 				cout << "================" << endl;
-
-				cout << "РќР°Р¶РјРёС‚Рµ Р»СЋР±СѓСЋ РєР»Р°РІРёС€Сѓ РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ..." << endl;
+				int res = WriteToFile("tests/raiting.txt", test.name, getUserData(user->id, "users/usersData.txt").name, result, mark);
+				if (res == 1) {
+					cout << "Ошибка при записи рейтинга!" << endl;
+				}
+				else {
+					cout << "Рейтинг успешно записан!" << endl;
+				}
+				cout << "Нажмите любую клавишу для продолжения..." << endl;
 				cin.get();
 				break;
 			}
@@ -383,12 +389,14 @@ void showTestMenu(Test test, User*user) {
 				break;
 			}
 			case 3: {
-				Raiting * raiting = Read("tests/raiting", test.name,getUserData(user->id, "users/usersData.txt").name);
-				showReiting(raiting, user);
-				return;
+				Raiting* raiting = Read("tests/raiting.txt", &test, user);
+				string user_name  = getUserData(user->id, "users/usersData.txt").name;
+				showReiting(raiting,user, user_name);
+
+				break;
 			}
 			case 4: {
-				return;
+				//EditTest();
 			}
 			case 5: {
 				return;
@@ -399,24 +407,31 @@ void showTestMenu(Test test, User*user) {
 	else {
 		while (true) {
 			system("cls");
-			cout << "Р’С‹ РІС‹Р±СЂР°Р»Рё С‚РµСЃС‚: " << test.name << endl;
-			cout << "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ:" << endl;
-			cout << "1. РќР°С‡Р°С‚СЊ С‚РµСЃС‚" << endl;
-			cout << "2. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ С‚РµСЃС‚" << endl;
-			cout << "3. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ СЂРµР№С‚РёРЅРі" << endl;
-			cout << "4. Р’РµСЂРЅСѓС‚СЊСЃСЏ РЅР°Р·Р°Рґ" << endl;
+			cout << "Вы выбрали тест: " << test.name << endl;
+			cout << "Выберите действие:" << endl;
+			cout << "1. Начать тест" << endl;
+			cout << "2. Просмотреть тест" << endl;
+			cout << "3. Просмотреть рейтинг" << endl;
+			cout << "4. Вернуться назад" << endl;
 			int choice;
 			cin >> choice;
 			switch (choice) {
 			case 1: {
 				int result = startTest(test);
-				cout << "РўРµСЃС‚ РїСЂРѕР№РґРµРЅ!" << endl;
-				cout << "Р’Р°С€ СЂРµР·СѓР»СЊС‚Р°С‚: " << result << endl;
+				cout << "Тест пройден!" << endl;
+				cout << "Ваш результат: " << result << endl;
 				float mark = getMark(result);
-				cout << "Р’Р°С€Р° РѕС†РµРЅРєР°: " << mark << endl;
-				cout << "================" << endl;
+				cout << "Ваша оценка: " << mark << endl;
 
-				cout << "РќР°Р¶РјРёС‚Рµ Р»СЋР±СѓСЋ РєР»Р°РІРёС€Сѓ РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ..." << endl;
+				cout << "================" << endl;
+				int res = WriteToFile("tests/raiting.txt", test.name, getUserData(user->id, "users/usersData.txt").name, result, mark);
+				if (res == 1) {
+					cout << "Ошибка при записи рейтинга!" << endl;
+				}
+				else {
+					cout << "Рейтинг успешно записан!" << endl;
+				}
+				cout << "Нажмите любую клавишу для продолжения..." << endl;
 				cin.get();
 				break;
 			}
@@ -431,42 +446,7 @@ void showTestMenu(Test test, User*user) {
 				return;
 			}
 			}
-=======
-	while (true) {
-		system("cls");
-		cout << "Вы выбрали тест: " << test.name << endl;
-		cout << "Выберите действие:" << endl;
-		cout << "1. Начать тест" << endl;
-		cout << "2. Просмотреть тест" << endl;
-		cout << "3. Просмотреть рейтинг" << endl;
-		cout << "4. Вернуться назад" << endl;
-		int choice;
-		cin >> choice;
-		switch (choice) {
-		case 1: {
-			int result = startTest(test);
-			cout << "Тест пройден!" << endl;
-			cout << "Ваш результат: " << result << endl;
-			float mark = getMark(result);
-			cout << "Ваша оценка: " << mark << endl;
-			cout << "================" << endl;
-
-			cout << "Нажмите любую клавишу для продолжения..." << endl;
-			cin.get();
-			break;
 		}
-		case 2: {
-			ShowTest(test);
-			break;
->>>>>>> df5a272 (b)
-		}
-		case 3: {
-			return;
-		}
-		case 4: {
-			return;
-		}
-		}	
 	}
 }
 
@@ -510,13 +490,8 @@ int startTest(Test test) {
 	return result;
 }
 
-<<<<<<< HEAD
-// РїРѕР»СѓС‡РёС‚СЊ РѕС†РµРЅРєСѓ
-=======
-
->>>>>>> df5a272 (b)
+// получить оценку
 float getMark(int result){
-	//need the mark from 0 to 10
 	if (result == 0) {
 		return 0;
 	}
@@ -620,9 +595,9 @@ void showReiting(Raiting* raiting, User* user) {
 	cout << "РЎСЂРµРґРЅРёР№ СЂРµР·СѓР»СЊС‚Р°С‚: " << raiting->middle_result << endl;
 =======
 
-void showReiting(Raiting* raiting, User* user) {
+void showReiting(Raiting* raiting, User * user,string user_name) {
 	system("cls");
-	cout << "Рейтинг теста: " << raiting->test->name << endl;
+	cout << "Рейтинг теста: " << raiting->test_name << endl;
 	cout << "Средний результат: " << raiting->middle_result << endl;
 >>>>>>> df5a272 (b)
 	cout << "================" << endl;
@@ -630,13 +605,8 @@ void showReiting(Raiting* raiting, User* user) {
 	bool isGoten = false;
 	Raiting_node* temp = raiting->head;
 	while (temp != nullptr) {
-<<<<<<< HEAD
-		cout << temp->user_name << " - " << temp->result << endl;
-		if (temp->user_name == getUserData(user->id, "users/usersData.txt").name) {
-=======
-		cout << temp->user->login << " - " << temp->result << endl;
-		if (temp->user->id == user->id) {
->>>>>>> df5a272 (b)
+		cout << temp->user_name<< " - " << temp->result << endl;
+		if (temp->user_name == user_name) {
 			isGoten = true;
 		}
 		temp = temp->next;
@@ -646,12 +616,11 @@ void showReiting(Raiting* raiting, User* user) {
 		cout << "Р’Р°С€ РЅР°РёРІС‹СЃС€РёР№ СЂРµР·СѓР»СЊС‚Р°С‚: " << LinearFind(raiting, user) << endl;
 		cout << "================" << endl;
 	}
-<<<<<<< HEAD
-	cout << "РќР°Р¶РјРёС‚Рµ Р»СЋР±СѓСЋ РєР»Р°РІРёС€Сѓ РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ..." << endl;
-=======
+	else {
+		cout << "Вы не проходили данный тест" << endl;
+	}
 	cout << "Нажмите любую клавишу для продолжения..." << endl;
->>>>>>> df5a272 (b)
-	cin.get();
+	cin.ignore();
 	cin.get();
 }
 // Р»РёРЅРµР№РЅС‹Р№ РїРѕРёСЃРє
@@ -659,7 +628,7 @@ int LinearFind(Raiting* raiting, User* user) {
 	int max = 0;
 	Raiting_node* temp = raiting->head;
 	while (temp != nullptr) {
-		if (temp->user->id == user->id && temp->result > max) {
+		if (temp->user_name == getUserData(user->id, "users/usersData.txt").name && temp->result > max) {
 			max = temp->result;
 		}
 		temp = temp->next;

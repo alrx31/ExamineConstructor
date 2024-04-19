@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include "Structures.h"
+#include "ControlTestModule.h"
 using namespace std;
 
 
@@ -41,14 +42,21 @@ int WriteToFile(string file_path, Test test) {
 	return 0;
 }
 // запись в файл рейтинга
-int WriteToFile(string file_pass, Test*test, User* user, int result,float mark) {
-	/*fstream file(file_pass, ios::out | ios::app);	
+int WriteToFile(string file_pass, string test_name, string user_name, int result,float mark) {
+	fstream file(file_pass, ios::out | ios::app);	
 	if (!file.is_open()) {
 		cout << "Ошибка открытия файла рейтинга";
 		return 1;
-	}*/
+	}
 
-	// .........
+	file << test_name << endl;
+	file << 1 << endl;
+	for(int i = 0; i < 1; i++){
+		file << user_name <<endl << result << endl;
+	}
+
+	file.close();
+
 
 	return 0;
 }
@@ -84,7 +92,7 @@ User FindUser(string file_path, string login) {
 	file.close();
 	return User();
 }
-
+// find user in file (id)
 UserData getUserData(int id,string file_path) {
 	ifstream file(file_path);
 	if (!file.is_open()) {
@@ -101,7 +109,7 @@ UserData getUserData(int id,string file_path) {
 	}
 	return UserData();
 }
-
+// find test in file
 int getLastId(string path) {
 	ifstream file(path);
 	if (!file.is_open()) {
@@ -118,7 +126,6 @@ int getLastId(string path) {
 }
 
 //read test from file
-
 TestsContainer* Read(string test_path,bool isPublict,User user) {
 	
 	
@@ -200,4 +207,34 @@ TestsContainer* Read(string test_path,bool isPublict,User user) {
 	file.close();
 	return new TestsContainer(tests,size-1);
 
+}
+//read raiting from file
+Raiting* Read(string test_path, Test* test, User* user) {
+	
+	Raiting* raiting = new Raiting();
+
+	fstream file(test_path, ios::in);
+	if (!file.is_open()) {
+		cout << "Ошибка открытия файла рейтинга" << endl;
+		return raiting;
+	}
+	int size = 0;
+
+	string test_name;
+	int count_user;
+	string user_name;
+	int result;
+
+	while (!file.eof()) {
+		file >> test_name >> count_user;
+		raiting = new Raiting(test_name);
+		for (int i = 0; i < count_user; i++) {
+			file >> user_name >> result;
+			raiting->push(user_name, result, getMark(result));
+		}
+		if(test_name == test->name) break;
+	}
+
+	file.close();
+	return raiting;
 }

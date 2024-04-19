@@ -96,14 +96,14 @@ void UserData::addtest(Test test) {
 
 
 Raiting::Raiting() {}
-Raiting::Raiting(Test* test) {
-	this->test = test;
+Raiting::Raiting(string test_name) {
+	this->test_name = test_name;
 	this->count_users = 0;
 	this->middle_result = 0;
 	this->head = nullptr;
 }
-void Raiting::push(User* user, int mark, int result) {
-	Raiting_node * new_node = new Raiting_node(user, mark, result, head);
+void Raiting::push(string user_name, int mark, int result) {
+	Raiting_node * new_node = new Raiting_node(user_name, mark, result, this->head);
 	this->head = new_node;
 	this->count_users++;
 	this->middle_result = (middle_result*(count_users-1) + result) / count_users;
@@ -157,8 +157,14 @@ void Raiting::BubleSort() {
 
 
 Raiting_node::Raiting_node() {}
-Raiting_node::Raiting_node(User* user, int mark , int reuslt, Raiting_node *next) {
-	this->user = user;
+Raiting_node::Raiting_node(string user_name, int result, int mark) {
+	this->user_name = user_name;
+	this->result = result;
+	this->mark = mark;
+	this->next = nullptr;
+}
+Raiting_node::Raiting_node(string user_name, int mark , int reuslt, Raiting_node *next) {
+	this->user_name = user_name;
 	this->mark = mark;
 	this->result = reuslt;
 	this->next = next;
