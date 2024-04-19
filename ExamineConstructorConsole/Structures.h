@@ -99,23 +99,27 @@ class BiletsContainer {
 
 class Raiting_node {
 public:
-    string user_name;
+    User* user;
     int mark;
     int result;
     Raiting_node* next;
     Raiting_node();
+<<<<<<< HEAD
     Raiting_node(string user_name, int mark, int result, Raiting_node* node);
+=======
+    Raiting_node(User* user, int mark, int result, Raiting_node* node);
+>>>>>>> df5a272 (b)
 };
 
 class Raiting {
 public:
-    string test_name;
+    Test* test;
     int count_users;
     Raiting_node* head;
     int middle_result;
     Raiting();
-    Raiting(string test_name);
-    void push(string user_name, int mark, int result);
+    Raiting(Test* test);
+    void push(User* user, int mark, int result);
     void BubleSort();
     void swap(Raiting_node* prev, Raiting_node* curr, Raiting_node* next, Raiting_node* H);
 };

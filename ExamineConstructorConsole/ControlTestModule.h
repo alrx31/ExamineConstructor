@@ -13,7 +13,11 @@ float getMark(int result);
 void ShowTest(Test test);
 void ShowTests(TestsContainer* tests);
 void showTestMenu(Test test, User*user);
+<<<<<<< HEAD
 void showReiting(Raiting* raiting, User* user);
+=======
+void showReiting(Raiting* raiting);
+>>>>>>> df5a272 (b)
 
 Test* sortTests(Test* tests,int size, int choice);
 Test* merge(Test* left, Test* right, int l, int r, int choice);

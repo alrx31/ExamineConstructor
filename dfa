@@ -1,0 +1,43 @@
+[33m02ec382[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{0}: commit: d
+[33m9cb67c0[m HEAD@{1}: commit: f
+[33m9a07216[m HEAD@{2}: commit (cherry-pick): n
+[33mbe71594[m[33m ([m[1;31morigin/main[m[33m)[m HEAD@{3}: commit: add fixes
+[33m265d766[m HEAD@{4}: commit: fix report
+[33mc6c2b20[m HEAD@{5}: merge origin/main: Fast-forward
+[33m3c2f91c[m HEAD@{6}: reset: moving to 3c2f91c2f568914d16ef661672790ce15de9f4c9
+[33m818902c[m HEAD@{7}: commit (amend): n
+[33m2e14881[m HEAD@{8}: reset: moving to 2e14881c88db34f7fb8789ff2810899de1d38d04
+[33mbcca4e5[m HEAD@{9}: commit: n
+[33mdf5a272[m HEAD@{10}: commit: b
+[33m0cdc38d[m HEAD@{11}: reset: moving to 0cdc38d1d557da391f6c067e9c1f15561b0d4176
+[33m0cdc38d[m HEAD@{12}: reset: moving to 0cdc38d1d557da391f6c067e9c1f15561b0d4176
+[33m0cdc38d[m HEAD@{13}: commit: fixes
+[33m2e14881[m HEAD@{14}: commit: fix diagrams
+[33m3c2f91c[m HEAD@{15}: commit: create the diagrams pdf file
+[33md777f77[m HEAD@{16}: commit: code fixes
+[33m4a6ba7f[m HEAD@{17}: commit: Fix deagrams and the 3 article in report
+[33m3301c42[m HEAD@{18}: commit: finish v0.1 the third article in the report
+[33m795e75d[m HEAD@{19}: commit: fixes
+[33md83d0e6[m HEAD@{20}: commit: fix diagrams and report
+[33mb59afd5[m HEAD@{21}: commit: cheate a sorting function and fix the array memory problem
+[33mb3540e1[m HEAD@{22}: commit: fix reports
+[33m699cf39[m HEAD@{23}: commit: fix diagrams and raport
+[33m5a5ba42[m HEAD@{24}: commit: fix getline problem and create a read function
+[33mc1c2062[m HEAD@{25}: commit: create the function to create tests and finish login function
+[33m9197ce1[m HEAD@{26}: commit: fix diagrams
+[33mfac71c7[m HEAD@{27}: commit: create some functions
+[33mb76a1eb[m HEAD@{28}: commit: fir report
+[33m044953c[m HEAD@{29}: commit: fix diagram
+[33m253d0ac[m HEAD@{30}: commit: create register module
+[33m3b8e6c1[m HEAD@{31}: commit: fixes
+[33mc04f996[m HEAD@{32}: commit: realize the part of register function
+[33m432462e[m HEAD@{33}: commit: Fix the probled with model reflaction. fix the cpp and h files
+[33m9e67e5f[m HEAD@{34}: commit: update diagram
+[33mf046c27[m HEAD@{35}: commit: create modules
+[33mc4734f7[m HEAD@{36}: commit: fix report
+[33m2a8337c[m HEAD@{37}: commit: FIx the report message
+[33m539a01e[m HEAD@{38}: commit: some fixes
+[33mad1b8c6[m HEAD@{39}: commit: First point of creating predocumentation. 1-2 paragraphs
+[33m469172a[m HEAD@{40}: commit: add diagrams
+[33m53de7aa[m HEAD@{41}: commit: add some logic
+[33m5077d07[m HEAD@{42}: commit (initial): first

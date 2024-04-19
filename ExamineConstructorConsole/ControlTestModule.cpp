@@ -178,7 +178,7 @@ void PersonUI(User user) {
 				}
 
 
-				showTestMenu(test,&user);
+				showTestMenu(test);
 			}
 
 			break;
@@ -233,7 +233,7 @@ void PersonUI(User user) {
 				}
 
 
-				showTestMenu(test,&user);
+				showTestMenu(test);
 			}
 
 			break;
@@ -310,7 +310,7 @@ void GuestUI(User user) {
 				}
 				
 
-				showTestMenu(test,&user);
+				showTestMenu(test);
 			}
 
 			break;
@@ -352,6 +352,7 @@ void ShowTest(Test test) {
 
 // РїРѕРєР°Р·Р°С‚СЊ РјРµРЅСЋ С‚РµСЃС‚Р°
 void showTestMenu(Test test, User*user) {
+<<<<<<< HEAD
 	if (test.author == getUserData(user->id, "users/UserData.txt").name) {
 		while (true) {
 			system("cls");
@@ -430,7 +431,42 @@ void showTestMenu(Test test, User*user) {
 				return;
 			}
 			}
+=======
+	while (true) {
+		system("cls");
+		cout << "Вы выбрали тест: " << test.name << endl;
+		cout << "Выберите действие:" << endl;
+		cout << "1. Начать тест" << endl;
+		cout << "2. Просмотреть тест" << endl;
+		cout << "3. Просмотреть рейтинг" << endl;
+		cout << "4. Вернуться назад" << endl;
+		int choice;
+		cin >> choice;
+		switch (choice) {
+		case 1: {
+			int result = startTest(test);
+			cout << "Тест пройден!" << endl;
+			cout << "Ваш результат: " << result << endl;
+			float mark = getMark(result);
+			cout << "Ваша оценка: " << mark << endl;
+			cout << "================" << endl;
+
+			cout << "Нажмите любую клавишу для продолжения..." << endl;
+			cin.get();
+			break;
 		}
+		case 2: {
+			ShowTest(test);
+			break;
+>>>>>>> df5a272 (b)
+		}
+		case 3: {
+			return;
+		}
+		case 4: {
+			return;
+		}
+		}	
 	}
 }
 
@@ -474,7 +510,11 @@ int startTest(Test test) {
 	return result;
 }
 
+<<<<<<< HEAD
 // РїРѕР»СѓС‡РёС‚СЊ РѕС†РµРЅРєСѓ
+=======
+
+>>>>>>> df5a272 (b)
 float getMark(int result){
 	//need the mark from 0 to 10
 	if (result == 0) {
@@ -572,18 +612,31 @@ Test* merge(Test* left, Test* right, int l, int r, int choice) {
 	return result;
 }
 
+<<<<<<< HEAD
 // РїРѕРєР°Р·Р°С‚СЊ СЂРµР№С‚РёРЅРі
 void showReiting(Raiting* raiting, User* user) {
 	system("cls");
 	cout << "Р РµР№С‚РёРЅРі С‚РµСЃС‚Р°: " << raiting->test_name << endl;
 	cout << "РЎСЂРµРґРЅРёР№ СЂРµР·СѓР»СЊС‚Р°С‚: " << raiting->middle_result << endl;
+=======
+
+void showReiting(Raiting* raiting, User* user) {
+	system("cls");
+	cout << "Рейтинг теста: " << raiting->test->name << endl;
+	cout << "Средний результат: " << raiting->middle_result << endl;
+>>>>>>> df5a272 (b)
 	cout << "================" << endl;
 	cout << "РџРѕР»СЊР·РѕРІР°С‚РµР»Рё:" << endl;
 	bool isGoten = false;
 	Raiting_node* temp = raiting->head;
 	while (temp != nullptr) {
+<<<<<<< HEAD
 		cout << temp->user_name << " - " << temp->result << endl;
 		if (temp->user_name == getUserData(user->id, "users/usersData.txt").name) {
+=======
+		cout << temp->user->login << " - " << temp->result << endl;
+		if (temp->user->id == user->id) {
+>>>>>>> df5a272 (b)
 			isGoten = true;
 		}
 		temp = temp->next;
@@ -593,7 +646,11 @@ void showReiting(Raiting* raiting, User* user) {
 		cout << "Р’Р°С€ РЅР°РёРІС‹СЃС€РёР№ СЂРµР·СѓР»СЊС‚Р°С‚: " << LinearFind(raiting, user) << endl;
 		cout << "================" << endl;
 	}
+<<<<<<< HEAD
 	cout << "РќР°Р¶РјРёС‚Рµ Р»СЋР±СѓСЋ РєР»Р°РІРёС€Сѓ РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ..." << endl;
+=======
+	cout << "Нажмите любую клавишу для продолжения..." << endl;
+>>>>>>> df5a272 (b)
 	cin.get();
 	cin.get();
 }
@@ -602,7 +659,7 @@ int LinearFind(Raiting* raiting, User* user) {
 	int max = 0;
 	Raiting_node* temp = raiting->head;
 	while (temp != nullptr) {
-		if (temp->user_name == getUserData(user->id, "users/usersData.txt").name && temp->result > max) {
+		if (temp->user->id == user->id && temp->result > max) {
 			max = temp->result;
 		}
 		temp = temp->next;

@@ -2,7 +2,6 @@
 #include <string>
 #include <fstream>
 #include "Structures.h"
-#include "ControlTestModule.h"
 using namespace std;
 
 
@@ -86,7 +85,10 @@ User FindUser(string file_path, string login) {
 	return User();
 }
 
+<<<<<<< HEAD
 // find user in file (id)
+=======
+>>>>>>> df5a272 (b)
 UserData getUserData(int id,string file_path) {
 	ifstream file(file_path);
 	if (!file.is_open()) {
@@ -104,7 +106,10 @@ UserData getUserData(int id,string file_path) {
 	return UserData();
 }
 
+<<<<<<< HEAD
 // get last id from file
+=======
+>>>>>>> df5a272 (b)
 int getLastId(string path) {
 	ifstream file(path);
 	if (!file.is_open()) {
@@ -121,6 +126,7 @@ int getLastId(string path) {
 }
 
 //read test from file
+
 TestsContainer* Read(string test_path,bool isPublict,User user) {
 	
 	
@@ -203,6 +209,7 @@ TestsContainer* Read(string test_path,bool isPublict,User user) {
 	return new TestsContainer(tests,size-1);
 
 }
+<<<<<<< HEAD
 // read raiting from file
 Raiting* Read(string rait_path, string test_name,string user_name) {
 	ifstream file(rait_path);
@@ -242,3 +249,5 @@ Raiting* Read(string rait_path, string test_name,string user_name) {
 	}
 	return raiting;
 }
+=======
+>>>>>>> df5a272 (b)
