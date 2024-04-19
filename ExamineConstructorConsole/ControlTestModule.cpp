@@ -7,81 +7,81 @@
 
 using namespace std;
 
-// показать тесты (массива)
+// РїРѕРєР°Р·Р°С‚СЊ С‚РµСЃС‚С‹ (РјР°СЃСЃРёРІР°)
 void ShowTests(TestsContainer* tests) {
 	system("cls");
-	cout << "Список тестов: " << endl;
+	cout << "РЎРїРёСЃРѕРє С‚РµСЃС‚РѕРІ: " << endl;
 	for (int i = 0; i < tests->count_tests; i++) {
-		cout << i + 1 << ". Название\t" << tests->tests[i].name << "\nСложность:\t " << tests->tests[i].difficulty << endl << endl;
+		cout << i + 1 << ". РќР°Р·РІР°РЅРёРµ\t" << tests->tests[i].name << "\nРЎР»РѕР¶РЅРѕСЃС‚СЊ:\t " << tests->tests[i].difficulty << endl << endl;
 	}
 	cout << endl <<"================" << endl << endl;
 }
 
 
 
-// создание теста
+// СЃРѕР·РґР°РЅРёРµ С‚РµСЃС‚Р°
 void CreateTest(UserData user) {
 	try {
 		int userId = user.id;
 		string TestPathPublic = "tests/publicTests.txt";
 		string TestPath = "tests/" + to_string(userId) + "test.txt";
 		system("cls");
-		cout << "Меню создания теста" << endl;
-		cout << "Введите название теста: " << endl;
+		cout << "РњРµРЅСЋ СЃРѕР·РґР°РЅРёСЏ С‚РµСЃС‚Р°" << endl;
+		cout << "Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ С‚РµСЃС‚Р°: " << endl;
 		string name;
 		cin.ignore();
 		getline(cin, name);
-		cout << "введите сложность теста: ";
+		cout << "РІРІРµРґРёС‚Рµ СЃР»РѕР¶РЅРѕСЃС‚СЊ С‚РµСЃС‚Р°: ";
 		int level;
 		cin >> level;
-		cout << "Сделать ли тест публично доступным? (1- да, 0 - нет): ";
+		cout << "РЎРґРµР»Р°С‚СЊ Р»Рё С‚РµСЃС‚ РїСѓР±Р»РёС‡РЅРѕ РґРѕСЃС‚СѓРїРЅС‹Рј? (1- РґР°, 0 - РЅРµС‚): ";
 		int isPublic;
 		cin >> isPublic;
-		cout << "Введите количество стандартных вопросов: " << endl;
-		cout << "(вопросы с одним правильным ответом)" << endl;
+		cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚Р°РЅРґР°СЂС‚РЅС‹С… РІРѕРїСЂРѕСЃРѕРІ: " << endl;
+		cout << "(РІРѕРїСЂРѕСЃС‹ СЃ РѕРґРЅРёРј РїСЂР°РІРёР»СЊРЅС‹Рј РѕС‚РІРµС‚РѕРј)" << endl;
 		int count_q_standart;
 		cin >> count_q_standart;
 		Q_standart* q_standart = new Q_standart[count_q_standart];
 		cout << "================" << endl;
 		for (int i = 0; i < count_q_standart; i++) {
-			cout << "Введите вопрос: ";
+			cout << "Р’РІРµРґРёС‚Рµ РІРѕРїСЂРѕСЃ: ";
 			string question;
 			cin.ignore();
 			getline(cin, question);
-			cout << "Введите ответ: ";
+			cout << "Р’РІРµРґРёС‚Рµ РѕС‚РІРµС‚: ";
 			string answer;
 
 			getline(cin, answer);
-			cout << "Введите сложность вопроса: ";
+			cout << "Р’РІРµРґРёС‚Рµ СЃР»РѕР¶РЅРѕСЃС‚СЊ РІРѕРїСЂРѕСЃР°: ";
 			int difficulty;
 			cin >> difficulty;
 			q_standart[i] = Q_standart(question, answer, difficulty);
 		}
-		cout << "Введите количество вопросов типа теста: " << endl;
-		cout << "(вопросы с несколькими вариантами ответа (а,б,в,г)" << endl;
+		cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ РІРѕРїСЂРѕСЃРѕРІ С‚РёРїР° С‚РµСЃС‚Р°: " << endl;
+		cout << "(РІРѕРїСЂРѕСЃС‹ СЃ РЅРµСЃРєРѕР»СЊРєРёРјРё РІР°СЂРёР°РЅС‚Р°РјРё РѕС‚РІРµС‚Р° (Р°,Р±,РІ,Рі)" << endl;
 		int count_q_guest;
 		cin >> count_q_guest;
 		Q_guest* q_guest = new Q_guest[count_q_guest];
 		cout << "================" << endl;
 		for (int i = 0; i < count_q_guest; i++) {
-			cout << "Введите вопрос: ";
+			cout << "Р’РІРµРґРёС‚Рµ РІРѕРїСЂРѕСЃ: ";
 			string question;
 			cin.ignore();
 			getline(cin, question);
-			cout << "Введите количество вариантов ответа: ";
+			cout << "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ РІР°СЂРёР°РЅС‚РѕРІ РѕС‚РІРµС‚Р°: ";
 			int count_answers;
 			cin >> count_answers;
 			string* answers = new string[count_answers];
-			cout << "Введите варианты ответа: " << endl;
+			cout << "Р’РІРµРґРёС‚Рµ РІР°СЂРёР°РЅС‚С‹ РѕС‚РІРµС‚Р°: " << endl;
 			for (int j = 0; j < count_answers; j++) {
 				cout << j + 1 << ". ";
 				cin.ignore();
 				getline(cin, answers[j]);
 			}
-			cout << "Введите номер правильного ответа: ";
+			cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РїСЂР°РІРёР»СЊРЅРѕРіРѕ РѕС‚РІРµС‚Р°: ";
 			int right_answer;
 			cin >> right_answer;
-			cout << "Введите сложность вопроса: ";
+			cout << "Р’РІРµРґРёС‚Рµ СЃР»РѕР¶РЅРѕСЃС‚СЊ РІРѕРїСЂРѕСЃР°: ";
 			int difficulty;
 			cin >> difficulty;
 			q_guest[i] = Q_guest(question, answers, count_answers, right_answer, difficulty);
@@ -95,49 +95,49 @@ void CreateTest(UserData user) {
 			res = WriteToFile(TestPath, test);
 		}
 		if (res == 1) {
-			cout << "Ошибка при создании теста!" << endl;
+			cout << "РћС€РёР±РєР° РїСЂРё СЃРѕР·РґР°РЅРёРё С‚РµСЃС‚Р°!" << endl;
 		}
 		else {
-			cout << "Тест успешно создан!" << endl;
+			cout << "РўРµСЃС‚ СѓСЃРїРµС€РЅРѕ СЃРѕР·РґР°РЅ!" << endl;
 		}
 	}
 	catch (exception e) {
-		cout << "Ошибка при создании теста!" << endl;
+		cout << "РћС€РёР±РєР° РїСЂРё СЃРѕР·РґР°РЅРёРё С‚РµСЃС‚Р°!" << endl;
 	}
 };
 
-// меню пользователя
+// РјРµРЅСЋ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 void PersonUI(User user) {
 	while (true) {
 		system("cls");
-		cout << "Добро пожаловать, " << user.login << "!" << endl << endl;
-		cout << "Выберите действие:" << endl;
-		cout << "1. Создать тест" << endl;
-		cout << "2. Просмотреть тесты" << endl;
-		cout << "3. Просмотреть публичные тест" << endl;
-		cout << "4. Выйти" << endl;
+		cout << "Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ, " << user.login << "!" << endl << endl;
+		cout << "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ:" << endl;
+		cout << "1. РЎРѕР·РґР°С‚СЊ С‚РµСЃС‚" << endl;
+		cout << "2. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ С‚РµСЃС‚С‹" << endl;
+		cout << "3. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ РїСѓР±Р»РёС‡РЅС‹Рµ С‚РµСЃС‚" << endl;
+		cout << "4. Р’С‹Р№С‚Рё" << endl;
 		int choice;
 		cin >> choice;
 		Test test = Test();
 		Test* temp = new Test();
 		switch (choice) {
 		case 1: {
-			cout << "Меню создания теста" << endl;
+			cout << "РњРµРЅСЋ СЃРѕР·РґР°РЅРёСЏ С‚РµСЃС‚Р°" << endl;
 			UserData data = getUserData(user.id, "users/usersData.txt");
 			CreateTest(data);
 			break;
 		}
 		case 2: {
-			cout << "Меню просмотра тестов" << endl;
+			cout << "РњРµРЅСЋ РїСЂРѕСЃРјРѕС‚СЂР° С‚РµСЃС‚РѕРІ" << endl;
 			TestsContainer* p = Read("tests/" + to_string(user.id) + "test.txt", false, user);
 			while (true) {
 				ShowTests(p);
-				cout << " введите номер теста для прохождения" << endl;
-				cout << " введите -1 для выхода" << endl;
-				cout << " введите -2 для сортировки тестов (по возрастанию сложности)" << endl;
-				cout << " введите -3 для сортировки тестов (по убыванию сложности)" << endl;
-				cout << " введите -4 для сортировки тестов по названию (по возрастанию)" << endl;
-				cout << " введите -5 для сортировки тестов по названию (по убыванию)" << endl;
+				cout << " РІРІРµРґРёС‚Рµ РЅРѕРјРµСЂ С‚РµСЃС‚Р° РґР»СЏ РїСЂРѕС…РѕР¶РґРµРЅРёСЏ" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -1 РґР»СЏ РІС‹С…РѕРґР°" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -2 РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С‚РµСЃС‚РѕРІ (РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ СЃР»РѕР¶РЅРѕСЃС‚Рё)" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -3 РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С‚РµСЃС‚РѕРІ (РїРѕ СѓР±С‹РІР°РЅРёСЋ СЃР»РѕР¶РЅРѕСЃС‚Рё)" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -4 РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С‚РµСЃС‚РѕРІ РїРѕ РЅР°Р·РІР°РЅРёСЋ (РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ)" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -5 РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С‚РµСЃС‚РѕРІ РїРѕ РЅР°Р·РІР°РЅРёСЋ (РїРѕ СѓР±С‹РІР°РЅРёСЋ)" << endl;
 				int choice;
 				cin >> choice;
 				if (choice == -1) {
@@ -166,7 +166,7 @@ void PersonUI(User user) {
 				}
 				// cheah is valid number
 				if (choice > p->count_tests || choice < 0) {
-					cout << "Неверный номер теста!" << endl;
+					cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ С‚РµСЃС‚Р°!" << endl;
 					continue;
 				}
 
@@ -178,21 +178,21 @@ void PersonUI(User user) {
 				}
 
 
-				showTestMenu(test);
+				showTestMenu(test,&user);
 			}
 
 			break;
 		}
 		case 3: {
-			cout << "Меню публичных тестов" << endl;
+			cout << "РњРµРЅСЋ РїСѓР±Р»РёС‡РЅС‹С… С‚РµСЃС‚РѕРІ" << endl;
 			TestsContainer * p = Read("tests/publicTests.txt", true, user);
 			while (true) {
 				ShowTests(p);
-				cout << " введите -1 для выхода" << endl;
-				cout << " введите -2 для сортировки тестов (по возрастанию сложности)" << endl;
-				cout << " введите -3 для сортировки тестов (по убыванию сложности)" << endl;
-				cout << " введите -4 для сортировки тестов по названию (по возрастанию)" << endl;
-				cout << " введите -5 для сортировки тестов по названию (по убыванию)" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -1 РґР»СЏ РІС‹С…РѕРґР°" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -2 РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С‚РµСЃС‚РѕРІ (РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ СЃР»РѕР¶РЅРѕСЃС‚Рё)" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -3 РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С‚РµСЃС‚РѕРІ (РїРѕ СѓР±С‹РІР°РЅРёСЋ СЃР»РѕР¶РЅРѕСЃС‚Рё)" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -4 РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С‚РµСЃС‚РѕРІ РїРѕ РЅР°Р·РІР°РЅРёСЋ (РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ)" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -5 РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С‚РµСЃС‚РѕРІ РїРѕ РЅР°Р·РІР°РЅРёСЋ (РїРѕ СѓР±С‹РІР°РЅРёСЋ)" << endl;
 				int choice;
 				cin >> choice;
 				if (choice == -1) {
@@ -221,7 +221,7 @@ void PersonUI(User user) {
 				}
 				// cheah is valid number
 				if (choice > p->count_tests || choice < 0) {
-					cout << "Неверный номер теста!" << endl;
+					cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ С‚РµСЃС‚Р°!" << endl;
 					continue;
 				}
 
@@ -233,27 +233,27 @@ void PersonUI(User user) {
 				}
 
 
-				showTestMenu(test);
+				showTestMenu(test,&user);
 			}
 
 			break;
 		}
 		case 4: {
-			cout << "До свидания!" << endl;
+			cout << "Р”Рѕ СЃРІРёРґР°РЅРёСЏ!" << endl;
 			return;
 		}
 		}
 	}
 };
 
-// меню гостя
+// РјРµРЅСЋ РіРѕСЃС‚СЏ
 void GuestUI(User user) {
-	cout << "Добро пожаловать, гость!" << endl << endl;
+	cout << "Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ, РіРѕСЃС‚СЊ!" << endl << endl;
 	while (true) {
 		system("cls");
-		cout << "Выберите действие:" << endl;
-		cout << "1. Просмотреть публичные тесты" << endl;
-		cout << "2. Выйти" << endl;
+		cout << "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ:" << endl;
+		cout << "1. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ РїСѓР±Р»РёС‡РЅС‹Рµ С‚РµСЃС‚С‹" << endl;
+		cout << "2. Р’С‹Р№С‚Рё" << endl;
 		int choice;
 		cin >> choice;
 		Test test = Test();
@@ -261,15 +261,15 @@ void GuestUI(User user) {
 		case 1: {
 			Test* temp = new Test();
 			TestsContainer * p = Read("tests/publicTests.txt", true, user);
-			cout << "Меню просмотра публичных тестов" << endl;
+			cout << "РњРµРЅСЋ РїСЂРѕСЃРјРѕС‚СЂР° РїСѓР±Р»РёС‡РЅС‹С… С‚РµСЃС‚РѕРІ" << endl;
 			while (true) {
 				ShowTests(p);
-				cout << " введите номер теста для прохождения" << endl;
-				cout << " введите -1 для выхода" << endl;
-				cout << " введите -2 для сортировки тестов (по возрастанию сложности)" << endl;
-				cout << " введите -3 для сортировки тестов (по убыванию сложности)" << endl;
-				cout << " введите -4 для сортировки тестов по названию (по возрастанию)" << endl;
-				cout << " введите -5 для сортировки тестов по названию (по убыванию)" << endl;
+				cout << " РІРІРµРґРёС‚Рµ РЅРѕРјРµСЂ С‚РµСЃС‚Р° РґР»СЏ РїСЂРѕС…РѕР¶РґРµРЅРёСЏ" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -1 РґР»СЏ РІС‹С…РѕРґР°" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -2 РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С‚РµСЃС‚РѕРІ (РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ СЃР»РѕР¶РЅРѕСЃС‚Рё)" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -3 РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С‚РµСЃС‚РѕРІ (РїРѕ СѓР±С‹РІР°РЅРёСЋ СЃР»РѕР¶РЅРѕСЃС‚Рё)" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -4 РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С‚РµСЃС‚РѕРІ РїРѕ РЅР°Р·РІР°РЅРёСЋ (РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ)" << endl;
+				cout << " РІРІРµРґРёС‚Рµ -5 РґР»СЏ СЃРѕСЂС‚РёСЂРѕРІРєРё С‚РµСЃС‚РѕРІ РїРѕ РЅР°Р·РІР°РЅРёСЋ (РїРѕ СѓР±С‹РІР°РЅРёСЋ)" << endl;
 				int choice;
 				cin >> choice;
 				if (choice == -1) {
@@ -298,7 +298,7 @@ void GuestUI(User user) {
 				}
 				// cheah is valid number
 				if (choice > p->count_tests || choice < 0) {
-					cout << "Неверный номер теста!" << endl;
+					cout << "РќРµРІРµСЂРЅС‹Р№ РЅРѕРјРµСЂ С‚РµСЃС‚Р°!" << endl;
 					continue;
 				}
 				
@@ -310,99 +310,144 @@ void GuestUI(User user) {
 				}
 				
 
-				showTestMenu(test);
+				showTestMenu(test,&user);
 			}
 
 			break;
 		}
 		case 2: {
-			cout << "До свидания!" << endl;
+			cout << "Р”Рѕ СЃРІРёРґР°РЅРёСЏ!" << endl;
 			return;
 		}
 		}
 	}
 };
 
-// меню администратора
+// РјРµРЅСЋ Р°РґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂР°
 void AdminUI(User user) {}
 
 
-// показать тест
+// РїРѕРєР°Р·Р°С‚СЊ С‚РµСЃС‚
 void ShowTest(Test test) {
 	system("cls");
-	cout << "Название теста: " << test.name << endl;
-	cout << "Автор: " << test.author << endl;
-	cout << "Сложность: " << test.difficulty << endl;
+	cout << "РќР°Р·РІР°РЅРёРµ С‚РµСЃС‚Р°: " << test.name << endl;
+	cout << "РђРІС‚РѕСЂ: " << test.author << endl;
+	cout << "РЎР»РѕР¶РЅРѕСЃС‚СЊ: " << test.difficulty << endl;
 	cout << "================" << endl;
-	cout << "Стандартные вопросы: " << endl;
+	cout << "РЎС‚Р°РЅРґР°СЂС‚РЅС‹Рµ РІРѕРїСЂРѕСЃС‹: " << endl;
 	for (int i = 0; i < test.count_q_standart; i++) {
 		cout << i + 1 << ". " << test.q_standart[i].question << endl;
 	}
 	cout << "================" << endl;
-	cout << "Вопросы тестого типа: " << endl;
+	cout << "Р’РѕРїСЂРѕСЃС‹ С‚РµСЃС‚РѕРіРѕ С‚РёРїР°: " << endl;
 	for (int i = 0; i < test.count_q_guest; i++) {
 		cout << i + 1 << ". " << test.q_guest[i].question << endl;
 	}
 	cout << "================" << endl;
 
-	cout << "Нажмите любую клавишу для продолжения..." << endl;
+	cout << "РќР°Р¶РјРёС‚Рµ Р»СЋР±СѓСЋ РєР»Р°РІРёС€Сѓ РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ..." << endl;
 	cin.get();
 	cin.get();
 }
 
-// показать меню теста
+// РїРѕРєР°Р·Р°С‚СЊ РјРµРЅСЋ С‚РµСЃС‚Р°
 void showTestMenu(Test test, User*user) {
-	while (true) {
-		system("cls");
-		cout << "Вы выбрали тест: " << test.name << endl;
-		cout << "Выберите действие:" << endl;
-		cout << "1. Начать тест" << endl;
-		cout << "2. Просмотреть тест" << endl;
-		cout << "3. Просмотреть рейтинг" << endl;
-		cout << "4. Вернуться назад" << endl;
-		int choice;
-		cin >> choice;
-		switch (choice) {
-		case 1: {
-			int result = startTest(test);
-			cout << "Тест пройден!" << endl;
-			cout << "Ваш результат: " << result << endl;
-			float mark = getMark(result);
-			cout << "Ваша оценка: " << mark << endl;
-			cout << "================" << endl;
+	if (test.author == getUserData(user->id, "users/UserData.txt").name) {
+		while (true) {
+			system("cls");
+			cout << "Р’С‹ РІС‹Р±СЂР°Р»Рё С‚РµСЃС‚: " << test.name << endl;
+			cout << "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ:" << endl;
+			cout << "1. РќР°С‡Р°С‚СЊ С‚РµСЃС‚" << endl;
+			cout << "2. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ С‚РµСЃС‚" << endl;
+			cout << "3. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ СЂРµР№С‚РёРЅРі" << endl;
+			cout << "4. Р РµРґР°РєС‚РёСЂРѕРІР°С‚СЊ С‚РµСЃС‚" << endl;
+			cout << "5. Р’РµСЂРЅСѓС‚СЊСЃСЏ РЅР°Р·Р°Рґ" << endl;
+			int choice;
+			cin >> choice;
+			switch (choice) {
+			case 1: {
+				int result = startTest(test);
+				cout << "РўРµСЃС‚ РїСЂРѕР№РґРµРЅ!" << endl;
+				cout << "Р’Р°С€ СЂРµР·СѓР»СЊС‚Р°С‚: " << result << endl;
+				float mark = getMark(result);
+				cout << "Р’Р°С€Р° РѕС†РµРЅРєР°: " << mark << endl;
+				cout << "================" << endl;
 
-			cout << "Нажмите любую клавишу для продолжения..." << endl;
-			cin.get();
-			break;
+				cout << "РќР°Р¶РјРёС‚Рµ Р»СЋР±СѓСЋ РєР»Р°РІРёС€Сѓ РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ..." << endl;
+				cin.get();
+				break;
+			}
+			case 2: {
+				ShowTest(test);
+				break;
+			}
+			case 3: {
+				Raiting * raiting = Read("tests/raiting", test.name,getUserData(user->id, "users/usersData.txt").name);
+				showReiting(raiting, user);
+				return;
+			}
+			case 4: {
+				return;
+			}
+			case 5: {
+				return;
+			}
+			}
 		}
-		case 2: {
-			ShowTest(test);
-			break;
+	}
+	else {
+		while (true) {
+			system("cls");
+			cout << "Р’С‹ РІС‹Р±СЂР°Р»Рё С‚РµСЃС‚: " << test.name << endl;
+			cout << "Р’С‹Р±РµСЂРёС‚Рµ РґРµР№СЃС‚РІРёРµ:" << endl;
+			cout << "1. РќР°С‡Р°С‚СЊ С‚РµСЃС‚" << endl;
+			cout << "2. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ С‚РµСЃС‚" << endl;
+			cout << "3. РџСЂРѕСЃРјРѕС‚СЂРµС‚СЊ СЂРµР№С‚РёРЅРі" << endl;
+			cout << "4. Р’РµСЂРЅСѓС‚СЊСЃСЏ РЅР°Р·Р°Рґ" << endl;
+			int choice;
+			cin >> choice;
+			switch (choice) {
+			case 1: {
+				int result = startTest(test);
+				cout << "РўРµСЃС‚ РїСЂРѕР№РґРµРЅ!" << endl;
+				cout << "Р’Р°С€ СЂРµР·СѓР»СЊС‚Р°С‚: " << result << endl;
+				float mark = getMark(result);
+				cout << "Р’Р°С€Р° РѕС†РµРЅРєР°: " << mark << endl;
+				cout << "================" << endl;
+
+				cout << "РќР°Р¶РјРёС‚Рµ Р»СЋР±СѓСЋ РєР»Р°РІРёС€Сѓ РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ..." << endl;
+				cin.get();
+				break;
+			}
+			case 2: {
+				ShowTest(test);
+				break;
+			}
+			case 3: {
+				return;
+			}
+			case 4: {
+				return;
+			}
+			}
 		}
-		case 3: {
-			return;
-		}
-		case 4: {
-			return;
-		}
-		}	
 	}
 }
 
 
 
 
-// начать тест
+// РЅР°С‡Р°С‚СЊ С‚РµСЃС‚
 int startTest(Test test) {
 	int result = 0;
 	cout << "================" << endl;
-	cout << "Тест начался!" << endl;
+	cout << "РўРµСЃС‚ РЅР°С‡Р°Р»СЃСЏ!" << endl;
 	cout << "================" << endl;
-	cout << "Стандартные вопросы: " << endl;
+	cout << "РЎС‚Р°РЅРґР°СЂС‚РЅС‹Рµ РІРѕРїСЂРѕСЃС‹: " << endl;
 	for (int i = 0; i < test.count_q_standart; i++) {
 		cout << i + 1 << ". " << test.q_standart[i].question << endl;
 		string answer;
-		cout << "Введите ответ: ";
+		cout << "Р’РІРµРґРёС‚Рµ РѕС‚РІРµС‚: ";
 		cin.ignore();
 		getline(cin, answer);
 		if (answer == test.q_standart[i].answer) {
@@ -410,15 +455,15 @@ int startTest(Test test) {
 		}
 	}
 	cout << "================" << endl;
-	cout << "Вопросы тестого типа: " << endl;
+	cout << "Р’РѕРїСЂРѕСЃС‹ С‚РµСЃС‚РѕРіРѕ С‚РёРїР°: " << endl;
 	for (int i = 0; i < test.count_q_guest; i++) {
 		cout << i + 1 << ". " << test.q_guest[i].question << endl;
-		cout << "Варианты ответа: " << endl;
+		cout << "Р’Р°СЂРёР°РЅС‚С‹ РѕС‚РІРµС‚Р°: " << endl;
 		for (int j = 0; j < test.q_guest[i].count_answers; j++) {
 			cout << j + 1 << ". " << test.q_guest[i].answer[j] << endl;
 		}
 		int answer; 
-		cout << "Введите номер ответа: ";
+		cout << "Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ РѕС‚РІРµС‚Р°: ";
 		cin >> answer;
 		cin >> answer;
 		if (answer == test.q_guest[i].right_answer) {
@@ -429,7 +474,7 @@ int startTest(Test test) {
 	return result;
 }
 
-
+// РїРѕР»СѓС‡РёС‚СЊ РѕС†РµРЅРєСѓ
 float getMark(int result){
 	//need the mark from 0 to 10
 	if (result == 0) {
@@ -458,12 +503,12 @@ Test* sortTests(Test* tests,int _size, int choice) {
 	right = sortTests(right,size-mid,choice);
 	return merge(left, right, mid, size - mid, choice);
 }
-
+// merge
 Test* merge(Test* left, Test* right, int l, int r, int choice) {
-	// 2- по возрастанию сложности
-	// 3 - по убыванию сложности
-	// 4 - по названию (по возрастанию)
-	// 5 - по названию (по убыванию)
+	// 2- РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ СЃР»РѕР¶РЅРѕСЃС‚Рё
+	// 3 - РїРѕ СѓР±С‹РІР°РЅРёСЋ СЃР»РѕР¶РЅРѕСЃС‚Рё
+	// 4 - РїРѕ РЅР°Р·РІР°РЅРёСЋ (РїРѕ РІРѕР·СЂР°СЃС‚Р°РЅРёСЋ)
+	// 5 - РїРѕ РЅР°Р·РІР°РЅРёСЋ (РїРѕ СѓР±С‹РІР°РЅРёСЋ)
 	Test* result = new Test[l + r];
 	int i = 0;
 	int j = 0;
@@ -527,46 +572,43 @@ Test* merge(Test* left, Test* right, int l, int r, int choice) {
 	return result;
 }
 
-
+// РїРѕРєР°Р·Р°С‚СЊ СЂРµР№С‚РёРЅРі
 void showReiting(Raiting* raiting, User* user) {
 	system("cls");
-	cout << "Рейтинг теста: " << raiting->test->name << endl;
-	cout << "Средний результат: " << raiting->middle_result << endl;
+	cout << "Р РµР№С‚РёРЅРі С‚РµСЃС‚Р°: " << raiting->test_name << endl;
+	cout << "РЎСЂРµРґРЅРёР№ СЂРµР·СѓР»СЊС‚Р°С‚: " << raiting->middle_result << endl;
 	cout << "================" << endl;
-	cout << "Пользователи:" << endl;
+	cout << "РџРѕР»СЊР·РѕРІР°С‚РµР»Рё:" << endl;
 	bool isGoten = false;
 	Raiting_node* temp = raiting->head;
 	while (temp != nullptr) {
-		cout << temp->user->login << " - " << temp->result << endl;
-		if (temp->user->id == user->id) {
+		cout << temp->user_name << " - " << temp->result << endl;
+		if (temp->user_name == getUserData(user->id, "users/usersData.txt").name) {
 			isGoten = true;
 		}
 		temp = temp->next;
 	}
 	cout << "================" << endl;
 	if (isGoten) {
-		cout << "Ваш наивысший результат: " << LinearFind(raiting, user) << endl;
+		cout << "Р’Р°С€ РЅР°РёРІС‹СЃС€РёР№ СЂРµР·СѓР»СЊС‚Р°С‚: " << LinearFind(raiting, user) << endl;
 		cout << "================" << endl;
 	}
-	cout << "Нажмите любую клавишу для продолжения..." << endl;
+	cout << "РќР°Р¶РјРёС‚Рµ Р»СЋР±СѓСЋ РєР»Р°РІРёС€Сѓ РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ..." << endl;
 	cin.get();
 	cin.get();
 }
-
+// Р»РёРЅРµР№РЅС‹Р№ РїРѕРёСЃРє
 int LinearFind(Raiting* raiting, User* user) {
 	int max = 0;
 	Raiting_node* temp = raiting->head;
 	while (temp != nullptr) {
-		if (temp->user->id == user->id && temp->result > max) {
+		if (temp->user_name == getUserData(user->id, "users/usersData.txt").name && temp->result > max) {
 			max = temp->result;
 		}
 		temp = temp->next;
 	}
 	return max;
 }
-
-
-
 
 
 
