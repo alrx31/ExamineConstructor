@@ -391,7 +391,7 @@ void showTestMenu(Test test, User*user) {
 			case 3: {
 				Raiting* raiting = Read("tests/raiting.txt", &test, user);
 				string user_name  = getUserData(user->id, "users/usersData.txt").name;
-				showReiting(raiting,user, user_name);
+				showRaiting(raiting,user, user_name);
 
 				break;
 			}
@@ -588,7 +588,7 @@ Test* merge(Test* left, Test* right, int l, int r, int choice) {
 }
 
 
-void showReiting(Raiting* raiting, User * user,string user_name) {
+void showRaiting(Raiting* raiting, User * user,string user_name) {
 	system("cls");
 	cout << "Рейтинг теста: " << raiting->test_name << endl;
 	cout << "Средний результат: " << raiting->middle_result << endl;

@@ -13,7 +13,7 @@ float getMark(int result);
 void ShowTest(Test test);
 void ShowTests(TestsContainer* tests);
 void showTestMenu(Test test, User*user);
-void showReiting(Raiting* raiting,User*user, string user_name);
+void showRaiting(Raiting* raiting,User*user, string user_name);
 
 Test* sortTests(Test* tests,int size, int choice);
 Test* merge(Test* left, Test* right, int l, int r, int choice);

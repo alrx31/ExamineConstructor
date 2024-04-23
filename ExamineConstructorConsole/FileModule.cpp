@@ -43,22 +43,69 @@ int WriteToFile(string file_path, Test test) {
 }
 // запись в файл рейтинга
 int WriteToFile(string file_pass, string test_name, string user_name, int result,float mark) {
-	fstream file(file_pass, ios::out | ios::app);	
+	fstream file(file_pass, ios::in);
 	if (!file.is_open()) {
-		cout << "Ошибка открытия файла рейтинга";
+		cout << "Ошибка открытия файла" << endl;
 		return 1;
 	}
+	int count_tests = 0;
+	Raiting * raiting = new Raiting[count_tests+1];
+	int index = -1;
+	while(!file.eof()){
+		string temp;
+		int count_users;
+		file >> temp;
+		file >> count_users;
+		if(temp == test_name){
+			index = count_tests;
+		}
+		Raiting * temp_raiting = new Raiting(test_name);
+		for (int i = 0; i < count_users; i++) {
+			string user;
+			int result;
+			file >> user;
+			file >> result;
+			temp_raiting->push(user, result, getMark(result));
+		}
+		// update array
 
-	file << test_name << endl;
-	file << 1 << endl;
-	for(int i = 0; i < 1; i++){
-		file << user_name <<endl << result << endl;
+		Raiting* temp_raiting1 = new Raiting[count_tests + 1];
+		for (int i = 0; i < count_tests; i++) {
+			temp_raiting1[i] = raiting[i];
+		}
+		raiting = temp_raiting1;
+		raiting[count_tests++] = *temp_raiting;
+		delete temp_raiting;
+		delete[] temp_raiting1;
+	}
+	file.close();
+	if (index == -1) {
+		fstream file(file_pass, ios::out | ios::app);
+		if(!file.is_open()) return 1;
+		file << test_name << endl<< 1<< endl << user_name << endl<< result<<endl;
+		file.close();
+	}
+	else {
+		fstream file(file_pass, ios::out | ios::trunc);
+		if (!file.is_open()) return 1;
+		for (int i = 0; i < count_tests; i++) {
+			if (i == index) {
+				raiting[i].push(user_name, result, mark);
+			}
+			file << raiting[i].test_name << endl << raiting[i].count_users << endl;
+			Raiting_node * temp = raiting[i].head;
+			for(int j = 0; j < raiting[i].count_users; j++){
+				file << temp->user_name << endl << temp->result << endl;
+				temp = temp->next;
+			}
+		}
+		file.close();
 	}
 
-	file.close();
 
 
 	return 0;
+	
 }
 // запись в файл данных пользователя
 int WriteToFile(string file_pass, UserData user) {
@@ -218,7 +265,6 @@ Raiting* Read(string test_path, Test* test, User* user) {
 		cout << "Ошибка открытия файла рейтинга" << endl;
 		return raiting;
 	}
-	int size = 0;
 
 	string test_name;
 	int count_user;
@@ -227,6 +273,8 @@ Raiting* Read(string test_path, Test* test, User* user) {
 
 	while (!file.eof()) {
 		file >> test_name >> count_user;
+
+
 		raiting = new Raiting(test_name);
 		for (int i = 0; i < count_user; i++) {
 			file >> user_name >> result;
