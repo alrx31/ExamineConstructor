@@ -261,11 +261,23 @@ Raiting* Read(string test_path, Test* test, User* user) {
 }
 
 
-int UpdateTest(Test* test, Test test1,User user,string file_path) {
-	TestsContainer* tests = new TestsContainer();
+int UpdateTest(Test* test, Test test_modified,User user,string file_path) {
+	TestsContainer * tests = Read(file_path, true, user);
+	int index = -1;
+	for (int i = 0; i < tests->count_tests; i++) {
+		if (tests->tests[i].name == test->name) {
+			index = i;
+			break;
+		}
+	}
 
-	fstream file(file_path, ios::in);
-
-
+	tests->tests[index] = test_modified;
+	fstream file(file_path, ios::out | ios::trunc);
+	if(!file.is_open()) return 1;
+	for (int i = 0; i < tests->count_tests; i++) {
+		WriteToFile(file_path, tests->tests[i]);
+	}
+	file.close();
+	return 0;
 }
 

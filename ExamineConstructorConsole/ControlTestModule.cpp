@@ -139,8 +139,8 @@ void PersonUI(User user) {
 		}
 		case 2: {
 			cout << "Меню просмотра тестов" << endl;
-			TestsContainer* p = Read("tests/" + to_string(user.id) + "test.txt", false, user);
 			while (true) {
+				TestsContainer* p = Read("tests/" + to_string(user.id) + "test.txt", false, user);
 				ShowTests(p);
 				cout << " введите номер теста для прохождения" << endl;
 				cout << " введите -1 для выхода" << endl;
@@ -449,7 +449,7 @@ void showTestMenu(Test test, User*user) {
 			}
 			case 4: {
 				EditTest(&test, *user);
-				break;
+				return;
 			}
 			case 5: {
 				return;
@@ -750,7 +750,7 @@ void EditTest(Test* test, User user) {
 			break;
 		}
 		case 5: {
-			int res = UpdateTest(test,temp,user,"tests/" + to_string(user.id) + ".txt");
+			int res = UpdateTest(test,temp,user,"tests/" + to_string(user.id) + "test.txt");
 			if (res == 1) {
 				cout << "Ошибка при сохранении теста!" << endl;
 			}
@@ -785,8 +785,10 @@ Test edit_Q_standart(Test temp1){
 		cout << "=====================" << endl;
 		cout << "Выберите действие:" << endl;
 		cout << "1. Добавить вопрос" << endl;
-		cout << "2. Редактировать вопрос" << endl;
-		cout << "3. Удалить вопрос" << endl;
+		if (temp.count_q_standart > 0) {
+			cout << "2. Редактировать вопрос" << endl;
+			cout << "3. Удалить вопрос" << endl;
+		}
 		cout << "4. Выйти" << endl;
 
 		int choice;
@@ -799,6 +801,16 @@ Test edit_Q_standart(Test temp1){
 		catch (const std::exception&)
 		{
 			cout << "Неверный ввод" << endl;
+			Sleep(500);
+			continue;
+		}
+		if (choice < 1 || choice > 4) {
+			cout << "Неверный ввод" << endl;
+			Sleep(500);
+			continue;
+		}
+		if (temp.count_q_standart == 0 && (choice == 2 || choice == 3)) {
+			cout << "Нет вопросов для редактирования!" << endl;
 			Sleep(500);
 			continue;
 		}
@@ -899,7 +911,7 @@ Test edit_Q_standart(Test temp1){
 				Sleep(500);
 				continue;
 			}
-			if (number > temp.count_q_standart || number < 0) {
+			if (number > temp.count_q_standart || number < 1) {
 				cout << "Неверный номер вопроса!" << endl;
 				Sleep(500);
 				continue;
@@ -939,8 +951,10 @@ Test edit_Q_guest(Test temp1) {
 		cout << "=====================" << endl;
 		cout << "Выберите действие:" << endl;
 		cout << "1. Добавить вопрос" << endl;
-		cout << "2. Редактировать вопрос" << endl;
-		cout << "3. Удалить вопрос" << endl;
+		if (temp.count_q_guest > 0) {
+			cout << "2. Редактировать вопрос" << endl;
+			cout << "3. Удалить вопрос" << endl;
+		}
 		cout << "4. Выйти" << endl;
 
 		int choice;
@@ -953,6 +967,16 @@ Test edit_Q_guest(Test temp1) {
 		catch (const std::exception&)
 		{
 			cout << "Неверный ввод" << endl;
+			Sleep(500);
+			continue;
+		}
+		if (choice < 1 || choice > 4) {
+			cout << "Неверный ввод" << endl;
+			Sleep(500);
+			continue;
+		}
+		if (temp.count_q_guest == 0 && (choice == 2 || choice == 3)) {
+			cout << "Нет вопросов для редактирования!" << endl;
 			Sleep(500);
 			continue;
 		}
@@ -1110,7 +1134,7 @@ Test edit_Q_guest(Test temp1) {
 				Sleep(500);
 				continue;
 			}
-			if (number > temp.count_q_guest || number < 0) {
+			if (number > temp.count_q_guest || number < 1) {
 				cout << "Неверный номер вопроса!" << endl;
 				Sleep(500);
 				continue;
