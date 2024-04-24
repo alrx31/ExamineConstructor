@@ -259,3 +259,13 @@ Raiting* Read(string test_path, Test* test, User* user) {
 	file.close();
 	return raiting;
 }
+
+
+int UpdateTest(Test* test, Test test1,User user,string file_path) {
+	TestsContainer* tests = new TestsContainer();
+
+	fstream file(file_path, ios::in);
+
+
+}
+

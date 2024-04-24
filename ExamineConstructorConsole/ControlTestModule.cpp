@@ -76,7 +76,6 @@ void CreateTest(UserData user) {
 			cout << "¬ведите варианты ответа: " << endl;
 			for (int j = 0; j < count_answers; j++) {
 				cout << j + 1 << ". ";
-				cin.ignore();
 				getline(cin, answers[j]);
 			}
 			cout << "¬ведите номер правильного ответа: ";
@@ -449,7 +448,8 @@ void showTestMenu(Test test, User*user) {
 				break;
 			}
 			case 4: {
-				//EditTest();
+				EditTest(&test, *user);
+				break;
 			}
 			case 5: {
 				return;
@@ -729,7 +729,7 @@ void EditTest(Test* test, User user) {
 		case 1: {
 			cout << "¬ведите новое название: ";
 			string name;
-			cin.ignore();
+			
 			getline(cin, name);
 			temp.name = name;
 			break;
@@ -750,7 +750,13 @@ void EditTest(Test* test, User user) {
 			break;
 		}
 		case 5: {
-
+			int res = UpdateTest(test,temp,user,"tests/" + to_string(user.id) + ".txt");
+			if (res == 1) {
+				cout << "ќшибка при сохранении теста!" << endl;
+			}
+			else {
+				cout << "“ест успешно сохранен!" << endl;
+			}
 		}
 		case 6: {
 			return;
@@ -800,7 +806,6 @@ Test edit_Q_standart(Test temp1){
 		case 1: {
 			cout << "¬ведите вопрос: ";
 			string question;
-			cin.ignore();
 			getline(cin, question);
 			cout << "¬ведите ответ: ";
 			string answer;
@@ -850,7 +855,6 @@ Test edit_Q_standart(Test temp1){
 			}
 			cout << "¬ведите новый вопрос: ";
 			string question;
-			cin.ignore();
 			getline(cin, question);
 			cout << "¬ведите новый ответ: ";
 			string answer;
@@ -956,7 +960,6 @@ Test edit_Q_guest(Test temp1) {
 		case 1: {
 			cout << "¬ведите вопрос: ";
 			string question;
-			cin.ignore();
 			getline(cin, question);
 			cout << "¬ведите количество вариантов ответа: ";
 			int count_answers;
@@ -976,7 +979,6 @@ Test edit_Q_guest(Test temp1) {
 			cout << "¬ведите варианты ответа: " << endl;
 			for (int j = 0; j < count_answers; j++) {
 				cout << j + 1 << ". ";
-				cin.ignore();
 				getline(cin, answers[j]);
 			}
 			cout << "¬ведите номер правильного ответа: ";
@@ -1035,7 +1037,6 @@ Test edit_Q_guest(Test temp1) {
 			}
 			cout << "¬ведите новый вопрос: ";
 			string question;
-			cin.ignore();
 			getline(cin, question);
 			cout << "¬ведите количество вариантов ответа: ";
 			int count_answers;
@@ -1054,7 +1055,6 @@ Test edit_Q_guest(Test temp1) {
 			cout << "¬ведите варианты ответа: " << endl;
 			for (int j = 0; j < count_answers; j++) {
 				cout << j + 1 << ". ";
-				cin.ignore();
 				getline(cin, answers[j]);
 			}
 			cout << "¬ведите номер правильного ответа: ";
