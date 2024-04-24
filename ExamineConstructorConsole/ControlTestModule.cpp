@@ -857,7 +857,6 @@ Test edit_Q_standart(Test temp1){
 			getline(cin, answer);
 			cout << "¬ведите новую сложность: ";
 			int difficulty;
-			string temp_cin;
 			getline(cin, temp_cin);
 			try
 			{
@@ -961,7 +960,6 @@ Test edit_Q_guest(Test temp1) {
 			getline(cin, question);
 			cout << "¬ведите количество вариантов ответа: ";
 			int count_answers;
-			string temp_cin;
 			getline(cin, temp_cin);
 			try
 			{
@@ -983,7 +981,6 @@ Test edit_Q_guest(Test temp1) {
 			}
 			cout << "¬ведите номер правильного ответа: ";
 			int right_answer;
-			string temp_cin;
 			getline(cin, temp_cin);
 			try
 			{
@@ -997,7 +994,6 @@ Test edit_Q_guest(Test temp1) {
 			}
 			cout << "¬ведите сложность вопроса: ";
 			int difficulty;
-			string temp_cin;
 			getline(cin, temp_cin);
 			try
 			{
@@ -1021,7 +1017,6 @@ Test edit_Q_guest(Test temp1) {
 		case 2: {
 			cout << "¬ведите номер вопроса дл€ редактировани€: ";
 			int number;
-			string temp_cin;
 			getline(cin, temp_cin);
 			try
 			{
@@ -1044,11 +1039,10 @@ Test edit_Q_guest(Test temp1) {
 			getline(cin, question);
 			cout << "¬ведите количество вариантов ответа: ";
 			int count_answers;
-			string temp_cin1;
-			getline(cin, temp_cin1);
+			getline(cin, temp_cin);
 			try
 			{
-				count_answers = stoi(temp_cin1);
+				count_answers = stoi(temp_cin);
 			}
 			catch (const std::exception&)
 			{
@@ -1065,11 +1059,10 @@ Test edit_Q_guest(Test temp1) {
 			}
 			cout << "¬ведите номер правильного ответа: ";
 			int right_answer;
-			string temp_cin1;
-			getline(cin, temp_cin1);
+			getline(cin, temp_cin);
 			try
 			{
-				right_answer = stoi(temp_cin1);
+				right_answer = stoi(temp_cin);
 			}
 			catch (const std::exception&)
 			{
@@ -1079,7 +1072,6 @@ Test edit_Q_guest(Test temp1) {
 			}
 			cout << "¬ведите сложность вопроса: ";
 			int difficulty;
-			string temp_cin;
 			getline(cin, temp_cin);
 			try
 			{
