@@ -43,22 +43,43 @@ int WriteToFile(string file_path, Test test) {
 }
 // запись в файл рейтинга
 int WriteToFile(string file_pass, string test_name, string user_name, int result,float mark) {
-	fstream file(file_pass, ios::out | ios::app);	
+	fstream file(file_pass, ios::in);
 	if (!file.is_open()) {
-		cout << "Ошибка открытия файла рейтинга";
 		return 1;
 	}
+	string test_name1;
+	int count_user;
+	string user_name1;
+	int result1;
 
-	file << test_name << endl;
-	file << 1 << endl;
-	for(int i = 0; i < 1; i++){
-		file << user_name <<endl << result << endl;
+	file >> test_name1;
+	if (test_name1 == test_name) {
+		file >> count_user;
+		RaitingFileModule* raiting = new RaitingFileModule[count_user];
+		for (int i = 0; i < count_user; i++) {
+			file >> user_name1 >> result1;
+			raiting[i] = RaitingFileModule(user_name1, result1);
+		}
+
+		file.close();
+		file.open(file_pass, ios::out | ios::trunc);
+		file << test_name<< endl << count_user + 1 << endl;
+		for (int i = 0; i < count_user; i++) {
+			file << raiting[i].user_name << endl << raiting[i].result << endl;
+		}
+		file << user_name << endl << result << endl;
+		file.close();
+		return 0;
 	}
-
-	file.close();
-
-
-	return 0;
+	else {
+		cout << "Тест не найден" << endl;
+		file.close();
+		file.open(file_pass, ios::out | ios::trunc);
+		file << test_name << endl << 1 << endl;
+		file << user_name << endl << result << endl;
+		file.close();
+		return 0;
+	}
 }
 // запись в файл данных пользователя
 int WriteToFile(string file_pass, UserData user) {
@@ -218,23 +239,23 @@ Raiting* Read(string test_path, Test* test, User* user) {
 		cout << "Ошибка открытия файла рейтинга" << endl;
 		return raiting;
 	}
-	int size = 0;
 
 	string test_name;
 	int count_user;
 	string user_name;
 	int result;
 
-	while (!file.eof()) {
-		file >> test_name >> count_user;
-		raiting = new Raiting(test_name);
+	file >> test_name >> count_user;
+	if (test_name == test->name) {
 		for (int i = 0; i < count_user; i++) {
 			file >> user_name >> result;
-			raiting->push(user_name, result, getMark(result));
+			raiting->push(user_name, getMark(result), result);
 		}
-		if(test_name == test->name) break;
 	}
-
+	else {
+		cout << "Тест не найден" << endl;
+	}
+	raiting->print();
 	file.close();
 	return raiting;
 }

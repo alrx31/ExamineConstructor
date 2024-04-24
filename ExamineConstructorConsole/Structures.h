@@ -119,6 +119,15 @@ public:
     void push(string user_name, int mark, int result);
     void BubleSort();
     void swap(Raiting_node* prev, Raiting_node* curr, Raiting_node* next, Raiting_node* H);
+    void print();
+};
+
+class RaitingFileModule {
+public:
+    string user_name;
+    int result;
+    RaitingFileModule();
+    RaitingFileModule(string user_name, int result);
 };
 
 
