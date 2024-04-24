@@ -124,24 +124,3 @@ User Login() {
 	}
 
 }
-
-
-
-
-
-
-/*
-int id;
-	string name;
-	string surname;
-	string login;
-	int age;
-	string email;
-*/
-
-
-
-
-
-
-

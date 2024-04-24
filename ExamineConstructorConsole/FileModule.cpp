@@ -45,67 +45,41 @@ int WriteToFile(string file_path, Test test) {
 int WriteToFile(string file_pass, string test_name, string user_name, int result,float mark) {
 	fstream file(file_pass, ios::in);
 	if (!file.is_open()) {
-		cout << "Ошибка открытия файла" << endl;
 		return 1;
 	}
-	int count_tests = 0;
-	Raiting * raiting = new Raiting[count_tests+1];
-	int index = -1;
-	while(!file.eof()){
-		string temp;
-		int count_users;
-		file >> temp;
-		file >> count_users;
-		if(temp == test_name){
-			index = count_tests;
-		}
-		Raiting * temp_raiting = new Raiting(test_name);
-		for (int i = 0; i < count_users; i++) {
-			string user;
-			int result;
-			file >> user;
-			file >> result;
-			temp_raiting->push(user, result, getMark(result));
-		}
-		// update array
+	string test_name1;
+	int count_user;
+	string user_name1;
+	int result1;
 
-		Raiting* temp_raiting1 = new Raiting[count_tests + 1];
-		for (int i = 0; i < count_tests; i++) {
-			temp_raiting1[i] = raiting[i];
+	file >> test_name1;
+	if (test_name1 == test_name) {
+		file >> count_user;
+		RaitingFileModule* raiting = new RaitingFileModule[count_user];
+		for (int i = 0; i < count_user; i++) {
+			file >> user_name1 >> result1;
+			raiting[i] = RaitingFileModule(user_name1, result1);
 		}
-		raiting = temp_raiting1;
-		raiting[count_tests++] = *temp_raiting;
-		delete temp_raiting;
-		delete[] temp_raiting1;
-	}
-	file.close();
-	if (index == -1) {
-		fstream file(file_pass, ios::out | ios::app);
-		if(!file.is_open()) return 1;
-		file << test_name << endl<< 1<< endl << user_name << endl<< result<<endl;
+
 		file.close();
+		file.open(file_pass, ios::out | ios::trunc);
+		file << test_name<< endl << count_user + 1 << endl;
+		for (int i = 0; i < count_user; i++) {
+			file << raiting[i].user_name << endl << raiting[i].result << endl;
+		}
+		file << user_name << endl << result << endl;
+		file.close();
+		return 0;
 	}
 	else {
-		fstream file(file_pass, ios::out | ios::trunc);
-		if (!file.is_open()) return 1;
-		for (int i = 0; i < count_tests; i++) {
-			if (i == index) {
-				raiting[i].push(user_name, result, mark);
-			}
-			file << raiting[i].test_name << endl << raiting[i].count_users << endl;
-			Raiting_node * temp = raiting[i].head;
-			for(int j = 0; j < raiting[i].count_users; j++){
-				file << temp->user_name << endl << temp->result << endl;
-				temp = temp->next;
-			}
-		}
+		cout << "Тест не найден" << endl;
 		file.close();
+		file.open(file_pass, ios::out | ios::trunc);
+		file << test_name << endl << 1 << endl;
+		file << user_name << endl << result << endl;
+		file.close();
+		return 0;
 	}
-
-
-
-	return 0;
-	
 }
 // запись в файл данных пользователя
 int WriteToFile(string file_pass, UserData user) {
@@ -271,18 +245,17 @@ Raiting* Read(string test_path, Test* test, User* user) {
 	string user_name;
 	int result;
 
-	while (!file.eof()) {
-		file >> test_name >> count_user;
-
-
-		raiting = new Raiting(test_name);
+	file >> test_name >> count_user;
+	if (test_name == test->name) {
 		for (int i = 0; i < count_user; i++) {
 			file >> user_name >> result;
-			raiting->push(user_name, result, getMark(result));
+			raiting->push(user_name, getMark(result), result);
 		}
-		if(test_name == test->name) break;
 	}
-
+	else {
+		cout << "Тест не найден" << endl;
+	}
+	raiting->print();
 	file.close();
 	return raiting;
 }

@@ -22,3 +22,5 @@ int LinearFind(Raiting* raiting, User* user);
 
 string customHash(const string& input);
 
+Test edit_Q_standart(Test temp);
+Test edit_Q_guest(Test temp);

@@ -156,6 +156,15 @@ void Raiting::BubleSort() {
 }
 
 
+void Raiting::print() {
+	Raiting_node* temp = head;
+	while (temp != nullptr) {
+		cout << temp->user_name << " " << temp->result << " " << temp->mark << endl;
+		temp = temp->next;
+	}
+}
+
+
 Raiting_node::Raiting_node() {}
 Raiting_node::Raiting_node(string user_name, int result, int mark) {
 	this->user_name = user_name;
@@ -177,5 +186,11 @@ TestsContainer::TestsContainer() {}
 TestsContainer::TestsContainer(Test* tests, int size) {
 	this->tests = tests;
 	this->count_tests = size;
+}
+
+RaitingFileModule::RaitingFileModule() {}
+RaitingFileModule::RaitingFileModule(string user_name, int result) {
+	this->user_name = user_name;
+	this->result = result;
 }
 

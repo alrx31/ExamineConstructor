@@ -118,7 +118,17 @@ void PersonUI(User user) {
 		cout << "3. Просмотреть публичные тест" << endl;
 		cout << "4. Выйти" << endl;
 		int choice;
-		cin >> choice;
+		string temp_cin;
+		//cin >> choice;
+		getline(cin, temp_cin);
+		try {
+			choice = stoi(temp_cin);
+		}
+		catch (const std::exception&)
+		{
+			cout << "Неверный ввод" << endl;
+			continue;
+		}
 		Test test = Test();
 		Test* temp = new Test();
 		switch (choice) {
@@ -140,7 +150,17 @@ void PersonUI(User user) {
 				cout << " введите -4 для сортировки тестов по названию (по возрастанию)" << endl;
 				cout << " введите -5 для сортировки тестов по названию (по убыванию)" << endl;
 				int choice;
-				cin >> choice;
+				string temp_cin;
+				//cin >> choice;
+				getline(cin, temp_cin);
+				try {
+					choice = stoi(temp_cin);
+				}
+				catch (const std::exception&)
+				{
+					cout << "Неверный ввод" << endl;
+					continue;
+				}
 				if (choice == -1) {
 					break;
 				}
@@ -195,7 +215,17 @@ void PersonUI(User user) {
 				cout << " введите -4 для сортировки тестов по названию (по возрастанию)" << endl;
 				cout << " введите -5 для сортировки тестов по названию (по убыванию)" << endl;
 				int choice;
-				cin >> choice;
+				string temp_cin;
+				//cin >> choice;
+				getline(cin, temp_cin);
+				try {
+					choice = stoi(temp_cin);
+				}
+				catch (const std::exception&)
+				{
+					cout << "Неверный ввод" << endl;
+					continue;
+				}
 				if (choice == -1) {
 					break;
 				}
@@ -271,8 +301,20 @@ void GuestUI(User user) {
 				cout << " введите -3 для сортировки тестов (по убыванию сложности)" << endl;
 				cout << " введите -4 для сортировки тестов по названию (по возрастанию)" << endl;
 				cout << " введите -5 для сортировки тестов по названию (по убыванию)" << endl;
+				string temp_cin;
 				int choice;
-				cin >> choice;
+				//cin >> choice;
+				getline(cin, temp_cin);
+				try
+				{
+					choice = stoi(temp_cin);
+				}
+				catch (const std::exception&)
+				{
+					cout << "Неверный ввод" << endl;
+					continue;
+				}
+
 				if (choice == -1) {
 					break;
 				}
@@ -348,7 +390,6 @@ void ShowTest(Test test) {
 
 	cout << "Нажмите любую клавишу для продолжения..." << endl;
 	cin.get();
-	cin.get();
 }
 
 // показать меню теста
@@ -363,8 +404,20 @@ void showTestMenu(Test test, User*user) {
 			cout << "3. Просмотреть рейтинг" << endl;
 			cout << "4. Редактировать тест" << endl;
 			cout << "5. Вернуться назад" << endl;
+			string temp_cin;
 			int choice;
-			cin >> choice;
+			//cin >> choice;
+			getline(cin, temp_cin);
+			try
+			{
+				choice = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				continue;
+			}
+
 			switch (choice) {
 			case 1: {
 				int result = startTest(test);
@@ -373,7 +426,7 @@ void showTestMenu(Test test, User*user) {
 				float mark = getMark(result);
 				cout << "Ваша оценка: " << mark << endl;
 				cout << "================" << endl;
-				int res = WriteToFile("tests/raiting.txt", test.name, getUserData(user->id, "users/usersData.txt").name, result, mark);
+				int res = WriteToFile("raiting/" + test.name + ".txt", test.name, getUserData(user->id, "users/usersData.txt").name, result, mark);
 				if (res == 1) {
 					cout << "Ошибка при записи рейтинга!" << endl;
 				}
@@ -389,7 +442,7 @@ void showTestMenu(Test test, User*user) {
 				break;
 			}
 			case 3: {
-				Raiting* raiting = Read("tests/raiting.txt", &test, user);
+				Raiting* raiting = Read("raiting/"+ test.name+".txt", &test, user);
 				string user_name  = getUserData(user->id, "users/usersData.txt").name;
 				showRaiting(raiting,user, user_name);
 
@@ -456,15 +509,15 @@ void showTestMenu(Test test, User*user) {
 // начать тест
 int startTest(Test test) {
 	int result = 0;
+	system("cls");
 	cout << "================" << endl;
-	cout << "Тест начался!" << endl;
+	cout << "Тест "<< test.name<< " начался!" << endl;
 	cout << "================" << endl;
 	cout << "Стандартные вопросы: " << endl;
 	for (int i = 0; i < test.count_q_standart; i++) {
 		cout << i + 1 << ". " << test.q_standart[i].question << endl;
 		string answer;
 		cout << "Введите ответ: ";
-		cin.ignore();
 		getline(cin, answer);
 		if (answer == test.q_standart[i].answer) {
 			result += test.q_standart[i].difficulty;
@@ -611,8 +664,10 @@ void showRaiting(Raiting* raiting, User * user,string user_name) {
 	else {
 		cout << "Вы не проходили данный тест" << endl;
 	}
+
+	cout << "================" << endl;
+
 	cout << "Нажмите любую клавишу для продолжения..." << endl;
-	cin.ignore();
 	cin.get();
 }
 
@@ -629,6 +684,464 @@ int LinearFind(Raiting* raiting, User* user) {
 }
 
 
+
+void EditTest(Test* test, User user) {
+	TestsContainer* tests = Read("tests/" + to_string(getUserData(user.id, "users/usersData.txt").id) + "test.txt", false, user);
+	Test temp = Test();
+
+	for (int i = 0; i < tests->count_tests; i++) {
+		if (test->name == tests->tests[i].name) {
+			temp = tests->tests[i];
+			break;
+		}
+	}
+	if (temp.name == "") {
+		cout << "Тест не найден!" << endl;
+		return;
+	}
+
+	while (true) {
+		system("cls");
+		cout << "=====================" << endl;
+		cout << "Редактирование теста: " << temp.name << endl;
+		cout << "=====================" << endl;
+		cout << "Выберите действие:" << endl;
+		cout << "1. Изменить название" << endl;
+		cout << "2. Изменить сложность" << endl;
+		cout << "3. Изменить стандартные вопросы" << endl;
+		cout << "4. Изменить вопросы тестового типа" << endl;
+		cout << "5. Сохранить изменения" << endl;
+		cout << "6. Выйти" << endl;
+		int choice;
+		string temp_cin;
+		getline(cin, temp_cin);
+		try
+		{
+			choice = stoi(temp_cin);
+		}
+		catch (const std::exception&)
+		{
+			cout << "Неверный ввод" << endl;
+			Sleep(500);
+			continue;
+		}
+		switch (choice) {
+		case 1: {
+			cout << "Введите новое название: ";
+			string name;
+			cin.ignore();
+			getline(cin, name);
+			temp.name = name;
+			break;
+		}
+		case 2: {
+			cout << "Введите новую сложность: ";
+			int difficulty;
+			cin >> difficulty;
+			temp.difficulty = difficulty;
+			break;
+		}
+		case 3: {
+			temp = edit_Q_standart(temp);
+			break;
+		}
+		case 4: {
+			temp = edit_Q_guest(temp);
+			break;
+		}
+		case 5: {
+
+		}
+		case 6: {
+			return;
+		}
+
+
+		}
+
+	}
+
+
+
+
+}
+
+
+Test edit_Q_standart(Test temp1){
+	Test temp = temp1;
+	while (true) {
+		system("cls");
+		cout << "=====================" << endl;
+		cout << "Стандартные вопросы: " << endl;
+		for (int i = 0; i < temp.count_q_standart; i++) {
+			cout << i + 1 << ". " << temp.q_standart[i].question << endl;
+		}
+		cout << "=====================" << endl;
+		cout << "Выберите действие:" << endl;
+		cout << "1. Добавить вопрос" << endl;
+		cout << "2. Редактировать вопрос" << endl;
+		cout << "3. Удалить вопрос" << endl;
+		cout << "4. Выйти" << endl;
+
+		int choice;
+		string temp_cin;
+		getline(cin, temp_cin);
+		try
+		{
+			choice = stoi(temp_cin);
+		}
+		catch (const std::exception&)
+		{
+			cout << "Неверный ввод" << endl;
+			Sleep(500);
+			continue;
+		}
+		switch (choice) {
+		case 1: {
+			cout << "Введите вопрос: ";
+			string question;
+			cin.ignore();
+			getline(cin, question);
+			cout << "Введите ответ: ";
+			string answer;
+			getline(cin, answer);
+			cout << "Введите сложность вопроса: ";
+			int difficulty;
+			string temp_cin;
+			getline(cin, temp_cin);
+			try
+			{
+				difficulty = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			Q_standart* q_standart = new Q_standart[temp.count_q_standart + 1];
+			for (int i = 0; i < temp.count_q_standart; i++) {
+				q_standart[i] = temp.q_standart[i];
+			}
+			q_standart[temp.count_q_standart] = Q_standart(question, answer, difficulty);
+			temp.q_standart = q_standart;
+			temp.count_q_standart++;
+			break;
+		}
+		case 2: {
+			cout << "Введите номер вопроса для редактирования: ";
+			int number;
+			string temp_cin;
+			getline(cin, temp_cin);
+			try
+			{
+				number = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			if (number > temp.count_q_standart || number < 0) {
+				cout << "Неверный номер вопроса!" << endl;
+				Sleep(500);
+				continue;
+			}
+			cout << "Введите новый вопрос: ";
+			string question;
+			cin.ignore();
+			getline(cin, question);
+			cout << "Введите новый ответ: ";
+			string answer;
+			getline(cin, answer);
+			cout << "Введите новую сложность: ";
+			int difficulty;
+			string temp_cin;
+			getline(cin, temp_cin);
+			try
+			{
+				difficulty = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			Q_standart* q_standart = new Q_standart[temp.count_q_standart];
+			for (int i = 0; i < temp.count_q_standart; i++) {
+				if (i == number - 1) {
+					q_standart[i] = Q_standart(question, answer, difficulty);
+				}
+				else {
+					q_standart[i] = temp.q_standart[i];
+				}
+			}
+			temp.q_standart = q_standart;
+			break;
+		}
+		case 3: {
+			cout << "Введите номер вопроса для удаления: ";
+			int number;
+			string temp_cin;
+			getline(cin, temp_cin);
+			try
+			{
+				number = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			if (number > temp.count_q_standart || number < 0) {
+				cout << "Неверный номер вопроса!" << endl;
+				Sleep(500);
+				continue;
+			}
+			Q_standart* q_standart = new Q_standart[temp.count_q_standart - 1];
+			int k = 0;
+			for (int i = 0; i < temp.count_q_standart; i++) {
+				if (i == number - 1) {
+					continue;
+				}
+				q_standart[k] = temp.q_standart[i];
+				k++;
+			}
+			temp.q_standart = q_standart;
+			temp.count_q_standart--;
+			break;
+		}
+		case 4: {
+			return temp;
+		}
+		}
+	}
+
+}
+
+
+
+Test edit_Q_guest(Test temp1) {
+	Test temp = temp1;
+	while (true) {
+		system("cls");
+		cout << "=====================" << endl;
+		cout << "Вопросы тестового типа: " << endl;
+		for (int i = 0; i < temp.count_q_guest; i++) {
+			cout << i + 1 << ". " << temp.q_guest[i].question << endl;
+		}
+		cout << "=====================" << endl;
+		cout << "Выберите действие:" << endl;
+		cout << "1. Добавить вопрос" << endl;
+		cout << "2. Редактировать вопрос" << endl;
+		cout << "3. Удалить вопрос" << endl;
+		cout << "4. Выйти" << endl;
+
+		int choice;
+		string temp_cin;
+		getline(cin, temp_cin);
+		try
+		{
+			choice = stoi(temp_cin);
+		}
+		catch (const std::exception&)
+		{
+			cout << "Неверный ввод" << endl;
+			Sleep(500);
+			continue;
+		}
+		switch (choice) {
+		case 1: {
+			cout << "Введите вопрос: ";
+			string question;
+			cin.ignore();
+			getline(cin, question);
+			cout << "Введите количество вариантов ответа: ";
+			int count_answers;
+			string temp_cin;
+			getline(cin, temp_cin);
+			try
+			{
+				count_answers = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+
+			string* answers = new string[count_answers];
+			cout << "Введите варианты ответа: " << endl;
+			for (int j = 0; j < count_answers; j++) {
+				cout << j + 1 << ". ";
+				cin.ignore();
+				getline(cin, answers[j]);
+			}
+			cout << "Введите номер правильного ответа: ";
+			int right_answer;
+			string temp_cin;
+			getline(cin, temp_cin);
+			try
+			{
+				right_answer = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			cout << "Введите сложность вопроса: ";
+			int difficulty;
+			string temp_cin;
+			getline(cin, temp_cin);
+			try
+			{
+				difficulty = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			Q_guest* q_guest = new Q_guest[temp.count_q_guest + 1];
+			for (int i = 0; i < temp.count_q_guest; i++) {
+				q_guest[i] = temp.q_guest[i];
+			}
+			q_guest[temp.count_q_guest] = Q_guest(question, answers, count_answers, right_answer, difficulty);
+			temp.q_guest = q_guest;
+			temp.count_q_guest++;
+			break;
+		}
+		case 2: {
+			cout << "Введите номер вопроса для редактирования: ";
+			int number;
+			string temp_cin;
+			getline(cin, temp_cin);
+			try
+			{
+				number = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			if (number > temp.count_q_guest || number < 0) {
+				cout << "Неверный номер вопроса!" << endl;
+				Sleep(500);
+				continue;
+			}
+			cout << "Введите новый вопрос: ";
+			string question;
+			cin.ignore();
+			getline(cin, question);
+			cout << "Введите количество вариантов ответа: ";
+			int count_answers;
+			string temp_cin1;
+			getline(cin, temp_cin1);
+			try
+			{
+				count_answers = stoi(temp_cin1);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			string* answers = new string[count_answers];
+			cout << "Введите варианты ответа: " << endl;
+			for (int j = 0; j < count_answers; j++) {
+				cout << j + 1 << ". ";
+				cin.ignore();
+				getline(cin, answers[j]);
+			}
+			cout << "Введите номер правильного ответа: ";
+			int right_answer;
+			string temp_cin1;
+			getline(cin, temp_cin1);
+			try
+			{
+				right_answer = stoi(temp_cin1);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			cout << "Введите сложность вопроса: ";
+			int difficulty;
+			string temp_cin;
+			getline(cin, temp_cin);
+			try
+			{
+				difficulty = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			Q_guest* q_guest = new Q_guest[temp.count_q_guest];
+			for (int i = 0; i < temp.count_q_guest; i++) {
+				if (i == number - 1) {
+					q_guest[i] = Q_guest(question, answers, count_answers, right_answer, difficulty);
+				}
+				else {
+					q_guest[i] = temp.q_guest[i];
+				}
+			}
+			temp.q_guest = q_guest;
+			break;
+		}
+		case 3: {
+			cout << "Введите номер вопроса для удаления: ";
+			int number;
+			string temp_cin;
+			getline(cin, temp_cin);
+			try
+			{
+				number = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			if (number > temp.count_q_guest || number < 0) {
+				cout << "Неверный номер вопроса!" << endl;
+				Sleep(500);
+				continue;
+			}
+			Q_guest* q_guest = new Q_guest[temp.count_q_guest - 1];
+			int k = 0;
+			for (int i = 0; i < temp.count_q_guest; i++) {
+				if (i == number - 1) {
+					continue;
+				}
+				q_guest[k] = temp.q_guest[i];
+				k++;
+			}
+			temp.q_guest = q_guest;
+			temp.count_q_guest--;
+			break;
+		}
+		case 4: {
+			return temp;
+		}
+		}
+	}
+}
 
 
 
