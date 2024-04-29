@@ -175,7 +175,13 @@ TestsContainer* Read(string test_path,bool isPublict,User user) {
 		getline(file, name);
 		getline(file, author);
 		getline(file,difficulty1);
-		difficulty = stoi(difficulty1);
+		try {
+			difficulty = stoi(difficulty1);
+		}
+		catch (const std::exception&)
+		{
+			return nullptr;
+		}
 		string p;
 		getline(file,p);
 		if (p == "1") isPublic = true;

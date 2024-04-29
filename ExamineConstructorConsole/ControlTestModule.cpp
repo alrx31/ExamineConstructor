@@ -23,7 +23,6 @@ void ShowTests(TestsContainer* tests) {
 
 // создание теста
 void CreateTest(UserData user) {
-	try {
 		int userId = user.id;
 		string TestPathPublic = "tests/publicTests.txt";
 		string TestPath = "tests/" + to_string(userId) + "test.txt";
@@ -34,14 +33,43 @@ void CreateTest(UserData user) {
 		getline(cin, name);
 		cout << "введите сложность теста: ";
 		int level;
-		cin >> level;
+		string temp_cin;
+		getline(cin, temp_cin);
+		try {
+			level = stoi(temp_cin);
+		}
+		catch (const std::exception&)
+		{
+			cout << "Неверный ввод" << endl;
+			Sleep(500);
+			return;
+		}
 		cout << "Сделать ли тест публично доступным? (1- да, 0 - нет): ";
 		int isPublic;
-		cin >> isPublic;
+
+		getline(cin, temp_cin);
+		try {
+			isPublic = stoi(temp_cin);
+		}
+		catch (const std::exception&)
+		{
+			cout << "Неверный ввод" << endl;
+			Sleep(500);
+			return;
+		}
 		cout << "Введите количество стандартных вопросов: " << endl;
 		cout << "(вопросы с одним правильным ответом)" << endl;
 		int count_q_standart;
-		cin >> count_q_standart;
+		getline(cin, temp_cin);
+		try {
+			count_q_standart = stoi(temp_cin);
+		}
+		catch (const std::exception&)
+		{
+			cout << "Неверный ввод" << endl;
+			Sleep(500);
+			return;
+		}
 		Q_standart* q_standart = new Q_standart[count_q_standart];
 		cout << "================" << endl;
 		for (int i = 0; i < count_q_standart; i++) {
@@ -55,13 +83,31 @@ void CreateTest(UserData user) {
 			getline(cin, answer);
 			cout << "Введите сложность вопроса: ";
 			int difficulty;
-			cin >> difficulty;
+			getline(cin, temp_cin);
+			try {
+				difficulty = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				return;
+			}
 			q_standart[i] = Q_standart(question, answer, difficulty);
 		}
 		cout << "Введите количество вопросов типа теста: " << endl;
 		cout << "(вопросы с несколькими вариантами ответа (а,б,в,г)" << endl;
 		int count_q_guest;
-		cin >> count_q_guest;
+		getline(cin, temp_cin);
+		try {
+			count_q_guest = stoi(temp_cin);
+		}
+		catch (const std::exception&)
+		{
+			cout << "Неверный ввод" << endl;
+			Sleep(500);
+			return;
+		}
 		Q_guest* q_guest = new Q_guest[count_q_guest];
 		cout << "================" << endl;
 		for (int i = 0; i < count_q_guest; i++) {
@@ -71,7 +117,16 @@ void CreateTest(UserData user) {
 			getline(cin, question);
 			cout << "Введите количество вариантов ответа: ";
 			int count_answers;
-			cin >> count_answers;
+			getline(cin, temp_cin);
+			try {
+				count_answers = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				return;
+			}
 			string* answers = new string[count_answers];
 			cout << "Введите варианты ответа: " << endl;
 			for (int j = 0; j < count_answers; j++) {
@@ -80,10 +135,28 @@ void CreateTest(UserData user) {
 			}
 			cout << "Введите номер правильного ответа: ";
 			int right_answer;
-			cin >> right_answer;
+			getline(cin, temp_cin);
+			try {
+				right_answer = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				return;
+			}
 			cout << "Введите сложность вопроса: ";
 			int difficulty;
-			cin >> difficulty;
+			getline(cin, temp_cin);
+			try {
+				difficulty = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				return;
+			}
 			q_guest[i] = Q_guest(question, answers, count_answers, right_answer, difficulty);
 		}
 		Test test = Test(name, user.name, isPublic, level, count_q_standart, q_standart, count_q_guest, q_guest);
@@ -107,9 +180,6 @@ void CreateTest(UserData user) {
 		else {
 			cout << "Тест успешно создан!" << endl;
 		}
-	}
-	catch (exception e) {
-		cout << "Ошибка при создании теста!" << endl;
 	}
 };
 
@@ -773,6 +843,7 @@ void EditTest(Test* test, User user) {
 		}
 		case 5: {
 			int res = DeleteTest(test, user, "tests/" + to_string(user.id) + "test.txt");
+			int res2 = remove(("raiting/" + test->name + ".txt").c_str());
 			if (res == 1) {
 				cout << "Ошибка при удалении теста!" << endl;
 			}

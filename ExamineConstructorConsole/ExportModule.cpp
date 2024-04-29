@@ -45,6 +45,7 @@ void ExportTestMenu(Test test, User* user) {
 				cout << "Ошибка экспорта" << endl;
 				Sleep(500);
 			}
+			break;
 		}
 		case 2: {
 				int res = ExportTest(test, user, "export/" + test.name + ".txt", false);
@@ -56,6 +57,8 @@ void ExportTestMenu(Test test, User* user) {
 				cout << "Ошибка экспорта" << endl;
 				Sleep(500);
 			}
+				break;
+
 		}
 		case 3: {
 			return;
