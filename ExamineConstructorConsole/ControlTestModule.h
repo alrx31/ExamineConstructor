@@ -27,4 +27,3 @@ Test edit_Q_standart(Test temp);
 Test edit_Q_guest(Test temp);
 
 
-int ExportTestMenu(Test test, User* user);

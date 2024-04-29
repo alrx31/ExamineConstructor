@@ -316,7 +316,7 @@ int CreateRaiting(string file_path, string test_name, string user_name) {
 
 
 
-int ExportTest(Test test,User user, string file_path,bool withAnsvers) {
+int ExportTest(Test test,User* user, string file_path,bool withAnsvers) {
 	if (!withAnsvers) {
 		ofstream file("export/" + test.name + ".txt", ios::trunc);
 		if (!file.is_open()) return 1;
@@ -372,3 +372,4 @@ int ExportTest(Test test,User user, string file_path,bool withAnsvers) {
 
 	return 0;
 }
+

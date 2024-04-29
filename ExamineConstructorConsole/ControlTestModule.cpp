@@ -5,6 +5,7 @@
 #include "Structures.h"
 #include "FileModule.h"
 #include "ControlTestModule.h"
+#include "ExportModule.h"
 
 using namespace std;
 
