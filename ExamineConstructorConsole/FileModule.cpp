@@ -45,6 +45,7 @@ int WriteToFile(string file_path, Test test) {
 int WriteToFile(string file_pass, string test_name, string user_name, int result,float mark) {
 	fstream file(file_pass, ios::in);
 	if (!file.is_open()) {
+		cout << "Ошибка открытия файла" << endl;
 		return 1;
 	}
 	string test_name1;
@@ -153,7 +154,6 @@ TestsContainer* Read(string test_path,bool isPublict,User user) {
 	ifstream file(test_path);
 	
 	if (!file.is_open()) {
-		cout << "Ошибка открытия файла" << endl;
 		return nullptr;
 	}
 	int size = 0;
@@ -281,3 +281,94 @@ int UpdateTest(Test* test, Test test_modified,User user,string file_path) {
 	return 0;
 }
 
+int DeleteTest(Test* test, User user, string file_path) {
+	TestsContainer* tests = Read(file_path, true, user);
+	int index = -1;
+	for (int i = 0; i < tests->count_tests; i++) {
+		if (tests->tests[i].name == test->name) {
+			index = i;
+			break;
+		}
+	}
+	if (index == -1) return 1;
+	Test* temp = new Test[tests->count_tests - 1];
+	int j = 0;
+	for (int i = 0; i < tests->count_tests; i++) {
+		if (i == index) continue;
+		temp[j++] = tests->tests[i];
+	}
+	fstream file(file_path, ios::out | ios::trunc);
+	if (!file.is_open()) return 1;
+	for (int i = 0; i < tests->count_tests - 1; i++) {
+		WriteToFile(file_path, temp[i]);
+	}
+	file.close();
+	return 0;
+}
+
+int CreateRaiting(string file_path, string test_name, string user_name) {
+	fstream file(file_path, ios::out | ios::trunc);
+	if(!file.is_open()) return 1;
+	file << test_name << endl << 0 << endl;
+	file.close();
+	return 0;
+}
+
+
+
+int ExportTest(Test test,User user, string file_path,bool withAnsvers) {
+	if (!withAnsvers) {
+		ofstream file("export/" + test.name + ".txt", ios::trunc);
+		if (!file.is_open()) return 1;
+		file << "====================" << endl;
+		file << "Тест: " << test.name << endl;
+		file << "Автор: " << test.author << endl;
+		file << "Сложность: " << test.difficulty << endl;
+		file << "====================" << endl;
+		file << "Вопросы стандартного типа:" << endl;
+		for (int i = 0; i < test.count_q_standart; i++) {
+			file << "Вопрос: " << test.q_standart[i].question << endl;
+			file << "Сложность: " << test.q_standart[i].difficulty << endl;
+		}
+		cout << "====================" << endl;
+		for (int i = 0; i < test.count_q_guest; i++) {
+			file << "Вопрос: " << test.q_guest[i].question << endl;
+			file << "Сложность: " << test.q_guest[i].difficulty << endl;
+			file << "Варианты ответов:" << endl;
+			for (int j = 0; j < test.q_guest[i].count_answers; j++) {
+				file << j+1 << ") " << test.q_guest[i].answer[j] << endl;
+			}
+		}
+		file << "====================" << endl;
+		file.close();
+	}
+	else {
+		ofstream file("export/" + test.name + ".txt", ios::trunc);
+		if (!file.is_open()) return 1;
+		file << "====================" << endl;
+		file << "Тест: " << test.name << endl;
+		file << "Автор: " << test.author << endl;
+		file << "Сложность: " << test.difficulty << endl;
+		file << "====================" << endl;
+		file << "Вопросы стандартного типа:" << endl;
+		for (int i = 0; i < test.count_q_standart; i++) {
+			file << "Вопрос: " << test.q_standart[i].question << endl;
+			file << "Ответ: " << test.q_standart[i].answer << endl;
+			file << "Сложность: " << test.q_standart[i].difficulty << endl;
+		}
+		cout << "====================" << endl;
+		for (int i = 0; i < test.count_q_guest; i++) {
+			file << "Вопрос: " << test.q_guest[i].question << endl;
+			file << "Сложность: " << test.q_guest[i].difficulty << endl;
+			file << "Варианты ответов:" << endl;
+			for (int j = 0; j < test.q_guest[i].count_answers; j++) {
+				file << j + 1 << ") " << test.q_guest[i].answer[j] << endl;
+			}
+			file << "Правильный ответ: " << test.q_guest[i].right_answer << endl;
+		}
+		file << "====================" << endl;
+		file.close();
+	}
+
+	return 0;
+}

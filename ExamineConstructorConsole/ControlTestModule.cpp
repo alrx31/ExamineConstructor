@@ -30,7 +30,6 @@ void CreateTest(UserData user) {
 		cout << "Меню создания теста" << endl;
 		cout << "Введите название теста: " << endl;
 		string name;
-		cin.ignore();
 		getline(cin, name);
 		cout << "введите сложность теста: ";
 		int level;
@@ -94,6 +93,13 @@ void CreateTest(UserData user) {
 		else {
 			res = WriteToFile(TestPath, test);
 		}
+		//create raiting file
+		int res1 = CreateRaiting("raiting/" + test.name + ".txt", test.name, user.name);
+			
+		if (res1 == 1) {
+			cout << "Ошибка при создании рейтинга!" << endl;
+		}
+
 		if (res == 1) {
 			cout << "Ошибка при создании теста!" << endl;
 		}
@@ -141,7 +147,15 @@ void PersonUI(User user) {
 			cout << "Меню просмотра тестов" << endl;
 			while (true) {
 				TestsContainer* p = Read("tests/" + to_string(user.id) + "test.txt", false, user);
+				
+				if (p == nullptr) {
+					cout << "У вас нет тестов!" << endl;
+					Sleep(500);
+					break;
+				}
+
 				ShowTests(p);
+
 				cout << " введите номер теста для прохождения" << endl;
 				cout << " введите -1 для выхода" << endl;
 				cout << " введите -2 для сортировки тестов (по возрастанию сложности)" << endl;
@@ -403,6 +417,9 @@ void showTestMenu(Test test, User*user) {
 			cout << "3. Просмотреть рейтинг" << endl;
 			cout << "4. Редактировать тест" << endl;
 			cout << "5. Вернуться назад" << endl;
+			cout << "================" << endl;
+			cout << "6. Экспортировать тест" << endl;
+
 			string temp_cin;
 			int choice;
 			//cin >> choice;
@@ -453,6 +470,9 @@ void showTestMenu(Test test, User*user) {
 			}
 			case 5: {
 				return;
+			}
+			case 6: {
+				ExportTestMenu(test,user);
 			}
 			}
 		}
@@ -706,11 +726,11 @@ void EditTest(Test* test, User user) {
 		cout << "Редактирование теста: " << temp.name << endl;
 		cout << "=====================" << endl;
 		cout << "Выберите действие:" << endl;
-		cout << "1. Изменить название" << endl;
-		cout << "2. Изменить сложность" << endl;
-		cout << "3. Изменить стандартные вопросы" << endl;
-		cout << "4. Изменить вопросы тестового типа" << endl;
-		cout << "5. Сохранить изменения" << endl;
+		cout << "1. Изменить сложность" << endl;
+		cout << "2. Изменить стандартные вопросы" << endl;
+		cout << "3. Изменить вопросы тестового типа" << endl;
+		cout << "4. Сохранить изменения" << endl;
+		cout << "5. Удалить тест" << endl;
 		cout << "6. Выйти" << endl;
 		int choice;
 		string temp_cin;
@@ -727,35 +747,36 @@ void EditTest(Test* test, User user) {
 		}
 		switch (choice) {
 		case 1: {
-			cout << "Введите новое название: ";
-			string name;
-			
-			getline(cin, name);
-			temp.name = name;
-			break;
-		}
-		case 2: {
 			cout << "Введите новую сложность: ";
 			int difficulty;
 			cin >> difficulty;
 			temp.difficulty = difficulty;
 			break;
 		}
-		case 3: {
+		case 2: {
 			temp = edit_Q_standart(temp);
 			break;
 		}
-		case 4: {
+		case 3: {
 			temp = edit_Q_guest(temp);
 			break;
 		}
-		case 5: {
+		case 4: {
 			int res = UpdateTest(test,temp,user,"tests/" + to_string(user.id) + "test.txt");
 			if (res == 1) {
 				cout << "Ошибка при сохранении теста!" << endl;
 			}
 			else {
 				cout << "Тест успешно сохранен!" << endl;
+			}
+		}
+		case 5: {
+			int res = DeleteTest(test, user, "tests/" + to_string(user.id) + "test.txt");
+			if (res == 1) {
+				cout << "Ошибка при удалении теста!" << endl;
+			}
+			else {
+				cout << "Тест успешно удален!" << endl;
 			}
 		}
 		case 6: {
@@ -1177,3 +1198,6 @@ Test* InsertionSort(Test* tests, int size) {
 	}
 	return tests;
 }
+
+
+
