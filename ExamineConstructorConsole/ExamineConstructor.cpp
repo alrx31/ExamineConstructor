@@ -12,11 +12,13 @@ using namespace std;
 void Menu(User& user) {
 	while (true) {
 		system("cls");
-		cout << "Выберите действие:" << endl;
-		cout << "1. Регистрация" << endl;
-		cout << "2. Вход" << endl;
-		cout << "3. Продолжить как гость" << endl;
-		cout << "4. Выход" << endl;
+		cout << "===========================" << endl;
+		cout << "| Выберите действие:      |" << endl;
+		cout << "| 1. Регистрация          |" << endl;
+		cout << "| 2. Вход                 |" << endl;
+		cout << "| 3. Продолжить как гость |" << endl;
+		cout << "| 4. Выход                |" << endl;
+		cout << "===========================" << endl;
 		string temp;
 		int choice;
 		getline(cin, temp);

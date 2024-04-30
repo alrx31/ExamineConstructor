@@ -27,11 +27,12 @@ void CreateTest(UserData user) {
 		string TestPathPublic = "tests/publicTests.txt";
 		string TestPath = "tests/" + to_string(userId) + "test.txt";
 		system("cls");
-		cout << "Меню создания теста" << endl;
-		cout << "Введите название теста: " << endl;
+		cout << "===================================================" << endl;
+		cout << "| Меню создания теста                              " << endl;
+		cout << "| Введите название теста: " << endl;
 		string name;
 		getline(cin, name);
-		cout << "введите сложность теста: ";
+		cout << "| Введите сложность теста: ";
 		int level;
 		string temp_cin;
 		getline(cin, temp_cin);
@@ -40,11 +41,11 @@ void CreateTest(UserData user) {
 		}
 		catch (const std::exception&)
 		{
-			cout << "Неверный ввод" << endl;
+			cout << "| Неверный ввод" << endl;
 			Sleep(500);
 			return;
 		}
-		cout << "Сделать ли тест публично доступным? (1- да, 0 - нет): ";
+		cout << "| Сделать ли тест публично доступным? (1- да, 0 - нет): ";
 		int isPublic;
 
 		getline(cin, temp_cin);
@@ -57,8 +58,8 @@ void CreateTest(UserData user) {
 			Sleep(500);
 			return;
 		}
-		cout << "Введите количество стандартных вопросов: " << endl;
-		cout << "(вопросы с одним правильным ответом)" << endl;
+		cout << "| Введите количество стандартных вопросов: " << endl;
+		cout << "| (вопросы с одним правильным ответом)" << endl;
 		int count_q_standart;
 		getline(cin, temp_cin);
 		try {
@@ -71,17 +72,16 @@ void CreateTest(UserData user) {
 			return;
 		}
 		Q_standart* q_standart = new Q_standart[count_q_standart];
-		cout << "================" << endl;
+		cout << "| ================" << endl;
 		for (int i = 0; i < count_q_standart; i++) {
-			cout << "Введите вопрос: ";
+			cout << "| | Введите вопрос: ";
 			string question;
-			cin.ignore();
 			getline(cin, question);
-			cout << "Введите ответ: ";
+			cout << "| | Введите ответ: ";
 			string answer;
 
 			getline(cin, answer);
-			cout << "Введите сложность вопроса: ";
+			cout << "| | Введите сложность вопроса: ";
 			int difficulty;
 			getline(cin, temp_cin);
 			try {
@@ -95,8 +95,8 @@ void CreateTest(UserData user) {
 			}
 			q_standart[i] = Q_standart(question, answer, difficulty);
 		}
-		cout << "Введите количество вопросов типа теста: " << endl;
-		cout << "(вопросы с несколькими вариантами ответа (а,б,в,г)" << endl;
+		cout << "| Введите количество вопросов типа теста: " << endl;
+		cout << "| (вопросы с несколькими вариантами ответа (а,б,в,г)" << endl;
 		int count_q_guest;
 		getline(cin, temp_cin);
 		try {
@@ -109,13 +109,12 @@ void CreateTest(UserData user) {
 			return;
 		}
 		Q_guest* q_guest = new Q_guest[count_q_guest];
-		cout << "================" << endl;
+		cout << "| ================" << endl;
 		for (int i = 0; i < count_q_guest; i++) {
-			cout << "Введите вопрос: ";
+			cout << "| | Введите вопрос: ";
 			string question;
-			cin.ignore();
 			getline(cin, question);
-			cout << "Введите количество вариантов ответа: ";
+			cout << "| | Введите количество вариантов ответа: ";
 			int count_answers;
 			getline(cin, temp_cin);
 			try {
@@ -128,12 +127,12 @@ void CreateTest(UserData user) {
 				return;
 			}
 			string* answers = new string[count_answers];
-			cout << "Введите варианты ответа: " << endl;
+			cout << "| | Введите варианты ответа: " << endl;
 			for (int j = 0; j < count_answers; j++) {
 				cout << j + 1 << ". ";
 				getline(cin, answers[j]);
 			}
-			cout << "Введите номер правильного ответа: ";
+			cout << "| | Введите номер правильного ответа: ";
 			int right_answer;
 			getline(cin, temp_cin);
 			try {
@@ -145,7 +144,7 @@ void CreateTest(UserData user) {
 				Sleep(500);
 				return;
 			}
-			cout << "Введите сложность вопроса: ";
+			cout << "| | Введите сложность вопроса: ";
 			int difficulty;
 			getline(cin, temp_cin);
 			try {
@@ -180,19 +179,20 @@ void CreateTest(UserData user) {
 		else {
 			cout << "Тест успешно создан!" << endl;
 		}
-	}
 };
 
 // меню пользователя
 void PersonUI(User user) {
 	while (true) {
 		system("cls");
-		cout << "Добро пожаловать, " << user.login << "!" << endl << endl;
-		cout << "Выберите действие:" << endl;
-		cout << "1. Создать тест" << endl;
-		cout << "2. Просмотреть тесты" << endl;
-		cout << "3. Просмотреть публичные тест" << endl;
-		cout << "4. Выйти" << endl;
+		cout << "==================================" << endl;
+		cout << "| Добро пожаловать, " << user.login << "!" << endl;
+		cout << "| Выберите действие:             |" << endl;
+		cout << "| 1. Создать тест                |" << endl;
+		cout << "| 2. Просмотреть тесты           |" << endl;
+		cout << "| 3. Просмотреть публичные тесты |" << endl;
+		cout << "| 4. Выйти                       |" << endl;
+		cout << "==================================" << endl;
 		int choice;
 		string temp_cin;
 		//cin >> choice;
@@ -481,15 +481,17 @@ void showTestMenu(Test test, User*user) {
 	if(test.author == user->login){
 		while (true) {
 			system("cls");
-			cout << "Вы выбрали тест: " << test.name << endl;
-			cout << "Выберите действие:" << endl;
-			cout << "1. Начать тест" << endl;
-			cout << "2. Просмотреть тест" << endl;
-			cout << "3. Просмотреть рейтинг" << endl;
-			cout << "4. Редактировать тест" << endl;
-			cout << "5. Вернуться назад" << endl;
-			cout << "================" << endl;
-			cout << "6. Экспортировать тест" << endl;
+			cout << "==============================" << endl;
+			cout << "| Вы выбрали тест: " << test.name << endl;
+			cout << "| Выберите действие:          |" << endl;
+			cout << "| 1. Начать тест              |" << endl;
+			cout << "| 2. Просмотреть тест         |" << endl;
+			cout << "| 3. Просмотреть рейтинг      |" << endl;
+			cout << "| 4. Редактировать тест       |" << endl;
+			cout << "| 5. Вернуться назад          |" << endl;
+			cout << "==============================" << endl;
+			cout << "| 6. Экспортировать тест      |" << endl;
+			cout << "==============================" << endl;
 
 			string temp_cin;
 			int choice;
@@ -624,8 +626,14 @@ int startTest(Test test) {
 		}
 		int answer; 
 		cout << "Введите номер ответа: ";
-		cin >> answer;
-		cin >> answer;
+		string temp_cin;
+		getline(cin, temp_cin);
+		try {
+			answer = stoi(temp_cin);
+		}
+		catch (const exception& e) {
+			answer = 0;
+		}
 		if (answer == test.q_guest[i].right_answer) {
 			result += test.q_guest[i].difficulty;
 		}
@@ -737,6 +745,7 @@ void showRaiting(Raiting* raiting, User * user,string user_name) {
 	cout << "Рейтинг теста: " << raiting->test_name << endl;
 	cout << "Средний результат: " << raiting->middle_result << endl;
 	cout << "================" << endl;
+	raiting->BubleSort();
 	cout << "Пользователи:" << endl;
 	bool isGoten = false;
 	Raiting_node* temp = raiting->head;
@@ -793,16 +802,17 @@ void EditTest(Test* test, User user) {
 
 	while (true) {
 		system("cls");
-		cout << "=====================" << endl;
-		cout << "Редактирование теста: " << temp.name << endl;
-		cout << "=====================" << endl;
-		cout << "Выберите действие:" << endl;
-		cout << "1. Изменить сложность" << endl;
-		cout << "2. Изменить стандартные вопросы" << endl;
-		cout << "3. Изменить вопросы тестового типа" << endl;
-		cout << "4. Сохранить изменения" << endl;
-		cout << "5. Удалить тест" << endl;
-		cout << "6. Выйти" << endl;
+		cout << "========================================" << endl;
+		cout << "| Редактирование теста: " << temp.name << endl;
+		cout << "========================================" << endl;
+		cout << "| Выберите действие:                   |" << endl;
+		cout << "| 1. Изменить сложность                |" << endl;
+		cout << "| 2. Изменить стандартные вопросы      |" << endl;
+		cout << "| 3. Изменить вопросы тестового типа   |" << endl;
+		cout << "| 4. Сохранить изменения               |" << endl;
+		cout << "| 5. Удалить тест                      |" << endl;
+		cout << "| 6. Выйти                             |" << endl;
+		cout << "========================================" << endl;
 		int choice;
 		string temp_cin;
 		getline(cin, temp_cin);

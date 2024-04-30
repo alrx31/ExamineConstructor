@@ -9,13 +9,14 @@ using namespace std;
 void ExportTestMenu(Test test, User* user) {
 	while (true) {
 		system("cls");
-		cout << "=====================" << endl;
-		cout << "Ёкспорт теста: " << test.name << endl;
-		cout << "=====================" << endl;
-		cout << "¬ыберите действие:" << endl;
-		cout << "1. Ёкспортировать с ответами" << endl;
-		cout << "2. Ёкспортировать без ответов" << endl;
-		cout << "3. ¬ыйти" << endl;
+		cout << "=================================" << endl;
+		cout << "| Ёкспорт теста: " << test.name << endl;
+		cout << "=================================" << endl;
+		cout << "| ¬ыберите действие:            |" << endl;
+		cout << "| 1. Ёкспортировать с ответами  |" << endl;
+		cout << "| 2. Ёкспортировать без ответов |" << endl;
+		cout << "| 3. ¬ыйти                      |" << endl;
+		cout << "=================================" << endl;
 		int choice;
 		string temp_cin;
 		getline(cin, temp_cin);

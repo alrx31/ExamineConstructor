@@ -33,27 +33,28 @@ string customHash(const string& input) {
 void RegisterModule() {
 	while(true){
 		system("cls");
-		cout << "–егистраци€" << endl;
-		cout << "¬ведите логин: ";
+		cout << "===========================" << endl;
+		cout << "| –егистраци€" << endl;
+		cout << "| ¬ведите логин: ";
 		string login;
 		cin >> login;
-		cout << "¬ведите пароль: ";
+		cout << "| ¬ведите пароль: ";
 		string password;
 		cin.ignore();
 		getline(cin, password);
 		// Ўифрование парол€
 		password = customHash(password);
 
-		cout << "¬ведите им€: ";
+		cout << "| ¬ведите им€: ";
 		string name;
 		cin >> name;
-		cout << "¬ведите фамилию: ";
+		cout << "| ¬ведите фамилию: ";
 		string surname;
 		cin >> surname;
-		cout << "¬ведите email: ";
+		cout << "| ¬ведите email: ";
 		string email;
 		cin >> email;
-		cout << "¬ведите возраст: ";
+		cout << "| ¬ведите возраст: ";
 		int age;
 		string temp;
 		cin.ignore();
@@ -92,14 +93,14 @@ void RegisterModule() {
 
 User Login() {
 	while (true) {
-		cout << "================================" << endl;
 		system("cls");
-		cout << "¬ход" << endl;
+		cout << "===========================" << endl;
+		cout << "| ¬ход                    " << endl;
 		string login;
 		string password;
-		cout << "¬ведите логин: ";
+		cout << "| ¬ведите логин:";
 		cin >> login;
-		cout << "¬ведите пароль: ";
+		cout << "| ¬ведите пароль: ";
 		cin >> password;
 		// Ўифрование парол€
 		password = customHash(password);
@@ -109,7 +110,7 @@ User Login() {
 
 		User user = FindUser(UserPath, login);
 		if (password != user.password) {
-			cout << "Ќеверный пароль" << endl;
+			cout << "Ќеверный логин или пароль" << endl;
 			Sleep(1000);
 			continue;
 		}
