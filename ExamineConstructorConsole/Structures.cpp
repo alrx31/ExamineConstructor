@@ -94,6 +94,18 @@ void UserData::addtest(Test test) {
 	tests[this->count_tests++] = test;
 };
 
+UserData::UserData(int id, string name, string login, string surname, string email, int age) {
+	this->name = name;
+	this->surname = surname;
+	this->login = login;
+	this->age = age;
+	this->email = email;
+	this->count_tests = 0;
+	this->tests = new Test[count_tests];
+	this->id = id;
+}
+
+
 
 Raiting::Raiting() {}
 Raiting::Raiting(string test_name) {
@@ -194,3 +206,25 @@ RaitingFileModule::RaitingFileModule(string user_name, int result) {
 	this->result = result;
 }
 
+
+UsersContainer::UsersContainer() {
+	this->head = nullptr;
+}
+void UsersContainer::add(UserNode* node) {
+	if (this->head == nullptr) {
+		this->head = node;
+	}
+	else {
+		UserNode* temp = this->head;
+		while (temp->next != nullptr) {
+			temp = temp->next;
+		}
+		temp->next = node;
+	}
+}
+
+UserNode::UserNode() {}
+UserNode::UserNode(UserData data) {
+	this->data = data;
+	this->next = nullptr;
+}

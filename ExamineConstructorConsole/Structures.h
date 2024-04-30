@@ -72,8 +72,25 @@ public:
     int count_tests;
     UserData();
     UserData(string name, string login, string surname, string email, int age);
+    UserData(int id, string name, string login, string surname, string email, int age);
     void addtest(Test test);
 };
+
+class UserNode {
+public:
+    UserData data;
+    UserNode* next;
+    UserNode();
+    UserNode(UserData data);
+};
+
+class UsersContainer {
+public:
+    UserNode* head;
+    UsersContainer();
+    void add(UserNode * node);
+};
+
 
 class Bilet {
     string name;

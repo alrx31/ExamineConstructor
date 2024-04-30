@@ -53,7 +53,7 @@ int WriteToFile(string file_pass, string test_name, string user_name, int result
 	string user_name1;
 	int result1;
 
-	file >> test_name1;
+	getline(file,test_name1) ;
 	if (test_name1 == test_name) {
 		file >> count_user;
 		RaitingFileModule* raiting = new RaitingFileModule[count_user];
@@ -251,7 +251,8 @@ Raiting* Read(string test_path, Test* test, User* user) {
 	string user_name;
 	int result;
 
-	file >> test_name >> count_user;
+	getline(file, test_name);
+	file >> count_user;
 	if (test_name == test->name) {
 		for (int i = 0; i < count_user; i++) {
 			file >> user_name >> result;
@@ -379,3 +380,44 @@ int ExportTest(Test test,User* user, string file_path,bool withAnsvers) {
 	return 0;
 }
 
+UsersContainer* ReadUsers() {
+	fstream file("users/usersData.txt", ios::in);
+	if (!file.is_open()) return nullptr;
+	UsersContainer* data = new UsersContainer();
+	int id;
+	string name;
+	string surname;
+	string login;
+	int age;
+	string email;
+	string temp_cin;
+
+	while (!file.eof()) {
+		file >> temp_cin;
+		try {
+			id = stoi(temp_cin);
+		}
+		catch (const exception) {
+			cout << "Ошибка чтения пользователей";
+			return nullptr;
+		}
+		file >> name >> surname >> login;
+		file >>temp_cin;
+		try {
+			age = stoi(temp_cin);
+		}
+		catch (const exception) {
+			cout << "Ошибка чтения пользователей";
+			return nullptr;
+		}
+		file >> email;
+
+		data->add(new UserNode(UserData(id,name, login, surname, email, age)));
+	}
+
+	file.close();
+	return data;
+
+
+
+}

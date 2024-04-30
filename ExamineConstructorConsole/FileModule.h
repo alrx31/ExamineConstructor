@@ -20,3 +20,5 @@ TestsContainer* Read(string test_path, bool isPublic,User user);
 Raiting* Read(string test_path, Test* test, User* user);
 
 int ExportTest(Test test, User* user, string file_path, bool withAnsvers);
+
+UsersContainer* ReadUsers();
