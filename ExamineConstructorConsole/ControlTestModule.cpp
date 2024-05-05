@@ -283,7 +283,7 @@ void PersonUI(User user) {
 				}
 
 
-				showTestMenu(test,&user);
+				showTestMenu(test,&user,false);
 			}
 
 			break;
@@ -348,7 +348,7 @@ void PersonUI(User user) {
 				}
 
 
-				showTestMenu(test,&user);
+				showTestMenu(test,&user,false);
 			}
 
 			break;
@@ -442,7 +442,7 @@ void GuestUI(User user) {
 				}
 				
 
-				showTestMenu(test,&user);
+				showTestMenu(test,&user,true);
 			}
 
 			break;
@@ -564,7 +564,7 @@ void AdminUI(User user) {
 				}
 
 
-				showTestMenu(test, &user);
+				showTestMenu(test, &user,false);
 			}
 			break;
 		}
@@ -602,7 +602,7 @@ void ShowUsers() {
 
 
 // показать тест
-void ShowTest(Test test) {
+void ShowTest(Test test,bool isPublic) {
 	system("cls");
 	cout << "Название теста: " << test.name << endl;
 	cout << "Автор: " << test.author << endl;
@@ -620,11 +620,14 @@ void ShowTest(Test test) {
 	cout << "================" << endl;
 
 	cout << "Нажмите любую клавишу для продолжения..." << endl;
+	if (isPublic) {
+		cin.ignore();
+	}
 	cin.get();
 }
 
 // показать меню теста
-void showTestMenu(Test test, User*user) {
+void showTestMenu(Test test, User*user, bool isPublic) {
 	if(test.author == user->login){
 		while (true) {
 			system("cls");
@@ -674,13 +677,13 @@ void showTestMenu(Test test, User*user) {
 				break;
 			}
 			case 2: {
-				ShowTest(test);
+				ShowTest(test,isPublic);
 				break;
 			}
 			case 3: {
 				Raiting* raiting = Read("raiting/"+ test.name+".txt", &test, user);
 				string user_name  = getUserData(user->id, "users/usersData.txt").name;
-				showRaiting(raiting,user, user_name);
+				showRaiting(raiting,user, user_name,isPublic);
 
 				break;
 			}
@@ -697,7 +700,7 @@ void showTestMenu(Test test, User*user) {
 			}
 		}
 	}
-	else {
+	else if(!isPublic){
 		while (true) {
 			system("cls");
 			cout << "Вы выбрали тест: " << test.name << endl;
@@ -729,11 +732,61 @@ void showTestMenu(Test test, User*user) {
 				break;
 			}
 			case 2: {
-				ShowTest(test);
+				ShowTest(test,isPublic);
 				break;
 			}
 			case 3: {
+				Raiting* raiting = Read("raiting/" + test.name + ".txt", &test, user);
+				string user_name = getUserData(user->id, "users/usersData.txt").name;
+				showRaiting(raiting, user, user_name,isPublic);
+				break;
+			}
+			case 4: {
 				return;
+			}
+			}
+		}
+	}
+	else {
+		while (true) {
+			system("cls");
+			cout << "Вы выбрали тест: " << test.name << endl;
+			cout << "Выберите действие:" << endl;
+			cout << "1. Начать тест" << endl;
+			cout << "2. Просмотреть тест" << endl;
+			cout << "3. Просмотреть рейтинг" << endl;
+			cout << "4. Вернуться назад" << endl;
+			int choice;
+			cin >> choice;
+			switch (choice) {
+			case 1: {
+				int result = startTest(test);
+				cout << "Тест пройден!" << endl;
+				cout << "Ваш результат: " << result << endl;
+				float mark = getMark(result);
+				cout << "Ваша оценка: " << mark << endl;
+
+				cout << "================" << endl;
+				int res = WriteToFile("tests/raiting.txt", test.name, user->login, result, mark);
+				if (res == 1) {
+					cout << "Ошибка при записи рейтинга!" << endl;
+				}
+				else {
+					cout << "Рейтинг успешно записан!" << endl;
+				}
+				cout << "Нажмите любую клавишу для продолжения..." << endl;
+				cin.get();
+				break;
+			}
+			case 2: {
+				ShowTest(test,isPublic);
+				break;
+			}
+			case 3: {
+				Raiting* raiting = Read("raiting/" + test.name + ".txt", &test, user);
+				string user_name = user->login;
+				showRaiting(raiting, user, user_name,isPublic);
+				break;
 			}
 			case 4: {
 				return;
@@ -887,7 +940,7 @@ Test* merge(Test* left, Test* right, int l, int r, int choice) {
 }
 
 
-void showRaiting(Raiting* raiting, User * user,string user_name) {
+void showRaiting(Raiting* raiting, User * user,string user_name, bool isPublic) {
 	system("cls");
 	cout << "Рейтинг теста: " << raiting->test_name << endl;
 	cout << "Средний результат: " << raiting->middle_result << endl;
@@ -904,17 +957,22 @@ void showRaiting(Raiting* raiting, User * user,string user_name) {
 		temp = temp->next;
 	}
 	cout << "================" << endl;
-	if (isGoten) {
-		cout << "Ваш наивысший результат: " << LinearFind(raiting, user) << endl;
-		cout << "================" << endl;
-	}
-	else {
-		cout << "Вы не проходили данный тест" << endl;
+	if (!isPublic) {
+		if (isGoten) {
+			cout << "Ваш наивысший результат: " << LinearFind(raiting, user) << endl;
+			cout << "================" << endl;
+		}
+		else {
+			cout << "Вы не проходили данный тест" << endl;
+		}
 	}
 
 	cout << "================" << endl;
 
 	cout << "Нажмите любую клавишу для продолжения..." << endl;
+	if (isPublic) {
+		cin.ignore();
+	}
 	cin.get();
 }
 

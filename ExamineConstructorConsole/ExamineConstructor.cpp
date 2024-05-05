@@ -43,6 +43,8 @@ void Menu(User& user) {
 		case 3:
 			user = User();
 			cout << "Продолжение как гость" << endl;
+			cout << "Введите имя: ";
+			getline(cin, user.login);
 			break;
 		case 4:
 			cout << "До свидания!" << endl;
