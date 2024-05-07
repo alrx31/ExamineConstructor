@@ -620,9 +620,7 @@ void ShowTest(Test test,bool isPublic) {
 	cout << "================" << endl;
 
 	cout << "Нажмите любую клавишу для продолжения..." << endl;
-	if (isPublic) {
-		cin.ignore();
-	}
+	cin.clear();
 	cin.get();
 }
 
@@ -720,7 +718,7 @@ void showTestMenu(Test test, User*user, bool isPublic) {
 				cout << "Ваша оценка: " << mark << endl;
 
 				cout << "================" << endl;
-				int res = WriteToFile("tests/raiting.txt", test.name, getUserData(user->id, "users/usersData.txt").name, result, mark);
+				int res = WriteToFile("raiting/" + test.name + ".txt", test.name, getUserData(user->id, "users/usersData.txt").name, result, mark);
 				if (res == 1) {
 					cout << "Ошибка при записи рейтинга!" << endl;
 				}
@@ -767,7 +765,7 @@ void showTestMenu(Test test, User*user, bool isPublic) {
 				cout << "Ваша оценка: " << mark << endl;
 
 				cout << "================" << endl;
-				int res = WriteToFile("tests/raiting.txt", test.name, user->login, result, mark);
+				int res = WriteToFile("raiting/" + test.name + ".txt", test.name, user->login, result, mark);
 				if (res == 1) {
 					cout << "Ошибка при записи рейтинга!" << endl;
 				}
@@ -801,6 +799,8 @@ void showTestMenu(Test test, User*user, bool isPublic) {
 
 // начать тест
 int startTest(Test test) {
+	cin.clear();
+	cin.ignore(32767, '\n');
 	int result = 0;
 	system("cls");
 	cout << "================" << endl;
