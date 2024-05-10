@@ -42,7 +42,7 @@ int WriteToFile(string file_path, Test test) {
 	return 0;
 }
 // запись в файл рейтинга
-int WriteToFile(string file_pass, string test_name, string user_name, int result,float mark) {
+int WriteToFile(string file_pass, string test_name, string user_name, int result) {
 	fstream file(file_pass, ios::in);
 	if (!file.is_open()) {
 		cout << "Ошибка открытия файла" << endl;

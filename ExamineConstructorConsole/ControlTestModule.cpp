@@ -663,7 +663,7 @@ void showTestMenu(Test test, User*user, bool isPublic) {
 				float mark = getMark(result);
 				cout << "Ваша оценка: " << mark << endl;
 				cout << "================" << endl;
-				int res = WriteToFile("raiting/" + test.name + ".txt", test.name, getUserData(user->id, "users/usersData.txt").name, result, mark);
+				int res = WriteToFile("raiting/" + test.name + ".txt", test.name, getUserData(user->id, "users/usersData.txt").name, result);
 				if (res == 1) {
 					cout << "Ошибка при записи рейтинга!" << endl;
 				}
@@ -718,7 +718,7 @@ void showTestMenu(Test test, User*user, bool isPublic) {
 				cout << "Ваша оценка: " << mark << endl;
 
 				cout << "================" << endl;
-				int res = WriteToFile("raiting/" + test.name + ".txt", test.name, getUserData(user->id, "users/usersData.txt").name, result, mark);
+				int res = WriteToFile("raiting/" + test.name + ".txt", test.name, getUserData(user->id, "users/usersData.txt").name, result);
 				if (res == 1) {
 					cout << "Ошибка при записи рейтинга!" << endl;
 				}
@@ -765,7 +765,7 @@ void showTestMenu(Test test, User*user, bool isPublic) {
 				cout << "Ваша оценка: " << mark << endl;
 
 				cout << "================" << endl;
-				int res = WriteToFile("raiting/" + test.name + ".txt", test.name, user->login, result, mark);
+				int res = WriteToFile("raiting/" + test.name + ".txt", test.name, user->login, result);
 				if (res == 1) {
 					cout << "Ошибка при записи рейтинга!" << endl;
 				}

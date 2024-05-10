@@ -2,7 +2,7 @@
 #include "Structures.h"
 #include <iostream>
 
-void PersonUI( User user);
+void PersonUI(User user);
 void GuestUI(User user);
 void AdminUI(User user);
 

@@ -5,7 +5,7 @@
 int WriteToFile(string file_path, User user);
 int WriteToFile(string file_path, Test test);
 int WriteToFile(string file_pass, UserData user);
-int WriteToFile(string file_pass, string test_name, string user_name, int result, float mark);
+int WriteToFile(string file_pass, string test_name, string user_name, int result);
 
 int UpdateTest(Test*test, Test test1,User user, string file_path);
 int DeleteTest(Test* test, User user, string file_path);
