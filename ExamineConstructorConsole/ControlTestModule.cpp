@@ -1485,6 +1485,3 @@ Test* InsertionSort(Test* tests, int size) {
 	}
 	return tests;
 }
-
-
-
