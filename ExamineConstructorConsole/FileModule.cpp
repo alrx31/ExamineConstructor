@@ -38,7 +38,6 @@ int WriteToFile(string file_path, Test test) {
 	}
 	file.close();
 
-
 	return 0;
 }
 // запись в файл рейтинга
