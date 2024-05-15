@@ -32,7 +32,7 @@ void CreateTest(UserData user) {
 		cout << "| Введите название теста: " << endl;
 		string name;
 		getline(cin, name);
-		cout << "| Введите сложность теста: ";
+		cout << "| Введите сложность теста от 1 до 100: ";
 		int level;
 		string temp_cin;
 		getline(cin, temp_cin);
@@ -41,6 +41,11 @@ void CreateTest(UserData user) {
 		}
 		catch (const std::exception&)
 		{
+			cout << "| Неверный ввод" << endl;
+			Sleep(500);
+			return;
+		}
+		if (level < 1 || level > 100) {
 			cout << "| Неверный ввод" << endl;
 			Sleep(500);
 			return;
@@ -58,29 +63,54 @@ void CreateTest(UserData user) {
 			Sleep(500);
 			return;
 		}
-		cout << "| Введите количество стандартных вопросов: " << endl;
-		cout << "| (вопросы с одним правильным ответом)" << endl;
-		int count_q_standart;
-		getline(cin, temp_cin);
-		try {
-			count_q_standart = stoi(temp_cin);
-		}
-		catch (const std::exception&)
-		{
+		if (isPublic != 0 && isPublic != 1) {
 			cout << "Неверный ввод" << endl;
 			Sleep(500);
 			return;
 		}
+		cout << "| Введите количество стандартных вопросов до 1000: " << endl;
+		cout << "| (вопросы с одним правильным ответом)" << endl;
+		int count_q_standart;
+		while (true) {
+			getline(cin, temp_cin);
+			try {
+				count_q_standart = stoi(temp_cin);
+				break;
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			if (count_q_standart < 0 || count_q_standart > 1000) {
+				cout << "Неверное количество вопросов" << endl;
+				Sleep(500);
+				continue;
+			}
+		}
+		
 		Q_standart* q_standart = new Q_standart[count_q_standart];
 		cout << "| ================" << endl;
 		for (int i = 0; i < count_q_standart; i++) {
-			cout << "| | Введите вопрос: ";
+			cout << "| | Введите вопрос: " << i+1 << "." << endl;
 			string question;
 			getline(cin, question);
+			if (question == "" || question == " ") {
+				cout << "Вопрос не может быть пустым" << endl;
+				Sleep(500);
+				i--;
+				continue;
+			}
 			cout << "| | Введите ответ: ";
 			string answer;
-
 			getline(cin, answer);
+			if (answer == "" || answer == " ") {
+				cout << "Ответ не может быть пустым" << endl;
+				Sleep(500);
+				i--;
+				continue;
+			}
 			cout << "| | Введите сложность вопроса: ";
 			int difficulty;
 			getline(cin, temp_cin);
@@ -91,22 +121,37 @@ void CreateTest(UserData user) {
 			{
 				cout << "Неверный ввод" << endl;
 				Sleep(500);
-				return;
+				i--;
+				continue;
+			}
+			if (difficulty < 0 || difficulty > 100) {
+				cout << "Неверная сложность вопроса" << endl;
+				Sleep(500);
+				i--;
+				continue;
 			}
 			q_standart[i] = Q_standart(question, answer, difficulty);
 		}
-		cout << "| Введите количество вопросов типа теста: " << endl;
+		cout << "| Введите количество вопросов типа теста до 1000: " << endl;
 		cout << "| (вопросы с несколькими вариантами ответа (а,б,в,г)" << endl;
 		int count_q_guest;
-		getline(cin, temp_cin);
-		try {
-			count_q_guest = stoi(temp_cin);
-		}
-		catch (const std::exception&)
-		{
-			cout << "Неверный ввод" << endl;
-			Sleep(500);
-			return;
+		while (true) {
+			getline(cin, temp_cin);
+			try {
+				count_q_guest = stoi(temp_cin);
+				break;
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			if (count_q_guest < 0 || count_q_guest > 1000) {
+				cout << "Неверное количество вопросов" << endl;
+				Sleep(500);
+				continue;
+			}
 		}
 		Q_guest* q_guest = new Q_guest[count_q_guest];
 		cout << "| ================" << endl;
@@ -114,47 +159,89 @@ void CreateTest(UserData user) {
 			cout << "| | Введите вопрос: ";
 			string question;
 			getline(cin, question);
-			cout << "| | Введите количество вариантов ответа: ";
-			int count_answers;
-			getline(cin, temp_cin);
-			try {
-				count_answers = stoi(temp_cin);
-			}
-			catch (const std::exception&)
-			{
-				cout << "Неверный ввод" << endl;
+			if (question == "" || question == " ") {
+				cout << "Вопрос не может быть пустым" << endl;
 				Sleep(500);
-				return;
+				i--;
+				continue;
+			}
+			cout << "| | Введите количество вариантов ответа до 20: ";
+			int count_answers;
+			while (true) {
+				getline(cin, temp_cin);
+				try {
+					count_answers = stoi(temp_cin);
+					break;
+				}
+				catch (const std::exception&)
+				{
+					cout << "Неверный ввод" << endl;
+					Sleep(500);
+					i--;
+					continue;
+				}
+				if (count_answers < 1 || count_answers > 20) {
+					cout << "Неверное количество вариантов ответа" << endl;
+					Sleep(500);
+					i--;
+					continue;
+				}
 			}
 			string* answers = new string[count_answers];
 			cout << "| | Введите варианты ответа: " << endl;
 			for (int j = 0; j < count_answers; j++) {
 				cout << j + 1 << ". ";
 				getline(cin, answers[j]);
+				if (answers[j] == "" || answers[j] == " ") {
+					cout << "Ответ не может быть пустым" << endl;
+					Sleep(500);
+					j--;
+					continue;
+				}
 			}
 			cout << "| | Введите номер правильного ответа: ";
 			int right_answer;
-			getline(cin, temp_cin);
-			try {
-				right_answer = stoi(temp_cin);
-			}
-			catch (const std::exception&)
-			{
-				cout << "Неверный ввод" << endl;
-				Sleep(500);
-				return;
+			while (true) {
+				getline(cin, temp_cin);
+				try {
+					right_answer = stoi(temp_cin);
+					break;
+				}
+				catch (const std::exception&)
+				{
+					cout << "Неверный ввод" << endl;
+					Sleep(500);
+					i--;
+					continue;
+				}
+				if (right_answer < 1 || right_answer > count_answers) {
+					cout << "Неверный номер правильного ответа" << endl;
+					Sleep(500);
+					i--;
+					continue;
+				}
 			}
 			cout << "| | Введите сложность вопроса: ";
 			int difficulty;
-			getline(cin, temp_cin);
-			try {
-				difficulty = stoi(temp_cin);
-			}
-			catch (const std::exception&)
-			{
-				cout << "Неверный ввод" << endl;
-				Sleep(500);
-				return;
+			while (true) {
+				getline(cin, temp_cin);
+				try {
+					difficulty = stoi(temp_cin);
+					break;
+				}
+				catch (const std::exception&)
+				{
+					cout << "Неверный ввод" << endl;
+					Sleep(500);
+					i--;
+					continue;
+				}
+				if (difficulty < 0 || difficulty > 100) {
+					cout << "Неверная сложность вопроса" << endl;
+					Sleep(500);
+					i--;
+					continue;
+				}
 			}
 			q_guest[i] = Q_guest(question, answers, count_answers, right_answer, difficulty);
 		}
@@ -228,11 +315,11 @@ void PersonUI(User user) {
 				ShowTests(p);
 				 
 				cout << " введите номер теста для его осмотра" << endl;
-				cout << " введите -1 для выхода" << endl;
-				cout << " введите -2 для сортировки тестов (по возрастанию сложности)" << endl;
-				cout << " введите -3 для сортировки тестов (по убыванию сложности)" << endl;
-				cout << " введите -4 для сортировки тестов по названию (по возрастанию)" << endl;
-				cout << " введите -5 для сортировки тестов по названию (по убыванию)" << endl;
+				cout << " введите (-1) для выхода" << endl;
+				cout << " введите (-2) для сортировки тестов (по возрастанию сложности)" << endl;
+				cout << " введите (-3) для сортировки тестов (по убыванию сложности)" << endl;
+				cout << " введите (-4) для сортировки тестов по названию (по возрастанию)" << endl;
+				cout << " введите (-5) для сортировки тестов по названию (по убыванию)" << endl;
 				int choice;
 				string temp_cin;
 				//cin >> choice;
@@ -293,11 +380,11 @@ void PersonUI(User user) {
 			TestsContainer * p = Read("tests/publicTests.txt", true, user);
 			while (true) {
 				ShowTests(p);
-				cout << " введите -1 для выхода" << endl;
-				cout << " введите -2 для сортировки тестов (по возрастанию сложности)" << endl;
-				cout << " введите -3 для сортировки тестов (по убыванию сложности)" << endl;
-				cout << " введите -4 для сортировки тестов по названию (по возрастанию)" << endl;
-				cout << " введите -5 для сортировки тестов по названию (по убыванию)" << endl;
+				cout << " введите (-1) для выхода" << endl;
+				cout << " введите (-2) для сортировки тестов (по возрастанию сложности)" << endl;
+				cout << " введите (-3) для сортировки тестов (по убыванию сложности)" << endl;
+				cout << " введите (-4) для сортировки тестов по названию (по возрастанию)" << endl;
+				cout << " введите (-5) для сортировки тестов по названию (по убыванию)" << endl;
 				int choice;
 				string temp_cin;
 				//cin >> choice;
@@ -369,8 +456,19 @@ void GuestUI(User user) {
 		cout << "Выберите действие:" << endl;
 		cout << "1. Просмотреть публичные тесты" << endl;
 		cout << "2. Выйти" << endl;
+		string temp_cin;
 		int choice;
-		cin >> choice;
+		getline(cin, temp_cin);
+		try
+		{
+			choice = stoi(temp_cin);
+		}
+		catch (const std::exception&)
+		{
+			cout << "Неверный ввод" << endl;
+			Sleep(500);
+			continue;
+		}
 		Test test = Test();
 		switch (choice) {
 		case 1: {
@@ -386,11 +484,11 @@ void GuestUI(User user) {
 			while (true) {
 				ShowTests(p);
 				cout << " введите номер теста для его осмотра" << endl;
-				cout << " введите -1 для выхода" << endl;
-				cout << " введите -2 для сортировки тестов (по возрастанию сложности)" << endl;
-				cout << " введите -3 для сортировки тестов (по убыванию сложности)" << endl;
-				cout << " введите -4 для сортировки тестов по названию (по возрастанию)" << endl;
-				cout << " введите -5 для сортировки тестов по названию (по убыванию)" << endl;
+				cout << " введите (-1) для выхода" << endl;
+				cout << " введите (-2) для сортировки тестов (по возрастанию сложности)" << endl;
+				cout << " введите (-3) для сортировки тестов (по убыванию сложности)" << endl;
+				cout << " введите (-4) для сортировки тестов по названию (по возрастанию)" << endl;
+				cout << " введите (-5) для сортировки тестов по названию (по убыванию)" << endl;
 				string temp_cin;
 				int choice;
 				getline(cin, temp_cin);
@@ -408,7 +506,6 @@ void GuestUI(User user) {
 					break;
 				}
 				if (choice == -2) {
-					//temp = sortTests(p->tests, p->count_tests, 2);
 					temp = InsertionSort(p->tests, p->count_tests);
 					p->tests = temp;
 					continue;
@@ -428,7 +525,7 @@ void GuestUI(User user) {
 					p->tests = temp;
 					continue;
 				}
-				// cheah is valid number
+				// check is valid number
 				if (choice > p->count_tests || choice < 0) {
 					cout << "Неверный номер теста!" << endl;
 					continue;
@@ -601,6 +698,7 @@ void ShowUsers() {
 
 
 
+
 // показать тест
 void ShowTest(Test test,bool isPublic) {
 	system("cls");
@@ -621,6 +719,7 @@ void ShowTest(Test test,bool isPublic) {
 
 	cout << "Нажмите любую клавишу для продолжения..." << endl;
 	cin.clear();
+	cin.ignore(32767, '\n');
 	cin.get();
 }
 
@@ -643,7 +742,6 @@ void showTestMenu(Test test, User*user, bool isPublic) {
 
 			string temp_cin;
 			int choice;
-			//cin >> choice;
 			getline(cin, temp_cin);
 			try
 			{
@@ -707,8 +805,19 @@ void showTestMenu(Test test, User*user, bool isPublic) {
 			cout << "2. Просмотреть тест" << endl;
 			cout << "3. Просмотреть рейтинг" << endl;
 			cout << "4. Вернуться назад" << endl;
+			
+			string temp_cin;
 			int choice;
-			cin >> choice;
+			getline(cin, temp_cin);
+			try
+			{
+				choice = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				continue;
+			}
 			switch (choice) {
 			case 1: {
 				int result = startTest(test);
@@ -754,8 +863,18 @@ void showTestMenu(Test test, User*user, bool isPublic) {
 			cout << "2. Просмотреть тест" << endl;
 			cout << "3. Просмотреть рейтинг" << endl;
 			cout << "4. Вернуться назад" << endl;
+			string temp_cin;
 			int choice;
-			cin >> choice;
+			getline(cin, temp_cin);
+			try
+			{
+				choice = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				continue;
+			}
 			switch (choice) {
 			case 1: {
 				int result = startTest(test);
@@ -1008,7 +1127,7 @@ void EditTest(Test* test, User user) {
 	while (true) {
 		system("cls");
 		cout << "========================================" << endl;
-		cout << "| Редактирование теста: " << temp.name << endl;
+		cout << "| Редактирование теста: " << temp.name << "Сложность: "<< temp.difficulty << endl;
 		cout << "========================================" << endl;
 		cout << "| Выберите действие:                   |" << endl;
 		cout << "| 1. Изменить сложность                |" << endl;
@@ -1035,7 +1154,24 @@ void EditTest(Test* test, User user) {
 		case 1: {
 			cout << "Введите новую сложность: ";
 			int difficulty;
-			cin >> difficulty;
+			string temp_cin;
+			getline(cin, temp_cin);
+			try
+			{
+				difficulty = stoi(temp_cin);
+			}
+			catch (const std::exception&)
+			{
+				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			if (difficulty < 0 || difficulty > 100) {
+				cout << "Сложность должна быть в диапазоне от 0 до 100" << endl;
+				Sleep(500);
+				continue;
+			}
+
 			temp.difficulty = difficulty;
 			break;
 		}
@@ -1055,6 +1191,7 @@ void EditTest(Test* test, User user) {
 			else {
 				cout << "Тест успешно сохранен!" << endl;
 			}
+			break;
 		}
 		case 5: {
 			int res = DeleteTest(test, user, "tests/" + to_string(user.id) + "test.txt");
@@ -1065,6 +1202,7 @@ void EditTest(Test* test, User user) {
 			else {
 				cout << "Тест успешно удален!" << endl;
 			}
+			break;
 		}
 		case 6: {
 			return;
@@ -1127,9 +1265,19 @@ Test edit_Q_standart(Test temp1){
 			cout << "Введите вопрос: ";
 			string question;
 			getline(cin, question);
+			if (question == "") {
+				cout << "Вопрос не может быть пустым!" << endl;
+				Sleep(500);
+				continue;
+			}
 			cout << "Введите ответ: ";
 			string answer;
 			getline(cin, answer);
+			if (answer == "") {
+				cout << "Ответ не может быть пустым!" << endl;
+				Sleep(500);
+				continue;
+			}
 			cout << "Введите сложность вопроса: ";
 			int difficulty;
 			string temp_cin;
@@ -1144,6 +1292,12 @@ Test edit_Q_standart(Test temp1){
 				Sleep(500);
 				continue;
 			}
+			if (difficulty < 0 || difficulty > 100) {
+				cout << "Сложность должна быть в диапазоне от 0 до 100" << endl;
+				Sleep(500);
+				continue;
+			}
+			
 			Q_standart* q_standart = new Q_standart[temp.count_q_standart + 1];
 			for (int i = 0; i < temp.count_q_standart; i++) {
 				q_standart[i] = temp.q_standart[i];
@@ -1176,9 +1330,21 @@ Test edit_Q_standart(Test temp1){
 			cout << "Введите новый вопрос: ";
 			string question;
 			getline(cin, question);
+			if (question == "")
+			{
+				cout << "Вопрос не может быть пустым!" << endl;
+				Sleep(500);
+				continue;
+			}
 			cout << "Введите новый ответ: ";
 			string answer;
 			getline(cin, answer);
+			if (answer == "")
+			{
+				cout << "Ответ не может быть пустым!" << endl;
+				Sleep(500);
+				continue;
+			}
 			cout << "Введите новую сложность: ";
 			int difficulty;
 			getline(cin, temp_cin);
@@ -1189,6 +1355,11 @@ Test edit_Q_standart(Test temp1){
 			catch (const std::exception&)
 			{
 				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			if (difficulty < 0 || difficulty > 100) {
+				cout << "Сложность должна быть в диапазоне от 0 до 100" << endl;
 				Sleep(500);
 				continue;
 			}
@@ -1293,6 +1464,11 @@ Test edit_Q_guest(Test temp1) {
 			cout << "Введите вопрос: ";
 			string question;
 			getline(cin, question);
+			if (question == "") {
+				cout << "Вопрос не может быть пустым!" << endl;
+				Sleep(500);
+				continue;
+			}
 			cout << "Введите количество вариантов ответа: ";
 			int count_answers;
 			getline(cin, temp_cin);
@@ -1306,13 +1482,25 @@ Test edit_Q_guest(Test temp1) {
 				Sleep(500);
 				continue;
 			}
+			if (count_answers < 1 || count_answers > 20) {
+				cout << "Количество вариантов ответа должно быть в диапазоне от 1 до 20" << endl;
+				Sleep(500);
+				continue;
+			}
 
 			string* answers = new string[count_answers];
 			cout << "Введите варианты ответа: " << endl;
 			for (int j = 0; j < count_answers; j++) {
 				cout << j + 1 << ". ";
 				getline(cin, answers[j]);
+				if (answers[j] == "") {
+					cout << "Ответ не может быть пустым!" << endl;
+					Sleep(500);
+					j--;
+					continue;
+				}
 			}
+			
 			cout << "Введите номер правильного ответа: ";
 			int right_answer;
 			getline(cin, temp_cin);
@@ -1326,6 +1514,11 @@ Test edit_Q_guest(Test temp1) {
 				Sleep(500);
 				continue;
 			}
+			if (right_answer < 1 || right_answer > count_answers) {
+				cout << "Неверный номер правильного ответа!" << endl;
+				Sleep(500);
+				continue;
+			}
 			cout << "Введите сложность вопроса: ";
 			int difficulty;
 			getline(cin, temp_cin);
@@ -1336,6 +1529,11 @@ Test edit_Q_guest(Test temp1) {
 			catch (const std::exception&)
 			{
 				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			if (difficulty < 0 || difficulty > 100) {
+				cout << "Сложность должна быть в диапазоне от 0 до 100" << endl;
 				Sleep(500);
 				continue;
 			}
@@ -1367,9 +1565,16 @@ Test edit_Q_guest(Test temp1) {
 				Sleep(500);
 				continue;
 			}
+
 			cout << "Введите новый вопрос: ";
 			string question;
 			getline(cin, question);
+			if (question == "")
+			{
+				cout << "Вопрос не может быть пустым!" << endl;
+				Sleep(500);
+				continue;
+			}
 			cout << "Введите количество вариантов ответа: ";
 			int count_answers;
 			getline(cin, temp_cin);
@@ -1383,11 +1588,22 @@ Test edit_Q_guest(Test temp1) {
 				Sleep(500);
 				continue;
 			}
+			if (count_answers < 1 || count_answers > 20) {
+				cout << "Количество вариантов ответа должно быть в диапазоне от 1 до 20" << endl;
+				Sleep(500);
+				continue;
+			}
 			string* answers = new string[count_answers];
 			cout << "Введите варианты ответа: " << endl;
 			for (int j = 0; j < count_answers; j++) {
 				cout << j + 1 << ". ";
 				getline(cin, answers[j]);
+				if (answers[j] == "") {
+					cout << "Ответ не может быть пустым!" << endl;
+					Sleep(500);
+					j--;
+					continue;
+				}
 			}
 			cout << "Введите номер правильного ответа: ";
 			int right_answer;
@@ -1402,6 +1618,11 @@ Test edit_Q_guest(Test temp1) {
 				Sleep(500);
 				continue;
 			}
+			if (right_answer < 1 || right_answer > count_answers) {
+				cout << "Неверный номер правильного ответа!" << endl;
+				Sleep(500);
+				continue;
+			}
 			cout << "Введите сложность вопроса: ";
 			int difficulty;
 			getline(cin, temp_cin);
@@ -1412,6 +1633,11 @@ Test edit_Q_guest(Test temp1) {
 			catch (const std::exception&)
 			{
 				cout << "Неверный ввод" << endl;
+				Sleep(500);
+				continue;
+			}
+			if (difficulty < 0 || difficulty > 100) {
+				cout << "Сложность должна быть в диапазоне от 0 до 100" << endl;
 				Sleep(500);
 				continue;
 			}

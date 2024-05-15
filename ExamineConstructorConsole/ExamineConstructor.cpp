@@ -43,8 +43,18 @@ void Menu(User& user) {
 		case 3:
 			user = User();
 			cout << "Продолжение как гость" << endl;
-			cout << "Введите имя: ";
+			cout << "Введите имя: " << endl;
 			getline(cin, user.login);
+			if (user.login == "" || user.login == " ") {
+				cout << "Логин не может быть пустым" << endl;
+				Sleep(1000);
+				continue;
+			}
+			if (HasSpace(user.login)) {
+				cout << "Логин не должен содержать пробелов" << endl;
+				Sleep(1000);
+				continue;
+			}
 			break;
 		case 4:
 			cout << "До свидания!" << endl;
@@ -68,6 +78,7 @@ int main() {
 	setlocale(LC_ALL, "Russian");
 	system("cls");
 	cout << "Добро пожаловать в Конструктор экзаменационных билетов!" << endl << endl;
+	Sleep(1000);
 	User user;
 	user.ruleLevel = -1;
 	Menu(user);

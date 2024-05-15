@@ -5,6 +5,12 @@
 #include <windows.h>
 using namespace std;
 
+bool HasSpace(string str) {
+	for (int i = 0; i < str.length(); i++)
+		if (str[i] == ' ' || str[i] == '\n') return true;
+	return false;
+}
+
 string customHash(const string& input) {
 	// Шаг 1: Инициализация начального значения хеша
 	unsigned long long hash = 0;
@@ -37,27 +43,72 @@ void RegisterModule() {
 		cout << "| Регистрация" << endl;
 		cout << "| Введите логин: ";
 		string login;
-		cin >> login;
+		getline(cin, login);
+		if (HasSpace(login)) {
+			cout << "Логин не должен содержать пробелов" << endl;
+			Sleep(1000);
+			continue;
+		}
+		if (login == "") {
+			cout << "Логин не может быть пустым" << endl;
+			Sleep(1000);
+			continue;
+		}
 		cout << "| Введите пароль: ";
 		string password;
-		cin.ignore();
 		getline(cin, password);
-		// Шифрование пароля
-		password = customHash(password);
-
+		if (HasSpace(password)) {
+			cout << "Пароль не должен содержать пробелов" << endl;
+			Sleep(1000);
+			continue;
+		}
+		if (password == "") {
+			cout << "Пароль не может быть пустым" << endl;
+			Sleep(1000);
+			continue;
+		}
 		cout << "| Введите имя: ";
 		string name;
-		cin >> name;
+		getline(cin, name);
+		if (HasSpace(name)) {
+			cout << "Имя не должно содержать пробелов" << endl;
+			Sleep(1000);
+			continue;
+		}
+		if (name == "") {
+			cout << "Имя не может быть пустым" << endl;
+			Sleep(1000);
+			continue;
+		}
 		cout << "| Введите фамилию: ";
 		string surname;
-		cin >> surname;
+		getline(cin, surname);
+		if (HasSpace(surname)) {
+			cout << "Фамилия не должна содержать пробелов" << endl;
+			Sleep(1000);
+			continue;
+		}
+		if (surname == "") {
+			cout << "Фамилия не может быть пустой" << endl;
+			Sleep(1000);
+			continue;
+		}
 		cout << "| Введите email: ";
 		string email;
-		cin >> email;
+		getline(cin, email);
+		if (HasSpace(email)) {
+			cout << "Email не должен содержать пробелов" << endl;
+			Sleep(1000);
+			continue;
+		}
+		if (email == "") {
+			cout << "Email не может быть пустым" << endl;
+			Sleep(1000);
+			continue;
+		}	
 		cout << "| Введите возраст: ";
 		int age;
 		string temp;
-		cin.ignore();
 		getline(cin, temp);
 		try {
 			age = stoi(temp);
@@ -67,6 +118,22 @@ void RegisterModule() {
 			Sleep(1000);
 			continue;
 		}
+
+		if (age < 0 || age > 120) {
+			cout << "Неверный возраст" << endl;
+			Sleep(1000);
+			continue;
+		}
+		
+		// Шифрование пароля
+		User get_user = FindUser("users/users.txt", login);
+		if (get_user.id != -1) {
+			cout << "Пользователь с таким логином уже существует" << endl;
+			Sleep(1000);
+			continue;
+		}
+		password = customHash(password);
+
 		string UserPath = "users/users.txt";
 		string UserDataPath = "users/usersData.txt";
 
@@ -99,9 +166,19 @@ User Login() {
 		string login;
 		string password;
 		cout << "| Введите логин:";
-		cin >> login;
+		getline(cin, login);
 		cout << "| Введите пароль: ";
-		cin >> password;
+		getline(cin, password);
+		if (login == "" || password == "") {
+			cout << "| Логин или пароль не могут быть пустыми" << endl;
+			Sleep(1000);
+			continue;
+		}
+		if (HasSpace(login) || HasSpace(password)) {
+			cout << "| Логин или пароль не могут содержать пробелы" << endl;
+			Sleep(1000);
+			continue;
+		}
 		// Шифрование пароля
 		password = customHash(password);
 
@@ -110,18 +187,18 @@ User Login() {
 
 		User user = FindUser(UserPath, login);
 		if (password != user.password) {
-			cout << "Неверный логин или пароль" << endl;
+			cout << "| Неверный логин или пароль" << endl;
 			Sleep(1000);
 			continue;
 		}
 		else {
 			UserData usd = getUserData(user.id, UserDataPath);
-			cout << "Вход выполнен" << endl;
+			cout << "| Вход выполнен" << endl;
 			Sleep(1000);
-			cout << "Вы вошли как " << usd.name << endl;
-			cout << "=========================" << endl;
 			return user;
 		}
 	}
 
 }
+
+
