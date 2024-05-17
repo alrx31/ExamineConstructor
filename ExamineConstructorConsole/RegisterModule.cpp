@@ -37,7 +37,7 @@ string customHash(const string& input) {
 }
 
 void RegisterModule() {
-	while(true){
+	while (true) {
 		system("cls");
 		cout << "===========================" << endl;
 		cout << "| Регистрация" << endl;
@@ -105,7 +105,7 @@ void RegisterModule() {
 			cout << "Email не может быть пустым" << endl;
 			Sleep(1000);
 			continue;
-		}	
+		}
 		cout << "| Введите возраст: ";
 		int age;
 		string temp;
@@ -124,7 +124,7 @@ void RegisterModule() {
 			Sleep(1000);
 			continue;
 		}
-		
+
 		// Шифрование пароля
 		User get_user = FindUser("users/users.txt", login);
 		if (get_user.id != -1) {
@@ -149,7 +149,29 @@ void RegisterModule() {
 			cout << "Ошибка в работе в файлами" << endl;
 		status = WriteToFile(UserDataPath, userData);
 		if (status == 0)
+		{
 			cout << "Успешная регистрация" << endl;
+
+			cout << "                                                                  " << endl;
+			cout << "                                                                  " << endl;
+			cout << "                                                                  " << endl;
+			cout << "                                                                  " << endl;
+			cout << "      =======     ||         ||   ||=====\\     ||=======    ||====\\            " << endl;
+			cout << "    //            ||         ||   ||      \\\\   ||           ||     \\\\          " << endl;
+			cout << "   ||             ||         ||   ||      ||   ||           ||     ||          " << endl;
+			cout << "   \\\\             ||         ||   ||      //   ||           ||     //          " << endl;
+			cout << "    \\======\\      ||         ||   ||=====/     ||=======    ||====/            " << endl;
+			cout << "            \\\\    ||         ||   ||           ||           ||    \\\\          " << endl;
+			cout << "            ||    ||         ||   ||           ||           ||     \\\\          " << endl;
+			cout << "           //     \\\\        //    ||           ||           ||      \\\\         " << endl;
+			cout << "     ======/        \\======/      ||           ||=======    ||       \\\\        " << endl;
+			cout << "                                                                  " << endl;
+			cout << "                                                                  " << endl;
+			cout << "                                                                  " << endl;
+			cout << "                                                                  " << endl;
+
+			Sleep(1000);
+		}
 		else
 			cout << "Ошибка в работе в файлами" << endl;
 		Sleep(1000);
