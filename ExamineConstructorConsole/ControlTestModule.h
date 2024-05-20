@@ -4,7 +4,6 @@
 
 void PersonUI(User user);
 void GuestUI(User user);
-void AdminUI(User user);
 
 void CreateTest(UserData user);
 int startTest(Test test);
@@ -27,4 +26,3 @@ Test edit_Q_standart(Test temp);
 Test edit_Q_guest(Test temp);
 
 
-void ShowUsers();

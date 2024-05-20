@@ -4,7 +4,7 @@
 #include "Structures.h"
 #include "RegisterModule.h"
 #include "ControlTestModule.h"
-
+#include "AdministrateModule.h"
 
 using namespace std;
 
