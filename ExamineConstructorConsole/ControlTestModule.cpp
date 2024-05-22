@@ -591,7 +591,7 @@ void ShowTest(Test test,bool isPublic) {
 
 // показать меню теста
 void showTestMenu(Test test, User*user, bool isPublic) {
-	if(test.author == user->login){
+	if(test.author == user->login || user->login == "admin") {
 		while (true) {
 			system("cls");
 			cout << "==============================" << endl;
