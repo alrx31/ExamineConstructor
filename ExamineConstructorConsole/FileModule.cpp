@@ -420,3 +420,28 @@ UsersContainer* ReadUsers() {
 
 
 }
+
+
+
+void WriteToFile(TestItem quests, int number, string path) {
+	fstream file(path, ios::out | ios::trunc);
+	if (!file.is_open()) {
+		cout << "Ошибка открытия файла" << endl;
+		return;
+	}
+	int idx = 1;
+	file << "Билет №" << number << endl;
+	for (int i = 0; i < quests.num_q_st; i++) {
+		file << "Вопрос "<< idx << ": " << quests.q_st[i].question << endl;
+		idx++;
+	}
+	for (int i = 0; i < quests.num_q_gues; i++) {
+		file << "Вопрос " << idx << ": " << quests.q_gues[i].question << endl;
+		file << "Варианты ответов:" << endl;
+		for (int j = 0; j < quests.q_gues[i].count_answers; j++) {
+			file << j + 1 << ") " << quests.q_gues[i].answer[j] << endl;
+		}
+		idx++;
+	}
+
+}

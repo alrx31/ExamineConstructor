@@ -22,3 +22,5 @@ Raiting* Read(string test_path, Test* test, User* user);
 int ExportTest(Test test, User* user, string file_path, bool withAnsvers);
 
 UsersContainer* ReadUsers();
+
+void WriteToFile(TestItem quests, int number, string path);

@@ -156,3 +156,15 @@ public:
     TestsContainer();
     TestsContainer(Test* tests, int size);
 };
+
+
+class TestItem {
+public:
+    int num_q_st;
+    int num_q_gues;
+    Q_standart* q_st;
+    Q_guest* q_gues;
+    TestItem();
+    TestItem(int num_q_st, int num_q_gues, Q_standart* q_st, Q_guest* q_gues);
+
+};

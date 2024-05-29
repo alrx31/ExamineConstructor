@@ -228,3 +228,17 @@ UserNode::UserNode(UserData data) {
 	this->data = data;
 	this->next = nullptr;
 }
+
+
+TestItem::TestItem() {
+	num_q_st = 0;
+	num_q_gues = 0;
+	q_st = nullptr;
+	q_gues = nullptr;
+}
+TestItem::TestItem(int num_q_st, int num_q_gues, Q_standart* q_st, Q_guest* q_gues) {
+	this->num_q_st = num_q_st;
+	this->num_q_gues = num_q_gues;
+	this->q_st = q_st;
+	this->q_gues = q_gues;
+}
