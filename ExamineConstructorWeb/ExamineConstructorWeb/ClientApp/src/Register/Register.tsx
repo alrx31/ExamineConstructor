@@ -1,10 +1,13 @@
 ﻿import react, {useState} from 'react';
 import "./Register.scss"
 import {Interface} from "node:readline";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
 export const Register = (
+    
 ) => {
+    let history = useNavigate();
+    const [status, setStatus] = useState(0);
     const [formData, SetFormData] = useState(
         {
             login:'',
@@ -40,8 +43,11 @@ export const Register = (
             body: JSON.stringify(data)
         }).then(response => response.json())
             .then(data => {
+                setStatus(2)
                 console.log(data);
+                history('/login')
             }).catch(error => {
+                setStatus(1)
                 console.error(error);
             })
     }
@@ -49,7 +55,8 @@ export const Register = (
     
     return (
         <div className="register-page">
-            <form onSubmit={handleSubmit} className="register-form">
+            <h2>Register</h2>
+            <form onSubmit={handleSubmit} className={["register-form",status == 1 ? "error-form" : ""].join(" ")}>
                 <div className="form-group">
                     <label htmlFor="login">Login</label>
                     <input
@@ -111,7 +118,7 @@ export const Register = (
                     />
                 </div>
                 <button type="submit" className="register-button">Register</button>
-                <NavLink to={'/login'}>login</NavLink>
+                <NavLink to={'/login'}>Login</NavLink>
             </form>
         </div>
     )

@@ -1,9 +1,13 @@
-﻿import react from 'react'
+﻿import React, {useState} from 'react'
 import './Register.scss'
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
-export const Login = ()=>{
-    const [formData, setFormData] = react.useState({
+export const Login = (
+    setUser:any
+)=>{
+    let history = useNavigate();
+    const [status, setStatus] = useState(0);
+    const [formData, setFormData] = useState({
         login: '',
         password: ''
     })
@@ -28,17 +32,19 @@ export const Login = ()=>{
             body: JSON.stringify(data)
         }).then(response => response.json())
             .then((data:IUserData) => {
-                
                 console.log(data);
+                setUser(data);
+                history('/');
             }).catch(error => {
+                setStatus(1)
                 console.error(error);
             })
     }
     
     return (
         <div className="register-page">
-            <h2>Login Page</h2>
-            <form onSubmit={handleSubmit} className="login-form">
+            <h2>Login</h2>
+            <form onSubmit={handleSubmit} className={["login-form",status == 1 ? "error-form" : ""].join(' ')}>
                 <div className="form-group">
                     <label htmlFor="login">Login</label>
                     <input
@@ -60,7 +66,7 @@ export const Login = ()=>{
                     />
                 </div>
                 <button type="submit" className="login-button">Login</button>
-                <NavLink to={'/register'}>register</NavLink>
+                <NavLink to={'/register'}>Register</NavLink>
             </form>
         </div>
     )

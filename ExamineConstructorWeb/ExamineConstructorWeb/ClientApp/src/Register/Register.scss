@@ -31,6 +31,38 @@ h2 {
   max-width: 400px;
   box-sizing: border-box;
 }
+
+.error-form {
+  input{
+    border-color: var(--red);
+    animation: error-shake 0.3s ease;
+  }
+  label{
+    color: var(--red);
+    animation: error-shake 0.3s ease;
+  }
+}
+
+@keyframes error-shake {
+  0%{
+  transform: translateX(0);
+  }
+    25% {
+      transform: translateX(-10px);
+    }
+    50% {
+      transform: translateX(10px);
+    }
+    75% {
+      transform: translateX(-10px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  
+}
+
+
 .form-group {
   margin-bottom: 15px;
   width: 100%;
@@ -102,6 +134,10 @@ a:active{
     color: var(--lightblue);
 }
 
+a:focus{
+    outline: none;
+    text-decoration: underline;
+}
 .register-button {
   width: 100%;
   padding: 10px 15px;
@@ -118,3 +154,7 @@ a:active{
   background-color: var(--lightblue);
 }
 
+button:focus{
+    outline: none;
+  border: 2px solid var(--darkgray);
+}
