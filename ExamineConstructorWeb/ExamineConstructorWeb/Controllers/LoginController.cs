@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ExamineConstructorWeb.Controllers;
 
 
-[Microsoft.AspNetCore.Components.Route("api/[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 public class LoginController: ControllerBase
 {
