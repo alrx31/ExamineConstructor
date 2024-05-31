@@ -6,6 +6,10 @@
   align-items: center;
   justify-content: center;
   background-color: var(--white);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20;
 }
 
 h2 {

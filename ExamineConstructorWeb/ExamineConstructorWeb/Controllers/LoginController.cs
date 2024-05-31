@@ -20,6 +20,7 @@ public class LoginController: ControllerBase
     {
         if (ModelState.IsValid)
         {
+            model.Password = model.Password.GetHashCode().ToString();
             var user = _context.Users.FirstOrDefault(u => u.Login == model.Login && u.Password == model.Password);
             if (user != null)
             {

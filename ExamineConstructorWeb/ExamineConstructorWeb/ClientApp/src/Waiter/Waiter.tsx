@@ -5,7 +5,7 @@ export const Waiter = ()=>{
     
     return (
         <div className={"Waiter"}>
-            Waiter
+            <div className="waiter"></div>
         </div>
     )
 }

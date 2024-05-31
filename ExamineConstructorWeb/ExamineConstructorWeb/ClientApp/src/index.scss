@@ -52,7 +52,7 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
 
 
 body,html {
-	background-color: #689ba6;
+	background-color: var(--white);
 	overflow-x: hidden;
 	--lightblue: #007bff;
 	--darkgray: #333;

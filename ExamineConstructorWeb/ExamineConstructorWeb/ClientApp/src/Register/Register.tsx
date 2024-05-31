@@ -2,11 +2,13 @@
 import "./Register.scss"
 import {Interface} from "node:readline";
 import {NavLink, useNavigate} from "react-router-dom";
+import {Waiter} from "../Waiter/Waiter";
 
 export const Register = (
     
 ) => {
     let history = useNavigate();
+    const [isLoad, setIsLoad] = useState(false);
     const [status, setStatus] = useState(0);
     const [formData, SetFormData] = useState(
         {
@@ -23,6 +25,7 @@ export const Register = (
     
     let handleSubmit = (event:any)=>{
         event.preventDefault();
+        setIsLoad(true);
         sentData(formData);
     }
     
@@ -43,10 +46,12 @@ export const Register = (
             body: JSON.stringify(data)
         }).then(response => response.json())
             .then(data => {
+                setIsLoad(false);
                 setStatus(2)
                 console.log(data);
                 history('/login')
             }).catch(error => {
+                setIsLoad(false);
                 setStatus(1)
                 console.error(error);
             })
@@ -55,6 +60,8 @@ export const Register = (
     
     return (
         <div className="register-page">
+            {isLoad ? <Waiter /> : ""}
+            
             <h2>Register</h2>
             <form onSubmit={handleSubmit} className={["register-form",status == 1 ? "error-form" : ""].join(" ")}>
                 <div className="form-group">
