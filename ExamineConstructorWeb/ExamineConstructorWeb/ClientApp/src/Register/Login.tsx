@@ -4,7 +4,7 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {Waiter} from "../Waiter/Waiter";
 
 export const Login = (
-    setUser:any
+    {setUser = (data:IUserData) => {}}:any
 )=>{
     let history = useNavigate();
     const [isLoad, setIsLoad] = useState(false);
@@ -27,7 +27,8 @@ export const Login = (
     }
     
     let checkData = async (data:any) => {
-        await fetch("https://localhost:7148/api/login", {
+        console.log(JSON.stringify(data));
+        await fetch("https://localhost:7148/api/Login", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'

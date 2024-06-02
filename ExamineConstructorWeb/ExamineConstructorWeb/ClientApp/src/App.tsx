@@ -3,7 +3,10 @@ import './App.scss';
 import {Route, Routes, useNavigate} from 'react-router-dom'
 import {Register} from "./Register/Register";
 import {Login} from "./Register/Login";
-import {Blocks} from "./Blocks/Blocks";
+import {List} from "./List/List";
+import {CreatePage} from "./CreatePage/CreatePage";
+
+
 function App() {
   let history = useNavigate();
   const [user, setUser] = React.useState({
@@ -14,9 +17,11 @@ function App() {
     age: 0,
     login: "",
     password: "",
-    ruleLevel: 1
+    ruleLevel: -1
   } as IUserData);
-  
+  let setBufUser = (data:IUserData) => {
+    setUser(data);
+  }
   const [page, setPage] = React.useState("" as string);
     
     React.useEffect(() => {
@@ -40,13 +45,15 @@ function App() {
       <h1>Конструктор экзаменационных билетов</h1>
       <h2>Добро пожаловать {user.name}</h2>
       
+      <List user={user}/>
       
       
       <Routes>
         
         
-        <Route path="/login" element={<Login setUser={setUser}/>} />
+        <Route path="/login" element={<Login setUser={setBufUser}/>} />
         <Route path="/register" element={<Register/>} />
+        <Route path="/create" element={<CreatePage user={user}/>} />
         
         
       </Routes>

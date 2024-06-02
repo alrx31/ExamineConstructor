@@ -1,0 +1,110 @@
+﻿.List-page {
+    margin: 0 auto;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    
+    .sort-menu{
+        position: absolute;
+        width: 0px;
+        min-height: 300px;
+        background-color: white;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 5px;
+    }
+    .List-bar{
+        width: 100%;
+        height: 50px;
+        border-radius: 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        
+
+        .custom-select {
+            position: relative;
+            width: auto;
+
+            select {
+                width: 100%;
+                padding: 10px 20px;
+                font-size: 16px;
+                border: 1px solid #ccc;
+                border-radius: 40px;
+                background-color: #fff;
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                -ms-appearance: none;
+                -o-appearance: none;
+                cursor: pointer;
+                outline: none;
+
+                &:focus {
+                    border-color: #888;
+                }
+            }
+
+            &::after {
+                content: "▼";
+                position: absolute;
+                top: 50%;
+                right: 10px;
+                transform: translateY(-50%);
+                pointer-events: none;
+                font-size: 12px;
+                color: #333;
+            }
+        }
+        
+        
+        .create-test {
+            background-color: var(--lightblue);
+            color: white;
+            border-radius: 50px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+            border: 1px solid transparent;
+            &:focus {
+                outline: none;
+                border: 1px solid var(--darkgray);
+            }
+            &:hover {
+                background-color: white;
+                color: var(--lightblue);
+                border: 1px solid var(--lightblue);
+            }
+        }
+        input {
+            width: 40%;
+            height: 40px;
+            padding-left: 16px;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            box-sizing: border-box;
+            font-size: 16px;
+            
+        }
+        
+        
+    }
+    .list {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    
+    
+    
+}

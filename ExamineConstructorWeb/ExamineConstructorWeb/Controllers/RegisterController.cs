@@ -1,6 +1,7 @@
 ﻿using ExamineConstructorWeb.Data;
 using ExamineConstructorWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
 namespace ExamineConstructorWeb.Controllers;
 
@@ -20,7 +21,7 @@ public class RegisterController : ControllerBase
         if (ModelState.IsValid)
         {
             // хеширования пароля
-            model.Password = model.Password.GetHashCode().ToString();
+            model.Password = GetHash(model.Password);
             
             var userCheck = _context.Users.FirstOrDefault(u => u.Login == model.Login);
             if(userCheck != null)
@@ -33,5 +34,12 @@ public class RegisterController : ControllerBase
         }
 
         return BadRequest(ModelState);
+    }
+
+    private string GetHash(string pass)
+    {
+        var data = System.Text.Encoding.ASCII.GetBytes(pass);
+        data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
+        return System.Text.Encoding.ASCII.GetString(data);
     }
 }

@@ -54,10 +54,12 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
 body,html {
 	background-color: var(--white);
 	overflow-x: hidden;
+	--index: calc(1vw + 1vh);
 	--lightblue: #007bff;
 	--darkgray: #333;
 	--white: #f0f2f5;
 	--red: #dc3545;
+	
 }
 
 h1{
@@ -92,7 +94,7 @@ h5{
 h6{
 	font-family: "Tenor Sans", sans-serif;
 }
-input {
+input,textarea {
 	font-family: "Tenor Sans", sans-serif;
 	font-weight: bold;
 }
