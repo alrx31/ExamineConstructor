@@ -32,20 +32,20 @@ const App: React.FC = () => {
   });
 
   const [updateList, setUpdateList] = React.useState(0);
-
+  const [Tests, setTests] = React.useState([] as Array<ITest>);
+  
+  
   const setBufUser = (data: IUserData) => {
     setUser(data);
   }
+  
 
   React.useEffect(() => {
     if (user.ruleLevel === 2) {
-      console.log("admin");
       history("/admin");
     } else if (user.ruleLevel === 1) {
-      console.log("user");
       history("/");
     } else if (user.ruleLevel === 0) {
-      console.log("guest");
       history("/");
     } else {
       history("/login");
@@ -54,21 +54,42 @@ const App: React.FC = () => {
 
   const getUserId = () => user.id;
   const updateListFunc = () => setUpdateList(prev => prev + 1);
+  
+  
+  let setTestProp = (test:Array<ITest>)=>{
+    setTests(test);
+  }
 
   return (
       <div className="App">
         <h1>Конструктор экзаменационных билетов</h1>
         <h2>Добро пожаловать {user.name}</h2>
 
-        <List user={user} uptval={updateList} />
 
         <Routes>
+          <Route path="/" element={<List user={user} uptval={updateList} uptSelTests={setTestProp}/>} />
           <Route path="/login" element={<Login setUser={setBufUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/create" element={<CreatePage updateList={updateListFunc} getUserId={getUserId} />} />
+          <Route path="/test/:TestId" element={<TestMenu user={user} Tests={Tests}/>}/>
         </Routes>
       </div>
   );
 }
 
 export default App;
+
+interface ITest {
+  id: number;
+  name: string;
+  questions_St: Array<IQuestion_st>;
+  difficulty: number;
+  authorid: number;
+  description: string;
+}
+interface IQuestion_st {
+  id: number;
+  question: string;
+  answer: string;
+  difficulty: number;
+}

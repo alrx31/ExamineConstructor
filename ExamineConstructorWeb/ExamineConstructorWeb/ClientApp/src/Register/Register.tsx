@@ -48,7 +48,6 @@ export const Register = (
             .then(data => {
                 setIsLoad(false);
                 setStatus(2)
-                console.log(data);
                 history('/login')
             }).catch(error => {
                 setIsLoad(false);

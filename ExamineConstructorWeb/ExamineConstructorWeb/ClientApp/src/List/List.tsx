@@ -7,9 +7,16 @@ import {TestMenu} from "../TestMenu/TestMenu";
 interface ListProps {
     user: IUserData;
     uptval: number;
+    uptSelTests:(test:Array<ITest>)=>void; 
 }
 
-export const List: React.FC<ListProps> = ({ user, uptval }) => {
+export const List: React.FC<ListProps> = (
+    {
+        user, 
+        uptval,
+        uptSelTests
+    }
+    ) => {
     const history = useNavigate();
     const [isLoad, setIsLoad] = useState(true);
     const [search, setSearch] = useState("");
@@ -17,7 +24,6 @@ export const List: React.FC<ListProps> = ({ user, uptval }) => {
     const [sortMethod, setSortMethod] = useState(1);
     const [delval, setDelVal] = useState(0);
     const [searchData, setSearchData] = useState<ITest[]>([]);
-    const [selectedTestId,setSelectedTestId] = useState(-1);
     
     useEffect(() => {
         setIsLoad(true);
@@ -75,7 +81,6 @@ export const List: React.FC<ListProps> = ({ user, uptval }) => {
 
     const handleCreateTestBut = () => {
         history("/create");
-        console.log("create test");
     }
 
     const handleDelete = async (id: number) => {
@@ -91,6 +96,9 @@ export const List: React.FC<ListProps> = ({ user, uptval }) => {
         } catch (error) {
             console.error(error);
         }
+    }
+    let handleSelectTest = (e:any) => {
+        uptSelTests(searchData);
     }
 
     return (
@@ -128,7 +136,7 @@ export const List: React.FC<ListProps> = ({ user, uptval }) => {
                         to={`/test/${elem.id}`}
                         key={index}
                         className={"list-item"}
-                        onClick={() => setSelectedTestId(elem.id)}
+                        onClick={handleSelectTest}
                     >
                         <h1>{index + 1}.</h1>
                         <h1>{elem.name}</h1>
@@ -142,9 +150,6 @@ export const List: React.FC<ListProps> = ({ user, uptval }) => {
                     </NavLink>
                 )) : <h1>Тесты не найдены</h1>}
             </div>
-            <Routes>
-                <Route path={`/tests/${selectedTestId}`} element={<TestMenu user={user} Tests={searchData}/>}/>
-            </Routes>
         </div>
     );
 };

@@ -71,7 +71,6 @@ export const CreatePage:React.FC<CreatePageProps> = (
     }
     
     let sendTest = async (test:ITest) => {
-        console.log(JSON.stringify(test)) 
         await fetch("https://localhost:7148/api/Tests/addtest", {
             method: "PUT",
             headers: {

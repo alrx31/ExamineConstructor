@@ -27,7 +27,6 @@ export const Login = (
     }
     
     let checkData = async (data:any) => {
-        console.log(JSON.stringify(data));
         await fetch("https://localhost:7148/api/Login", {
             method: "POST",
             headers: {
@@ -37,7 +36,6 @@ export const Login = (
         }).then(response => response.json())
             .then((data:IUserData) => {
                 setIsLoad(false);
-                console.log(data);
                 setUser(data);
                 history('/');
             }).catch(error => {
