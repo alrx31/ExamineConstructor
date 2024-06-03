@@ -1,107 +1,153 @@
-﻿import React, {useEffect} from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import './List.scss';
-import {useNavigate} from "react-router-dom";
-export const List = (
-    user:any,
-    
-    ) => {
-    let history = useNavigate();
-    const [isLoad, setIsLoad] = React.useState(true);
-    const [search, setSearch] = React.useState("");
-    const [Tests, setTests] = React.useState([] as Array<ITest>);
-    const [sortMethod, setSort] = React.useState(1);
+import {NavLink, Route, Routes, useNavigate} from "react-router-dom";
+import {TestMenu} from "../TestMenu/TestMenu";
 
+
+interface ListProps {
+    user: IUserData;
+    uptval: number;
+}
+
+export const List: React.FC<ListProps> = ({ user, uptval }) => {
+    const history = useNavigate();
+    const [isLoad, setIsLoad] = useState(true);
+    const [search, setSearch] = useState("");
+    const [tests, setTests] = useState<ITest[]>([]);
+    const [sortMethod, setSortMethod] = useState(1);
+    const [delval, setDelVal] = useState(0);
+    const [searchData, setSearchData] = useState<ITest[]>([]);
+    const [selectedTestId,setSelectedTestId] = useState(-1);
+    
     useEffect(() => {
         setIsLoad(true);
         getAllTests();
     }, []);
-    
-    
-    let getAllTests = async () => {
-        await fetch("https://localhost:7148/api/gettests", {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(response => response.json())
-            .then((data:Array<ITest>) => {
-                setIsLoad(false);
-                console.log(data);
-                setTests(data);
-            }).catch(error => {
-                setIsLoad(false);
-                console.error(error);
-        })
-    }
-    
+
     useEffect(() => {
-        if(sortMethod == 1){
-            setTests(Tests.sort((a, b) => a.difficulty - b.difficulty));
-        }else if(sortMethod == 2){
-            setTests(Tests.sort((a, b) => b.difficulty - a.difficulty));
-        }else if(sortMethod == 3){
-            setTests(Tests.sort((a, b) => a.name.localeCompare(b.name)));
-        }else if(sortMethod == 4){
-            setTests(Tests.sort((a, b) => b.name.localeCompare(a.name)));
+        setIsLoad(true);
+        getAllTests();
+    }, [uptval]);
+
+    useEffect(() => {
+        if (!tests.length) return;
+        let sortedTests = [...tests];
+        if (sortMethod === 1) {
+            sortedTests.sort((a, b) => a.difficulty - b.difficulty);
+        } else if (sortMethod === 2) {
+            sortedTests.sort((a, b) => b.difficulty - a.difficulty);
+        } else if (sortMethod === 3) {
+            sortedTests.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (sortMethod === 4) {
+            sortedTests.sort((a, b) => b.name.localeCompare(a.name));
         }
-    },[sortMethod]);
-    
-    let handleCreateTestBut = () => {
+        setSearchData(sortedTests);
+    }, [sortMethod, tests]);
+
+    useEffect(() => {
+        if (search === "") {
+            setSearchData(tests);
+        } else {
+            const filteredTests = tests.filter(test =>
+                test.name.toLowerCase().includes(search.toLowerCase())
+            );
+            setSearchData(filteredTests);
+        }
+    }, [search, tests]);
+
+    const getAllTests = async () => {
+        try {
+            const response = await fetch("https://localhost:7148/api/Tests/tests", {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            setIsLoad(false);
+            setTests(data);
+            setSearchData(data);
+        } catch (error) {
+            setIsLoad(false);
+            console.error(error);
+        }
+    }
+
+    const handleCreateTestBut = () => {
         history("/create");
         console.log("create test");
     }
-    let handleChangeSearch = (e:any ) =>{
-        console.log("search");
-        setSearch(e.target.value)
-        let newTests = Tests.filter((test) => {
-            return test.name.toLowerCase().includes(e.target.value.toLowerCase());
-        })
-        setTests(newTests);
+
+    const handleDelete = async (id: number) => {
+        try {
+            await fetch(`https://localhost:7148/api/Tests/${id}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            getAllTests();
+            setDelVal(delval + 1);
+        } catch (error) {
+            console.error(error);
+        }
     }
-    
-    
-    
-    
+
     return (
-        <div className={"List-page"}>
+        <div className={"List-page"} key={delval + uptval}>
             <div className="List-bar">
                 <div className="custom-select">
-                    <select 
-                        name="sort" 
+                    <select
+                        name="sort"
                         id="sort"
-                        onChange={(e) => setSort(+e.target.value)}
+                        onChange={(e) => setSortMethod(Number(e.target.value))}
                     >
-                        <option value="1" >По сложности (убывание)</option>
-                        <option value="2">По сложности (возрастание)</option>
+                        <option value="1">По сложности (возрастание)</option>
+                        <option value="2">По сложности (убывание)</option>
                         <option value="3">По имени (по алфавиту)</option>
-                        <option value="4">По имени (по алфавиту в обратном)</option>
+                        <option value="4">По имени (по алфавиту в обратном порядке)</option>
                     </select>
                 </div>
-                <input 
-                    type="text" 
-                    className={"search-bar"} 
+                <input
+                    type="text"
+                    className={"search-bar"}
                     placeholder={"Поиск"}
-                    onChange={(e) => handleChangeSearch(e)}
+                    onChange={(e) => setSearch(e.target.value)}
                 />
-                <button 
+                <button
                     className={"create-test"}
                     onClick={handleCreateTestBut}
                 >Создать Тест
                 </button>
-
-
-            </div>
-            <div className="sort-menu">
-
             </div>
 
-            <div className="list">
+            <div className="list" key={uptval}>
                 {isLoad ? "Загрузка..." : ""}
+                {searchData.length ? searchData.map((elem, index) => (
+                    <NavLink 
+                        to={`/test/${elem.id}`}
+                        key={index}
+                        className={"list-item"}
+                        onClick={() => setSelectedTestId(elem.id)}
+                    >
+                        <h1>{index + 1}.</h1>
+                        <h1>{elem.name}</h1>
+                        <h3>Сложность: {elem.difficulty}</h3>
+                        <h3>Описание: {elem.description}</h3>
+                        <h3>Количество вопросов: {elem?.questions_St?.length}</h3>
+                        <h3>Автор: {user.name}</h3>
+                        <button
+                            onClick={() => handleDelete(elem.id)}
+                        >Удалить</button>
+                    </NavLink>
+                )) : <h1>Тесты не найдены</h1>}
             </div>
+            <Routes>
+                <Route path={`/tests/${selectedTestId}`} element={<TestMenu user={user} Tests={searchData}/>}/>
+            </Routes>
         </div>
     );
 };
-
 
 interface IUserData {
     id: number;
@@ -109,33 +155,23 @@ interface IUserData {
     surname: string;
     email: string;
     age: number;
-    login:string;
-    password:string;
+    login: string;
+    password: string;
     ruleLevel: number;
 }
 
-
 interface ITest {
-    id:number;
-    name:string;
-    questions_st: Array<IQuestion_st>;
-    questions_gues: Array<IQuestion_gues>;
-    difficulty:number;
-    author_name:string;
-    description:string;
+    id: number;
+    name: string;
+    questions_St: Array<IQuestion_st>;
+    difficulty: number;
+    authorid: number;
+    description: string;
 }
 
-interface IQuestion_gues{
-    id:number;
-    question:string;
-    answers:Array<string>;
-    rightAnswer:number;
-    difficulty:number;
-}
-
-interface IQuestion_st{
-    id:number;
-    question:string;
-    answer:string;
-    difficulty:number;
+interface IQuestion_st {
+    id: number;
+    question: string;
+    answer: string;
+    difficulty: number;
 }

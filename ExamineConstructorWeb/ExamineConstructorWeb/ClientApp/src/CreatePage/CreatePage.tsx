@@ -1,21 +1,27 @@
-﻿import React from 'react';
+﻿import React, {useEffect} from 'react';
 import "./CreatePage.scss";
 import {useNavigate} from "react-router-dom";
 import {Waiter} from "../Waiter/Waiter";
 
-export const CreatePage = (
-    user:any
+interface CreatePageProps {
+    getUserId: () => number;
+    updateList: () => void;
+}
+
+export const CreatePage:React.FC<CreatePageProps> = (
+    {getUserId,updateList}
 ) => {
-    
     let history = useNavigate();
     const [isLoad, setIsLoad] = React.useState(false);
     const [isCreateStQuestion, setIsCreateStQuestion] = React.useState(false);
+    const [questions_st, setQuestions_st] = React.useState<Array<IQuestion_st>>([] as Array<IQuestion_st>);
+    
     const [test, setTest] = React.useState<ITest>({
         id: 0,
         name: "",
-        questions_st: [] as Array<IQuestion_st>,
+        questions_st: questions_st,
         difficulty: 0,
-        author_id: user.id,
+        authorid: getUserId(),
         description: ""
     } as ITest);
     const [question_st, setQuestion_st] = React.useState<IQuestion_st>({
@@ -24,12 +30,12 @@ export const CreatePage = (
         answer: "",
         difficulty: 0
     } as IQuestion_st);
-    const [questions_st, setQuestions_st] = React.useState<Array<IQuestion_st>>([] as Array<IQuestion_st>);
 
     let handleChangeQueSt = (e: React.ChangeEvent<HTMLInputElement>) => {  
         setQuestion_st({...question_st, [e.target.id]: e.target.value})
     }
-    let HandleCreateQuestion = () => {
+    let HandleCreateQuestion = (e:any) => {
+        e.preventDefault();
         setQuestions_st([...questions_st,question_st]);
         setQuestion_st({
             id: 0,
@@ -40,9 +46,8 @@ export const CreatePage = (
         setIsCreateStQuestion(false);
     }
     
-    let HandleCreateTest = () => {
-        setTest({...test, questions_st: questions_st});
-        
+    let HandleCreateTest = (e:any) => {
+        e.preventDefault();
         if(test.name.length === 0){
             alert("Введите имя теста");
             return;
@@ -66,36 +71,37 @@ export const CreatePage = (
     }
     
     let sendTest = async (test:ITest) => {
-        /*console.log(JSON.stringify(test));
+        console.log(JSON.stringify(test)) 
         await fetch("https://localhost:7148/api/Tests/addtest", {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(test)
-        }).then(response =>{
-            /!*if(response.ok){
+        }).then(response => {
+            if (response.ok) {
                 setIsLoad(false);
                 history("/");
-            }
-            else{
+                updateList()
+            } else {
+                setIsLoad(false);
                 alert("Ошибка при создании теста");
-                setIsLoad(false)
-            }*!/
-        }).then(data => {
-            console.log(data);
-            setIsLoad(false);
-        }).catch(error => {
-            alert("Ошибк11111а при создании теста");
-            setIsLoad(false)
-        })*/
-        setIsLoad(false);
+            }
+        })
     }
+
+    useEffect(() => {
+        setTest({...test, questions_st: questions_st})
+    }, [questions_st]);
+    
     
         return (
         <div className="create-page">
             {isLoad && <Waiter />}
-            <div className="create-page-wrapper">
+            <form
+                className="create-page-wrapper"
+                onSubmit={HandleCreateTest}
+            >
                 <h1>Меню Создание Теста</h1>
                 <div className="create-test">
                     <label htmlFor="name">Имя</label>
@@ -117,6 +123,7 @@ export const CreatePage = (
                     <div className="button-wrapper">
                         <button
                             className={"add-question-button"}
+                            type={"button"}
                             onClick={() => setIsCreateStQuestion(true)}
                         >Добавить вопрос
                         </button>
@@ -125,13 +132,16 @@ export const CreatePage = (
                 </div>
                 <div className="create-controll">
                     <button onClick={() => history("/")}>Отмена</button>
-                    <button onClick={HandleCreateTest}>Создать</button>
+                    <button type={"submit"}>Создать</button>
                 </div>
-            </div>
+            </form>
 
             {
                 isCreateStQuestion &&
-                <div className="create-question">
+                <form 
+                    className="create-question"
+                    onSubmit={HandleCreateQuestion}
+                >
                     <label htmlFor="question">Вопрос</label>
                     <input type="text" id="question" placeholder={"Вопрос"}
                         onChange={handleChangeQueSt}
@@ -147,7 +157,7 @@ export const CreatePage = (
                     <div className="button-wrapper">
                         <button
                             className={"add-question-button"}
-                            onClick={HandleCreateQuestion}
+                            type={"submit"}
                         >Добавить
                         </button>
                         <button
@@ -156,7 +166,7 @@ export const CreatePage = (
                         >Отмена
                         </button>
                     </div>
-                </div>
+                </form>
             }
             
             
@@ -186,7 +196,7 @@ interface ITest {
     name:string;
     questions_st: Array<IQuestion_st>;
     difficulty:number;
-    author_id:number;
+    authorid:number;
     description:string;
 }
 

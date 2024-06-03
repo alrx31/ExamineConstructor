@@ -17,5 +17,4 @@ public class TestModel
     public int Difficulty { get; set; }
     [Required]
     public int Duration { get; set; }
-    
 }

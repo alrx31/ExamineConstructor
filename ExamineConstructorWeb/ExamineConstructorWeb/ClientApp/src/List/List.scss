@@ -102,7 +102,31 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        margin-top: 10px;
+        margin-top: 16px;
+        
+        .list-item{
+            text-decoration: none;
+            color:inherit;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 50px;
+            border-radius: 50px;
+            padding-left: 16px;
+            background-color: #fff;
+            margin-top: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            
+            *{
+                margin: 0 16px !important;
+                cursor: pointer;
+            }
+            
+            &:hover{
+                cursor: pointer;
+            }
+            
+        }
     }
     
     
