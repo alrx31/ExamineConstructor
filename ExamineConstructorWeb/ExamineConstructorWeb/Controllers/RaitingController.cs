@@ -20,7 +20,6 @@ public class RaitingController:ControllerBase
     public IActionResult GetTestRaiting(int TestId)
     {
         var raitings = _context.Raiting.Where(r => r.TestId == TestId).ToList();
-        if(raitings.Count == 0) return BadRequest();
         return Ok(raitings);
     }
     

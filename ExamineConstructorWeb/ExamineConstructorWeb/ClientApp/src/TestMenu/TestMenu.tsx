@@ -33,12 +33,18 @@ export const TestMenu:React.FC<ITestMenuProps> = (
         }).then(response => response.json())
             .then((data:IRaiting[]) => {
                 setIsLoad(false);
-                setRaiting(data.sort((a,b) => b.score - a.score));
+                if(data.length>0){
+                    setRaiting(data.sort((a,b) => b.score - a.score));
+                }   
             })
     }
     let handleStartTest = (TestId:number|undefined) => {
         if(TestId === undefined) alert("ошибка")
         history(`/pass/${TestId}`)
+    }
+    
+    let handleExport = () =>{
+        fetch("http://localhost:7148/api/")
     }
     
     return (
@@ -53,6 +59,11 @@ export const TestMenu:React.FC<ITestMenuProps> = (
                         className={"start-test"}
                         onClick={() => handleStartTest(test?.id)}
                     >Пройти Тест</button>
+                    
+                    <button
+                        className={"download"}
+                        onClick={handleExport}
+                    >Скачать тест</button>
                     <button
                         className={"test-back"}
                         onClick={() => history("/")}
@@ -71,7 +82,7 @@ export const TestMenu:React.FC<ITestMenuProps> = (
                         балл: 
                     </h2>
                 </div>
-                {Raiting.length &&
+                {
                     Raiting.map((rait: IRaiting, index: number) => {
                         return (
                             <div key={index} className="RaitingItem">
@@ -85,6 +96,9 @@ export const TestMenu:React.FC<ITestMenuProps> = (
                             
                         )
                     })
+                }
+                { Raiting.length === 0 && <h2>Нет прохождений</h2>
+                    
                 }
                 
                 
@@ -117,7 +131,6 @@ interface ITest {
 interface IQuestion_st {
     id: number;
     question: string;
-    answer: string;
     difficulty: number;
 }
 

@@ -177,6 +177,5 @@ interface ITest {
 interface IQuestion_st {
     id: number;
     question: string;
-    answer: string;
     difficulty: number;
 }

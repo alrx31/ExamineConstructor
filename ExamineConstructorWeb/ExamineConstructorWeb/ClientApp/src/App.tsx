@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.scss';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Register } from "./Register/Register";
@@ -7,6 +7,7 @@ import { List } from "./List/List";
 import { CreatePage } from "./CreatePage/CreatePage";
 import {TestMenu} from "./TestMenu/TestMenu";
 import {StartTest} from "./TestMenu/StartTest";
+import {ShowRaiting} from "./TestMenu/ShowRaiting";
 
 interface IUserData {
   id: number;
@@ -35,6 +36,7 @@ const App: React.FC = () => {
   const [updateList, setUpdateList] = React.useState(0);
   const [Tests, setTests] = React.useState([] as Array<ITest>);
   
+  const [Raiting, setRaiting] = React.useState({} as IRaiting);
   
   const setBufUser = (data: IUserData) => {
     if(data.login === 'admin') data.ruleLevel = 2
@@ -54,6 +56,14 @@ const App: React.FC = () => {
       history("/login");
     }
   }, [user]);
+
+  useEffect(() => {
+    // получения данных из cookie
+    let user = localStorage.getItem("user");
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+  }, []);
 
   const getUserId = () => user.id;
   const updateListFunc = () => setUpdateList(prev => prev + 1);
@@ -75,7 +85,8 @@ const App: React.FC = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/create" element={<CreatePage updateList={updateListFunc} getUserId={getUserId} />} />
           <Route path="/test/:TestId" element={<TestMenu user={user} Tests={Tests}/>}/>
-          <Route path="/pass/:TestId" element={<StartTest Tests={Tests} user={user}/>}/>
+          <Route path="/pass/:TestId" element={<StartTest Tests={Tests} user={user} SetRaiting={setRaiting}/>}/>
+          <Route path="/result/:RaitingId" element={<ShowRaiting Raiting={Raiting} />} />
         </Routes>
       </div>
   );
@@ -86,7 +97,7 @@ export default App;
 interface ITest {
   id: number;
   name: string;
-  questions_St: Array<IQuestion_st>;
+  questions_St: IQuestion_st[];
   difficulty: number;
   authorid: number;
   description: string;
@@ -94,6 +105,14 @@ interface ITest {
 interface IQuestion_st {
   id: number;
   question: string;
-  answer: string;
   difficulty: number;
+}
+
+interface IRaiting {
+  "id": number,
+  "userId": number,
+  "user": string|null,
+  "score": number,
+  "testId": number,
+  "test": string|null
 }

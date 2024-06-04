@@ -16,7 +16,7 @@ namespace ExamineConstructorWeb.Controllers
         }
 
         [HttpGet("tests")]
-        public IActionResult GetAllTests()
+        public IActionResult  GetAllTests()
         {
             if ( !_context.Tests.Any()) return BadRequest();
             List<TestModel> tests = _context.Tests.ToList();
@@ -52,6 +52,36 @@ namespace ExamineConstructorWeb.Controllers
             return Ok(testsExport);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetTest(int id)
+        {
+            var test = _context.Tests.FirstOrDefault(t => t.Id == id);
+            if (test == null) return BadRequest();
+            var questions = _context.Questions_standart.Where(q => q.TestId == test.Id).ToArray();
+            List<AddQueModel> quests = [];
+            foreach (var q in questions)
+            {
+                var que = new AddQueModel
+                {
+                    Id = q.Id,
+                    Question = q.Question,
+                    Answer = q.Answer,
+                    Difficulty = q.Difficulty,
+                };
+                quests.Add(que);
+            }
+            var Test = new TestAddModel
+            {
+                Id = test.Id,
+                Name = test.Name,
+                Description = test.Description,
+                AuthorId = test.AuthorId,
+                Difficulty = test.Difficulty,
+                questions_St = quests.ToArray()
+            };
+            return Ok(Test);
+        }
+        
         [HttpPut("addtest")]
         public IActionResult AddTest([FromBody] TestAddModel model)
         {
@@ -122,8 +152,37 @@ namespace ExamineConstructorWeb.Controllers
             _context.SaveChanges();
             return Ok();
         }
-        
-        
+
+        [HttpPost("check")]
+        public IActionResult CheckResult([FromBody] TestToPassModel model)
+        {
+            if(!ModelState.IsValid) return BadRequest( new {message = "Invalid"});
+            var Result = new RaitingAddModel
+            {
+                UserId = model.UserId,
+                TestId = model.TestId,
+                Score = 0,
+            };
+            foreach (var que in model.questions_St)
+            {
+                var rightque = _context.Questions_standart.FirstOrDefault(q => q.Id == que.Id);
+                if (rightque.Answer.ToLower().Trim() == que.Answer.ToLower().Trim())
+                {
+                    Result.Score += que.Difficulty;
+                } 
+            }
+            Result.Score = Result.Score % 100;
+            var Raiting = new RaitingModel
+            {
+                Id = getLastRaitingId() + 1,
+                UserId = Result.UserId,
+                TestId = Result.TestId,
+                Score = Result.Score
+            };
+            _context.Raiting.Add(Raiting);
+            _context.SaveChanges();
+            return Ok(Raiting);
+        }
         
         private int getLastTestId()
         {

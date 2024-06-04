@@ -26,6 +26,7 @@ export const Login = (
         checkData(formData);
     }
     
+    
     let checkData = async (data:any) => {
         await fetch("https://localhost:7148/api/Login", {
             method: "POST",
@@ -35,9 +36,15 @@ export const Login = (
             body: JSON.stringify(data)
         }).then(response => response.json())
             .then((data:IUserData) => {
+                
                 setIsLoad(false);
                 setUser(data);
                 history('/');
+                // добавить данные в  cookie
+                localStorage.setItem("user", JSON.stringify(data));
+                setTimeout(()=>{
+                    localStorage.removeItem("user");
+                },600000);
             }).catch(error => {
                 setIsLoad(false);
                 setStatus(1)

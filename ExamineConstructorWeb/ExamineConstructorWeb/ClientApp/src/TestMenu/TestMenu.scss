@@ -29,7 +29,7 @@
         align-items: center;
         width: 100%;
         margin-top: 16px;
-        .start-test{
+        .start-test,.download{
             width: 100px;
             height: 40px;
             background-color: var(--lightblue);
@@ -131,7 +131,7 @@
         max-height: 300px;
         resize: none;
         background-color: var(--white);
-        color:var(--lightblue);
+        color:var(--darkgray);
         border:1px solid var(--lightblue);
         border-radius: 24px;
         padding: 8px 16px;
