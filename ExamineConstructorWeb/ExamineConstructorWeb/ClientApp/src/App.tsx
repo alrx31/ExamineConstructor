@@ -6,6 +6,7 @@ import { Login } from "./Register/Login";
 import { List } from "./List/List";
 import { CreatePage } from "./CreatePage/CreatePage";
 import {TestMenu} from "./TestMenu/TestMenu";
+import {StartTest} from "./TestMenu/StartTest";
 
 interface IUserData {
   id: number;
@@ -36,6 +37,8 @@ const App: React.FC = () => {
   
   
   const setBufUser = (data: IUserData) => {
+    if(data.login === 'admin') data.ruleLevel = 2
+    else data.ruleLevel = 1;
     setUser(data);
   }
   
@@ -72,6 +75,7 @@ const App: React.FC = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/create" element={<CreatePage updateList={updateListFunc} getUserId={getUserId} />} />
           <Route path="/test/:TestId" element={<TestMenu user={user} Tests={Tests}/>}/>
+          <Route path="/pass/:TestId" element={<StartTest Tests={Tests} user={user}/>}/>
         </Routes>
       </div>
   );

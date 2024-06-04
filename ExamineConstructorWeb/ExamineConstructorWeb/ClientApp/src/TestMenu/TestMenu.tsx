@@ -13,7 +13,6 @@ export const TestMenu:React.FC<ITestMenuProps> = (
     }
 ) => {
     let {TestId} = useParams();
-    console.log(TestId)
     let test = Tests.find(test => test.id === Number(TestId));
     let [Raiting,setRaiting] = React.useState([] as Array<IRaiting>);
     let [isLoad,setIsLoad] = React.useState(false);
@@ -37,8 +36,9 @@ export const TestMenu:React.FC<ITestMenuProps> = (
                 setRaiting(data.sort((a,b) => b.score - a.score));
             })
     }
-    let handleStartTest = () => {
-        
+    let handleStartTest = (TestId:number|undefined) => {
+        if(TestId === undefined) alert("ошибка")
+        history(`/pass/${TestId}`)
     }
     
     return (
@@ -51,7 +51,7 @@ export const TestMenu:React.FC<ITestMenuProps> = (
                 <div className="test-controll">
                     <button
                         className={"start-test"}
-                        onClick={handleStartTest}
+                        onClick={() => handleStartTest(test?.id)}
                     >Пройти Тест</button>
                     <button
                         className={"test-back"}
@@ -71,7 +71,7 @@ export const TestMenu:React.FC<ITestMenuProps> = (
                         балл: 
                     </h2>
                 </div>
-                {
+                {Raiting.length &&
                     Raiting.map((rait: IRaiting, index: number) => {
                         return (
                             <div key={index} className="RaitingItem">
