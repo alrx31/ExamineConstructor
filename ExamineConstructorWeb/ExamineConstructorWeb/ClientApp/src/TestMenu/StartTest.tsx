@@ -1,7 +1,7 @@
 ﻿import React, {useEffect, useState} from 'react';
 import "./TestMenu.scss";
 import {useNavigate, useParams} from "react-router-dom";
-
+import { IUserData, ITest, IRaiting,ITestPass,IQue_pass } from '../Interfaces';
 
 interface IStartTestProps {
     user:IUserData,
@@ -114,53 +114,4 @@ export const StartTest:React.FC<IStartTestProps> = (
             </div>
         </div>    
     )
-}
-interface IUserData {
-    id: number;
-    name: string;
-    surname: string;
-    email: string;
-    age: number;
-    login: string;
-    password: string;
-    ruleLevel: number;
-}
-
-
-interface ITest {
-    id: number;
-    name: string;
-    questions_St: Array<IQuestion_st>;
-    difficulty: number;
-    authorid: number;
-    description: string;
-}
-interface IQuestion_st {
-    id: number;
-    question: string;
-    difficulty: number;
-}
-interface IQue_pass {
-    Id: number;
-    Answer: string;
-    "Difficulty":number
-}
-
-interface ITestPass {
-    TestId: number;
-    UserId: number;
-    questions_St: Array<IQue_pass>;
-    Difficulty: number;
-}
-
-
-
-
-interface IRaiting {
-    "id": number,
-    "userId": number,
-    "user": null,
-    "score": number,
-    "testId": number,
-    "test": null
 }

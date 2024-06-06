@@ -2,7 +2,7 @@
 import './List.scss';
 import {NavLink, Route, Routes, useNavigate} from "react-router-dom";
 import {TestMenu} from "../TestMenu/TestMenu";
-
+import { IUserData, ITest } from '../Interfaces';
 
 interface ListProps {
     user: IUserData;
@@ -153,29 +153,3 @@ export const List: React.FC<ListProps> = (
         </div>
     );
 };
-
-interface IUserData {
-    id: number;
-    name: string;
-    surname: string;
-    email: string;
-    age: number;
-    login: string;
-    password: string;
-    ruleLevel: number;
-}
-
-interface ITest {
-    id: number;
-    name: string;
-    questions_St: Array<IQuestion_st>;
-    difficulty: number;
-    authorid: number;
-    description: string;
-}
-
-interface IQuestion_st {
-    id: number;
-    question: string;
-    difficulty: number;
-}

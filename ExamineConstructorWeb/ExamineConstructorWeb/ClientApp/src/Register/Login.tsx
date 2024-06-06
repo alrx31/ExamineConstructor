@@ -2,7 +2,7 @@
 import './Register.scss'
 import {NavLink, useNavigate} from "react-router-dom";
 import {Waiter} from "../Waiter/Waiter";
-
+import {IUserData} from "../Interfaces";
 export const Login = (
     {setUser = (data:IUserData) => {}}:any
 )=>{
@@ -82,15 +82,4 @@ export const Login = (
             </form>
         </div>
     )
-}
-
-interface IUserData {
-    id: number;
-    name: string;
-    surname: string;
-    email: string;
-    age: number;
-    login: string;
-    password: string;
-    ruleLevel: number;
 }

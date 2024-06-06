@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import './Raiting.scss';
 import {useNavigate, useParams} from "react-router-dom";
-
+import {IRaiting} from "../Interfaces";
 
 interface IUserData {
     Raiting: IRaiting
@@ -43,13 +43,4 @@ export const ShowRaiting: React.FC<IUserData> = ({
             </div>
         </div>
     )
-}
-
-interface IRaiting {
-    "id": number,
-    "userId": number,
-    "user": string|null,
-    "score": number,
-    "testId": number,
-    "test": string|null
 }

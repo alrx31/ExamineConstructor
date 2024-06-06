@@ -8,17 +8,8 @@ import { CreatePage } from "./CreatePage/CreatePage";
 import {TestMenu} from "./TestMenu/TestMenu";
 import {StartTest} from "./TestMenu/StartTest";
 import {ShowRaiting} from "./TestMenu/ShowRaiting";
-
-interface IUserData {
-  id: number;
-  name: string;
-  surname: string;
-  email: string;
-  age: number;
-  login: string;
-  password: string;
-  ruleLevel: number;
-}
+import { IUserData,ITest,IRaiting} from './Interfaces';
+import {EditTestMenu} from "./TestMenu/EditTest";
 
 const App: React.FC = () => {
   const history = useNavigate();
@@ -87,32 +78,10 @@ const App: React.FC = () => {
           <Route path="/test/:TestId" element={<TestMenu user={user} Tests={Tests}/>}/>
           <Route path="/pass/:TestId" element={<StartTest Tests={Tests} user={user} SetRaiting={setRaiting}/>}/>
           <Route path="/result/:RaitingId" element={<ShowRaiting Raiting={Raiting} />} />
+          <Route path="/update/:TestId" element={<EditTestMenu />}/>
         </Routes>
       </div>
   );
 }
 
 export default App;
-
-interface ITest {
-  id: number;
-  name: string;
-  questions_St: IQuestion_st[];
-  difficulty: number;
-  authorid: number;
-  description: string;
-}
-interface IQuestion_st {
-  id: number;
-  question: string;
-  difficulty: number;
-}
-
-interface IRaiting {
-  "id": number,
-  "userId": number,
-  "user": string|null,
-  "score": number,
-  "testId": number,
-  "test": string|null
-}

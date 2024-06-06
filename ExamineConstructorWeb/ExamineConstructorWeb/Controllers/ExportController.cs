@@ -16,7 +16,7 @@ public class ExportController:ControllerBase
         _context = context;
     }
     
-    // create file
+    /*// create file
     [HttpGet("{TestId}")]
     public async Task<IActionResult> Post(int TestId)
     {
@@ -40,5 +40,5 @@ public class ExportController:ControllerBase
         }
 
         return Ok(path);
-    } 
+    } */
 }

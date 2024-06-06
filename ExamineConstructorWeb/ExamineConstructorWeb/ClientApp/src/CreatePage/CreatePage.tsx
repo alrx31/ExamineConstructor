@@ -2,6 +2,7 @@
 import "./CreatePage.scss";
 import {useNavigate} from "react-router-dom";
 import {Waiter} from "../Waiter/Waiter";
+import {ITestCreate,IQuestion_st_Create} from "../Interfaces";
 
 interface CreatePageProps {
     getUserId: () => number;
@@ -14,22 +15,22 @@ export const CreatePage:React.FC<CreatePageProps> = (
     let history = useNavigate();
     const [isLoad, setIsLoad] = React.useState(false);
     const [isCreateStQuestion, setIsCreateStQuestion] = React.useState(false);
-    const [questions_st, setQuestions_st] = React.useState<Array<IQuestion_st>>([] as Array<IQuestion_st>);
+    const [questions_st, setQuestions_st] = React.useState<Array<IQuestion_st_Create>>([] as Array<IQuestion_st_Create>);
     
-    const [test, setTest] = React.useState<ITest>({
+    const [test, setTest] = React.useState<ITestCreate>({
         id: 0,
         name: "",
-        questions_st: questions_st,
+        questions_St: questions_st,
         difficulty: 0,
         authorid: getUserId(),
         description: ""
-    } as ITest);
-    const [question_st, setQuestion_st] = React.useState<IQuestion_st>({
+    } as ITestCreate);
+    const [question_st, setQuestion_st] = React.useState<IQuestion_st_Create>({
         id: 0,
         question: "",
         answer: "",
         difficulty: 0
-    } as IQuestion_st);
+    } as IQuestion_st_Create);
 
     let handleChangeQueSt = (e: React.ChangeEvent<HTMLInputElement>) => {  
         setQuestion_st({...question_st, [e.target.id]: e.target.value})
@@ -70,7 +71,7 @@ export const CreatePage:React.FC<CreatePageProps> = (
         sendTest(test);
     }
     
-    let sendTest = async (test:ITest) => {
+    let sendTest = async (test:ITestCreate) => {
         await fetch("https://localhost:7148/api/Tests/addtest", {
             method: "PUT",
             headers: {
@@ -90,7 +91,7 @@ export const CreatePage:React.FC<CreatePageProps> = (
     }
 
     useEffect(() => {
-        setTest({...test, questions_st: questions_st})
+        setTest({...test, questions_St: questions_st})
     }, [questions_st]);
     
     
@@ -188,20 +189,3 @@ export const CreatePage:React.FC<CreatePageProps> = (
         </div>
     );
 };
-
-
-interface ITest {
-    id: number;
-    name:string;
-    questions_st: Array<IQuestion_st>;
-    difficulty:number;
-    authorid:number;
-    description:string;
-}
-
-interface IQuestion_st{
-    id:number;
-    question:string;
-    answer:string;
-    difficulty:number;
-}

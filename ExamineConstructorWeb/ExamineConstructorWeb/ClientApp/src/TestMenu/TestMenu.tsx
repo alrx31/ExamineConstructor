@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import './TestMenu.scss';
 import {useNavigate, useParams} from "react-router-dom";
-
 interface ITestMenuProps {
     user:IUserData,
     Tests:ITest[]
@@ -44,7 +43,16 @@ export const TestMenu:React.FC<ITestMenuProps> = (
     }
     
     let handleExport = () =>{
-        fetch("http://localhost:7148/api/")
+let element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(test)));
+        element.setAttribute('download', test?.name + ".json");
+      
+        element.style.display = 'none';
+        document.body.appendChild(element);
+      
+        element.click();
+      
+        document.body.removeChild(element);        
     }
     
     return (
@@ -59,7 +67,10 @@ export const TestMenu:React.FC<ITestMenuProps> = (
                         className={"start-test"}
                         onClick={() => handleStartTest(test?.id)}
                     >Пройти Тест</button>
-                    
+                    <button
+                        className={"edit-test"}
+                        onClick={() => history(`/update/${test?.id}`)}
+                    >Редактировать</button>
                     <button
                         className={"download"}
                         onClick={handleExport}

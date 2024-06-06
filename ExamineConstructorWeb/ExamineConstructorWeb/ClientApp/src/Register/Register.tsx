@@ -3,7 +3,7 @@ import "./Register.scss"
 import {Interface} from "node:readline";
 import {NavLink, useNavigate} from "react-router-dom";
 import {Waiter} from "../Waiter/Waiter";
-
+import {IUserData} from "../Interfaces";
 export const Register = (
     
 ) => {
@@ -128,15 +128,4 @@ export const Register = (
             </form>
         </div>
     )
-}
-
-interface IUserData {
-    id: number;
-    name: string;
-    surname: string;
-    email: string;
-    age: number;
-    login: string;
-    password: string;
-    ruleLevel: number;
 }
