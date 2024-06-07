@@ -108,6 +108,7 @@ export const List: React.FC<ListProps> = (
             });
             getAllTests();
             setDelVal(delval + 1);
+            history("/")
         } catch (error) {
             console.error(error);
         }

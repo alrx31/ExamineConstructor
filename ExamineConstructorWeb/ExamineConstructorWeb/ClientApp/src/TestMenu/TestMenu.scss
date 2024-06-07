@@ -147,6 +147,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 32px;
   }
   .finish-test-button {
     width: 150px;
@@ -276,6 +277,8 @@
     justify-content: center;
     align-items: center;
     margin-top: 16px;
+    margin-bottom: 32px;
+    
   }
   
  .delete-test{
@@ -309,6 +312,7 @@
       background-color: var(--white);
       color: var(--lightblue);
     }
+
  }
   
 }

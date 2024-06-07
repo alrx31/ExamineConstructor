@@ -74,9 +74,12 @@ export const EditTestMenu: React.FC<ITestMenuProps> = () => {
 
 
     let handleSaveTest = async ()=>{
-        setTest({...Test, questions_St: Questions, difficulty: difficulty, description: Description, name: Name})
-        if(!checkValidData()) return;
         setIsLoad(true);
+        setTest({...Test, questions_St: Questions, difficulty: difficulty, description: Description, name: Name})
+        if(!checkValidData()) {
+            setIsLoad(false)
+            return;
+        };
         await fetch(`https://localhost:7148/api/Tests/update/${TestId}`, {
             method: "PUT",
             headers: {
@@ -111,8 +114,8 @@ export const EditTestMenu: React.FC<ITestMenuProps> = () => {
                 alert("Вопрос должен быть больше 3 символов");
                 return false;
             }
-            if(Test.questions_St[i].answer.length < 3){
-                alert("Ответ должен быть больше 3 символов");
+            if(Test.questions_St[i].answer.length < 1){
+                alert("Ответ должен быть больше 0 символ");
                 return false;
             }
         }
@@ -311,7 +314,7 @@ export const EditTestMenu: React.FC<ITestMenuProps> = () => {
                             id: 0,
                             question: "Вопрос",
                             answer: "Ответ",
-                            difficulty: 0
+                            difficulty: 5
                         });
                         setQuestions(newQuestions);
                         setTest({...Test, questions_St: newQuestions});

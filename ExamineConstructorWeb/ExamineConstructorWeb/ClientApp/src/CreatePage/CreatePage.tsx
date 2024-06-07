@@ -75,7 +75,8 @@ export const CreatePage:React.FC<CreatePageProps> = (
         await fetch("https://localhost:7148/api/Tests/addtest", {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
             },
             body: JSON.stringify(test)
         }).then(response => {
