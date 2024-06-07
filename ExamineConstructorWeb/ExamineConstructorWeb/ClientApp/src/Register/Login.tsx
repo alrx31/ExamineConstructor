@@ -2,7 +2,7 @@
 import './Register.scss'
 import {NavLink, useNavigate} from "react-router-dom";
 import {Waiter} from "../Waiter/Waiter";
-import {IUserData} from "../Interfaces";
+import {IUserData, LoginData} from "../Interfaces";
 export const Login = (
     {setUser = (data:IUserData) => {}}:any
 )=>{
@@ -35,20 +35,19 @@ export const Login = (
             },
             body: JSON.stringify(data)
         }).then(response => response.json())
-            .then((data:IUserData) => {
-                
+            .then((data:LoginData) => {
                 setIsLoad(false);
-                setUser(data);
-                history('/');
-                // добавить данные в  cookie
-                localStorage.setItem("user", JSON.stringify(data));
-                setTimeout(()=>{
-                    localStorage.removeItem("user");
-                },600000);
+                if(data.token && data.user){
+                    localStorage.setItem("token", data.token);
+                    setUser(data.user);
+                    history("/");
+                }else{
+                    setStatus(1); 
+                    history("/login")
+                }                
             }).catch(error => {
                 setIsLoad(false);
                 setStatus(1)
-                console.error(error);
             })
     }
     

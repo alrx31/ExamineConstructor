@@ -63,16 +63,30 @@ export const List: React.FC<ListProps> = (
 
     const getAllTests = async () => {
         try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                // Обработка отсутствия токена, например, перенаправление на страницу логина
+                console.error("No token found");
+                return;
+            }
+
             const response = await fetch("https://localhost:7148/api/Tests/tests", {
                 method: "GET",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
             });
-            const data = await response.json();
-            setIsLoad(false);
-            setTests(data);
-            setSearchData(data);
+
+            if (response.ok) {
+                const data = await response.json();
+                setIsLoad(false);
+                setTests(data);
+                setSearchData(data);
+            } else {
+                console.error("Failed to fetch tests, status: ", response.status);
+                setIsLoad(false);
+            }
         } catch (error) {
             setIsLoad(false);
             console.error(error);
@@ -88,7 +102,8 @@ export const List: React.FC<ListProps> = (
             await fetch(`https://localhost:7148/api/Tests/${id}`, {
                 method: "DELETE",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("token")}`
                 }
             });
             getAllTests();

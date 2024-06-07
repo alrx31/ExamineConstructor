@@ -141,7 +141,7 @@ namespace ExamineConstructorWeb.Controllers;
         }
         [Authorize]
         [HttpPut("update/{id}")]
-        public IActionResult UpdateTest(int id, [FromBody] TestModel model)
+        public IActionResult UpdateTest(int id, [FromBody] TestAddModel model)
         {
             if (!ModelState.IsValid) return BadRequest();
             var test = _context.Tests.FirstOrDefault(t => t.Id == id);
@@ -149,7 +149,43 @@ namespace ExamineConstructorWeb.Controllers;
             if (model.Name != "") test.Name = model.Name;
             if (model.Description != "") test.Description = model.Description;
             if (model.Difficulty != 0) test.Difficulty = model.Difficulty;
+            _context.Tests.Update(test);
             _context.SaveChanges();
+            //update questions and create if not exist
+            var lastQId = getLastQuesStId() + 1;
+            for(int i = 0 ; i < model.questions_St.Length; i++)
+            {
+                var quest = _context.Questions_standart.FirstOrDefault(q => q.Id == model.questions_St[i].Id);
+                if (quest == null)
+                {
+                    var newQuest = new Question_st_Model
+                    {
+                        Id = lastQId + i,
+                        Question = model.questions_St[i].Question,
+                        Answer = model.questions_St[i].Answer,
+                        Difficulty = model.questions_St[i].Difficulty,
+                        TestId = test.Id
+                    };
+                    _context.Questions_standart.Add(newQuest);
+                }
+                else
+                {
+                    if (model.questions_St[i].Question != "") quest.Question = model.questions_St[i].Question;
+                    if (model.questions_St[i].Answer != "") quest.Answer = model.questions_St[i].Answer;
+                    if (model.questions_St[i].Difficulty != 0) quest.Difficulty = model.questions_St[i].Difficulty;
+                    _context.Questions_standart.Update(quest);
+                }
+            }
+            
+            
+            //delete raitings
+            var raitings = _context.Raiting.Where(r => r.TestId == test.Id).ToArray();
+            foreach (var r in raitings)
+            {
+                _context.Raiting.Remove(r);
+            }
+            _context.SaveChanges();
+            
             return Ok();
         }
         [Authorize]

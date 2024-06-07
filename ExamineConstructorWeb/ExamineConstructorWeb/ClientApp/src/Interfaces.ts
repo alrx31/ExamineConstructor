@@ -69,3 +69,9 @@ export interface IQuestion_st_Create {
     answer: string;
     difficulty: number;
 }
+
+
+export interface LoginData{
+    token:string;
+    user:IUserData;
+}

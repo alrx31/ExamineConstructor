@@ -49,12 +49,26 @@ const App: React.FC = () => {
   }, [user]);
 
   useEffect(() => {
-    // получения данных из cookie
-    let user = localStorage.getItem("user");
-    if (user) {
-      setUser(JSON.parse(user));
-    }
+    checkAuthToken().then((user) => {
+      if (user) {
+        setUser(user);
+        history('/');
+      } else {
+        setUser({
+          id: 0,
+          name: "",
+          surname: "",
+          email: "",
+          age: 0,
+          login: "",
+          password: "",
+          ruleLevel: -1
+        });
+        history('/login');
+      }
+    });
   }, []);
+
 
   const getUserId = () => user.id;
   const updateListFunc = () => setUpdateList(prev => prev + 1);
@@ -63,6 +77,38 @@ const App: React.FC = () => {
   let setTestProp = (test:Array<ITest>)=>{
     setTests(test);
   }
+
+
+  const checkAuthToken = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      return null;
+    }
+
+    try {
+      const response = await fetch("https://localhost:7148/api/Login/validate-token", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const user = await response.json();
+        return user;
+      } else {
+        localStorage.removeItem("token");
+        return null;
+      }
+    } catch (error) {
+      console.error("Token validation failed:", error);
+      localStorage.removeItem("token");
+      return null;
+    }
+  };
+
 
   return (
       <div className="App">
@@ -78,7 +124,7 @@ const App: React.FC = () => {
           <Route path="/test/:TestId" element={<TestMenu user={user} Tests={Tests}/>}/>
           <Route path="/pass/:TestId" element={<StartTest Tests={Tests} user={user} SetRaiting={setRaiting}/>}/>
           <Route path="/result/:RaitingId" element={<ShowRaiting Raiting={Raiting} />} />
-          <Route path="/update/:TestId" element={<EditTestMenu />}/>
+          <Route path="/update/:TestId" element={<EditTestMenu/>}/>
         </Routes>
       </div>
   );

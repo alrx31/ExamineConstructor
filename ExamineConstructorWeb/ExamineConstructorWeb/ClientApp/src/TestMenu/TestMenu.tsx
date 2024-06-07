@@ -27,7 +27,8 @@ export const TestMenu:React.FC<ITestMenuProps> = (
         await fetch(`https://localhost:7148/api/Raiting/${TestId}`,{
             method: "GET",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + localStorage.getItem("token")
             }
         }).then(response => response.json())
             .then((data:IRaiting[]) => {
