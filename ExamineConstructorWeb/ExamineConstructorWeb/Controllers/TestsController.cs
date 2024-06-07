@@ -1,12 +1,13 @@
 ﻿using ExamineConstructorWeb.Data;
 using ExamineConstructorWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace ExamineConstructorWeb.Controllers
-{
+namespace ExamineConstructorWeb.Controllers;
     [Route("api/[controller]")]
     [ApiController]
+    
     public class TestsController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -52,10 +53,10 @@ namespace ExamineConstructorWeb.Controllers
             return Ok(testsExport);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetTest(int id)
+        [HttpGet("test/{Testid}")]
+        public IActionResult GetTest(int Testid)
         {
-            var test = _context.Tests.FirstOrDefault(t => t.Id == id);
+            var test = _context.Tests.FirstOrDefault(t => t.Id == Testid);
             if (test == null) return BadRequest();
             var questions = _context.Questions_standart.Where(q => q.TestId == test.Id).ToArray();
             List<AddQueModel> quests = [];
@@ -81,7 +82,7 @@ namespace ExamineConstructorWeb.Controllers
             };
             return Ok(Test);
         }
-        
+        [Authorize]
         [HttpPut("addtest")]
         public IActionResult AddTest([FromBody] TestAddModel model)
         {
@@ -129,7 +130,6 @@ namespace ExamineConstructorWeb.Controllers
             return Ok(tests);
         }
 
-        
         [HttpDelete("{id}")]
         public IActionResult DeleteTest(int id)
         {
@@ -139,7 +139,7 @@ namespace ExamineConstructorWeb.Controllers
             _context.SaveChanges();
             return Ok();
         }
-        
+        [Authorize]
         [HttpPut("update/{id}")]
         public IActionResult UpdateTest(int id, [FromBody] TestModel model)
         {
@@ -152,7 +152,7 @@ namespace ExamineConstructorWeb.Controllers
             _context.SaveChanges();
             return Ok();
         }
-
+        [Authorize]
         [HttpPost("check")]
         public IActionResult CheckResult([FromBody] TestToPassModel model)
         {
@@ -199,4 +199,4 @@ namespace ExamineConstructorWeb.Controllers
             return _context.Raiting.Any() ? _context.Raiting.Max(r => r.Id) : 0;
         }
     }
-}
+

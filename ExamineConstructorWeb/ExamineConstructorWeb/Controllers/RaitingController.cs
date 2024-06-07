@@ -1,10 +1,11 @@
 ﻿using ExamineConstructorWeb.Data;
 using ExamineConstructorWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamineConstructorWeb.Controllers;
 
-
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 
