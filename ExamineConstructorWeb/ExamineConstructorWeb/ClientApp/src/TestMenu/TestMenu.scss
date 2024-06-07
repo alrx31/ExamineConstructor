@@ -242,6 +242,7 @@
     left: 50%;
     transform: translateX(-50%);
     border:1px solid var(--red);
+    margin-top: 8px;
     &:hover{
       background-color: var(--white);
       color: var(--red);

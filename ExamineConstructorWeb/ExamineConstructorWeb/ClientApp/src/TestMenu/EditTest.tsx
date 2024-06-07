@@ -21,6 +21,7 @@ export const EditTestMenu: React.FC<ITestMenuProps> = () => {
         if (Test && Test?.questions_St?.length > 0) {
             setUpdateQuestions(new Array(Test.questions_St.length).fill(false));
             setUpdateAnswers(new Array(Test.questions_St.length).fill(false));
+            setUpdateDiffQuestions(new Array(Test.questions_St.length).fill(false));
             setQuestions(Test.questions_St);
         }
     }, [Test]);
@@ -57,7 +58,8 @@ export const EditTestMenu: React.FC<ITestMenuProps> = () => {
     let [updateQuestions, setUpdateQuestions] = React.useState<Array<boolean>>([]);
     let [updateAnswers, setUpdateAnswers] = React.useState<Array<boolean>>([]);
     let [Questions, setQuestions] = React.useState<Array<IQuestion_st_Create>>([]);
-
+    let [updateDiffQuestions, setUpdateDiffQuestions] = React.useState<Array<boolean>>([]);
+    
     const handleUpdateQuestion = (index: number, value: string) => {
         const newQuestions = [...Questions];
         newQuestions[index].question = value;
@@ -255,6 +257,37 @@ export const EditTestMenu: React.FC<ITestMenuProps> = () => {
                                     setUpdateAnswers(newUpdateAnswers);
                                 }}
                             >Ответ: {question.answer}</h2>
+                        )}
+                        {updateDiffQuestions[index] ? (
+<input
+                                type="number"
+                                value={question.difficulty}
+                                onChange={(e) => {
+                                    const newQuestions = [...Questions];
+                                    newQuestions[index].difficulty = Number(e.target.value);
+                                    setQuestions(newQuestions);
+                                }}
+                                onBlur={() => {
+                                    const newUpdateDiffQuestions = [...updateDiffQuestions];
+                                    newUpdateDiffQuestions[index] = false;
+                                    setUpdateDiffQuestions(newUpdateDiffQuestions);
+                                }}
+                                onKeyPress={(e) => {
+                                    if (e.key === "Enter") {
+                                        const newUpdateDiffQuestions = [...updateDiffQuestions];
+                                        newUpdateDiffQuestions[index] = false;
+                                        setUpdateDiffQuestions(newUpdateDiffQuestions);
+                                    }
+                                }}
+                            />
+                        ) : (
+                            <h2
+                                onDoubleClick={() => {
+                                    const newUpdateDiffQuestions = [...updateDiffQuestions];
+                                    newUpdateDiffQuestions[index] = true;
+                                    setUpdateDiffQuestions(newUpdateDiffQuestions);
+                                }}
+                            >Сложность: {question.difficulty}</h2>
                         )}
                         <div className="controls">
                             <button
