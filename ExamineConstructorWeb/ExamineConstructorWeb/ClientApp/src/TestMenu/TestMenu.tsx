@@ -2,17 +2,15 @@
 import './TestMenu.scss';
 import {useNavigate, useParams} from "react-router-dom";
 interface ITestMenuProps {
-    user:IUserData,
-    Tests:ITest[]
+    user:IUserData;
 }
 export const TestMenu:React.FC<ITestMenuProps> = (
     {
         user,
-        Tests
     }
 ) => {
     let {TestId} = useParams();
-    let test = Tests.find(test => test.id === Number(TestId));
+    let [test,setTest] = React.useState<ITest|undefined>(undefined);
     let [Raiting,setRaiting] = React.useState([] as Array<IRaiting>);
     let [isLoad,setIsLoad] = React.useState(false);
     let history = useNavigate();
@@ -20,9 +18,31 @@ export const TestMenu:React.FC<ITestMenuProps> = (
     React.useEffect(()=>{
         setIsLoad(true);
         getData();
+        getTestData();
     },[TestId])
-    
         
+    
+    let getTestData = async () => {
+        await fetch(`https://localhost:7148/api/Tests/test/${TestId}`,{
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        }).then(response => response.json())
+            .then((data:ITest) => {
+                setIsLoad(false);
+                if(data){
+                    setTest(data);
+                }else{
+                    history("/");
+                }
+            }).catch(error => {
+                setIsLoad(false);
+                history("/");
+                console.log(error);
+            })
+    }
     let getData = async () => {
         await fetch(`https://localhost:7148/api/Raiting/${TestId}`,{
             method: "GET",

@@ -121,7 +121,7 @@ const App: React.FC = () => {
           <Route path="/login" element={<Login setUser={setBufUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/create" element={<CreatePage updateList={updateListFunc} getUserId={getUserId} />} />
-          <Route path="/test/:TestId" element={<TestMenu user={user} Tests={Tests}/>}/>
+          <Route path="/test/:TestId" element={<TestMenu user={user}/>}/>
           <Route path="/pass/:TestId" element={<StartTest Tests={Tests} user={user} SetRaiting={setRaiting}/>}/>
           <Route path="/result/:RaitingId" element={<ShowRaiting Raiting={Raiting} />} />
           <Route path="/update/:TestId" element={<EditTestMenu/>}/>
