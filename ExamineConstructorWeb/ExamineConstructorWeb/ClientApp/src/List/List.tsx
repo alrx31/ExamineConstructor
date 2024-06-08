@@ -116,7 +116,8 @@ export const List: React.FC<ListProps> = (
     let handleSelectTest = (e:any) => {
         uptSelTests(searchData);
     }
-
+    
+    
     return (
         <div className={"List-page"} key={delval + uptval}>
             <div className="List-bar">
@@ -148,7 +149,7 @@ export const List: React.FC<ListProps> = (
             <div className="list" key={uptval}>
                 {isLoad ? "Загрузка..." : ""}
                 {searchData.length ? searchData.map((elem, index) => (
-                    <NavLink 
+                    <NavLink
                         to={`/test/${elem.id}`}
                         key={index}
                         className={"list-item"}
@@ -159,11 +160,12 @@ export const List: React.FC<ListProps> = (
                         <h3>Сложность: {elem.difficulty}</h3>
                         <h3>Описание: {elem.description}</h3>
                         <h3>Количество вопросов: {elem?.questions_St?.length}</h3>
-                        <h3>Автор: {user.name}</h3>
                         <button
                             onClick={() => handleDelete(elem.id)}
-                        >Удалить</button>
+                        >Удалить
+                        </button>
                     </NavLink>
+
                 )) : <h1>Тесты не найдены</h1>}
             </div>
         </div>

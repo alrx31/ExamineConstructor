@@ -193,5 +193,25 @@
             }
         }
     }
-    
+}
+
+.questions-list{
+    width: 30%;
+    height: auto;
+    padding: 24px;
+    display: flex;
+    flex-flow:column nowrap;
+    overflow-y: auto;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    .question{
+        margin: 32px;
+        border: 1px solid var(--lightblue);
+        width: 80%;
+        padding: 16px;
+        border-radius: 4px;
+    }
 }

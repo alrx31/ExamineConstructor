@@ -103,6 +103,8 @@
         flex-wrap: wrap;
         justify-content: center;
         margin-top: 16px;
+        overflow-y: auto;
+        padding-bottom: 32px;
         
         .list-item{
             text-decoration: none;
@@ -135,8 +137,6 @@
                 font-weight: bold;
                 transition: 0.3s;
                 border: 1px solid transparent;
-                position: relative;
-
                 &:focus {
                     outline: none;
                     border: 1px solid var(--darkgray);

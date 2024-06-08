@@ -10,6 +10,8 @@ import {StartTest} from "./TestMenu/StartTest";
 import {ShowRaiting} from "./TestMenu/ShowRaiting";
 import { IUserData,ITest,IRaiting} from './Interfaces';
 import {EditTestMenu} from "./TestMenu/EditTest";
+import {Profile} from "./Profile/Profile";
+import {EditProfile} from "./Profile/EditProfile";
 
 const App: React.FC = () => {
   const history = useNavigate();
@@ -103,7 +105,6 @@ const App: React.FC = () => {
         return null;
       }
     } catch (error) {
-      console.error("Token validation failed:", error);
       localStorage.removeItem("token");
       return null;
     }
@@ -114,10 +115,27 @@ const App: React.FC = () => {
       <div className="App">
         <h1>Конструктор экзаменационных билетов</h1>
         <h2>Добро пожаловать {user.name}</h2>
+        <div className="app-profile-controll">
+          <button
+              className={"profile"}
+              onClick={() => {
+                history(`/user/${user.id}`);
+              }}
+            >Профиль
+            </button>
+          <button
+              className={"log-out"}
+              onClick={() => {
+                setUser({} as IUserData);
+                history("/login");
+              }}
+          >Выйти
+          </button>
 
+        </div>
 
         <Routes>
-          <Route path="/" element={<List user={user} uptval={updateList} uptSelTests={setTestProp}/>} />
+          <Route path="/" element={<List user={user} uptval={updateList} uptSelTests={setTestProp}/>}/>
           <Route path="/login" element={<Login setUser={setBufUser} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/create" element={<CreatePage updateList={updateListFunc} getUserId={getUserId} />} />
@@ -125,6 +143,8 @@ const App: React.FC = () => {
           <Route path="/pass/:TestId" element={<StartTest Tests={Tests} user={user} SetRaiting={setRaiting}/>}/>
           <Route path="/result/:RaitingId" element={<ShowRaiting Raiting={Raiting} />} />
           <Route path="/update/:TestId" element={<EditTestMenu/>}/>
+          <Route path="user/:UserId" element={<Profile thisUser={user} />} />
+          <Route path="user/update/:UserId" element={<EditProfile thisUser={user} />} />
         </Routes>
       </div>
   );

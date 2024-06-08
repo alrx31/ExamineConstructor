@@ -14,6 +14,7 @@ export const Login = (
         password: ''
     })
     let handleChange = (event:any) =>{
+        setStatus(0)
         const {name, value} = event.target as HTMLInputElement;
         setFormData({
             ...formData,

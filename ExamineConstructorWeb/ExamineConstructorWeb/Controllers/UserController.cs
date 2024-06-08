@@ -1,5 +1,6 @@
 ﻿using ExamineConstructorWeb.Data;
 using ExamineConstructorWeb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamineConstructorWeb.Controllers;
@@ -14,7 +15,7 @@ public class UserController:ControllerBase
     {
         _context = context;
     }
-    
+    [Authorize]
     [HttpDelete("{UserId}")]
     public IActionResult DeleteUser(int UserId)
     {
@@ -24,6 +25,7 @@ public class UserController:ControllerBase
         _context.SaveChanges();
         return Ok();
     }
+    [Authorize]
     [HttpPut("changeLevel/{UserId}/{Level}")]
     public IActionResult ChangeUserLevel(int UserId, int Level)
     {
@@ -33,6 +35,7 @@ public class UserController:ControllerBase
         _context.SaveChanges();
         return Ok();
     }
+    [Authorize]
     [HttpPut("update/{UserId}")]
     public IActionResult UpdateUser(int UserId, [FromBody] UserModel model)
     {
@@ -48,5 +51,13 @@ public class UserController:ControllerBase
         return Ok();
     }
     
+    [HttpGet("{UserId}")]
+    public IActionResult GetUser(int UserId)
+    {
+        if(UserId < 1) return BadRequest();
+        var user = _context.Users.FirstOrDefault(u => u.ID == UserId);
+        if (user == null) return BadRequest();
+        return Ok(user);
+    }
 
 }

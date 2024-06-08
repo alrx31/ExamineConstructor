@@ -175,12 +175,14 @@ export const CreatePage:React.FC<CreatePageProps> = (
             {
                 questions_st.length > 0?
                     <div className="questions-list">
+                        <h2>Список созданных вопросов</h2>
                         {questions_st.length > 0 &&
                             questions_st.map((question, index) => {
                                 return (
                                     <div key={index} className="question">
-                                        <p>{question.question}</p>
-                                        <p>{question.answer}</p>
+                                        <p>Вопрос: {question.question}</p>
+                                        <p>Ответ: {question.answer}</p>
+                                        <p>Сложность: {question.difficulty}</p>
                                     </div>
                                 )
                             })

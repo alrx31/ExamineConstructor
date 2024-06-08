@@ -25,11 +25,20 @@ export const Register = (
     
     let handleSubmit = (event:any)=>{
         event.preventDefault();
-        setIsLoad(true);
+        setStatus(0)
+        
+        if(formData.login == "" || formData.password == "" || formData.email == "" || formData.name == "" || formData.surname == "" || formData.age == 0){
+            setIsLoad(false);
+            setStatus(1);
+            return;
+        }
+        
+        
         sentData(formData);
     }
     
     let handleChange = (event:any) =>{
+        setStatus(0)
         const {name, value} = event.target as HTMLInputElement;
         SetFormData({
             ...formData,
@@ -62,7 +71,7 @@ export const Register = (
             {isLoad ? <Waiter /> : ""}
             
             <h2>Register</h2>
-            <form onSubmit={handleSubmit} className={["register-form",status == 1 ? "error-form" : ""].join(" ")}>
+            <form onSubmit={(e) =>{handleSubmit(e);}} className={["register-form",status == 1 ? "error-form" : ""].join(" ")}>
                 <div className="form-group">
                     <label htmlFor="login">Login</label>
                     <input

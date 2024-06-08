@@ -82,7 +82,6 @@ namespace ExamineConstructorWeb.Controllers;
             };
             return Ok(Test);
         }
-        [Authorize]
         [HttpPut("addtest")]
         public IActionResult AddTest([FromBody] TestAddModel model)
         {
