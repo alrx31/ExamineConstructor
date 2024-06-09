@@ -27,6 +27,8 @@
     transition: 0.3s;
     border: 1px solid transparent;
     margin-left: 32px;
+    font-weight: bold;
+    
     &:hover{
       background-color: white;
       color: var(--lightblue);

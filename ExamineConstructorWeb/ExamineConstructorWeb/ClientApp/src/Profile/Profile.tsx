@@ -45,7 +45,6 @@ export const Profile:React.FC<IProfileProps> = ({
     return (
         <div className={"profile-page"}>
             {isLoad && <Waiter />}
-            <div className="profile-wrapper">
                 <h2>Профиль пользователя {user.name}</h2>
                 <div className="profile-info">
                     <div className="profile-info-row">
@@ -72,7 +71,6 @@ export const Profile:React.FC<IProfileProps> = ({
                         <span>Роль:</span>
                         <span>{user.ruleLevel}</span>
                     </div>
-                </div>
             </div>
             <div className="profile-controlls">
                 <button

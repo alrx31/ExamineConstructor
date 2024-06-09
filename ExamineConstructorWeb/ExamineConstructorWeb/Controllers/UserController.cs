@@ -45,8 +45,9 @@ public class UserController:ControllerBase
         if(model.Name != "") user.Name = model.Name;
         if(model.Surname != "") user.Surname = model.Surname;
         if(model.Email != "") user.Email = model.Email;
-        if(model.Password != "") user.Password = model.Password;
+        if(model.Password != "") user.Password = GetHash(model.Password);
         
+        _context.Users.Update(user);
         _context.SaveChanges();
         return Ok();
     }
@@ -60,4 +61,12 @@ public class UserController:ControllerBase
         return Ok(user);
     }
 
+    private string GetHash(string pass)
+    {
+        var data = System.Text.Encoding.ASCII.GetBytes(pass);
+        data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
+        return System.Text.Encoding.ASCII.GetString(data);
+    }
+    
+    
 }

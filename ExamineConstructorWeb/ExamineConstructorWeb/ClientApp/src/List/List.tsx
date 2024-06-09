@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, {useEffect, useRef, useState} from 'react';
 import './List.scss';
 import {NavLink, Route, Routes, useNavigate} from "react-router-dom";
 import {TestMenu} from "../TestMenu/TestMenu";
@@ -24,6 +24,11 @@ export const List: React.FC<ListProps> = (
     const [sortMethod, setSortMethod] = useState(1);
     const [delval, setDelVal] = useState(0);
     const [searchData, setSearchData] = useState<ITest[]>([]);
+    
+    const [isModal, setIsModal] = useState(false);
+    const [delId, setDelId] = useState(-1);  
+    
+    const modalSubmin = useRef<HTMLButtonElement>(null);
     
     useEffect(() => {
         setIsLoad(true);
@@ -98,6 +103,9 @@ export const List: React.FC<ListProps> = (
     }
 
     const handleDelete = async (id: number) => {
+        
+        
+        
         try {
             await fetch(`https://localhost:7148/api/Tests/${id}`, {
                 method: "DELETE",
@@ -114,6 +122,7 @@ export const List: React.FC<ListProps> = (
         }
     }
     let handleSelectTest = (e:any) => {
+        if(e.target.tagName === "BUTTON") return;
         uptSelTests(searchData);
     }
     
@@ -149,25 +158,62 @@ export const List: React.FC<ListProps> = (
             <div className="list" key={uptval}>
                 {isLoad ? "Загрузка..." : ""}
                 {searchData.length ? searchData.map((elem, index) => (
-                    <NavLink
-                        to={`/test/${elem.id}`}
-                        key={index}
-                        className={"list-item"}
-                        onClick={handleSelectTest}
-                    >
-                        <h1>{index + 1}.</h1>
-                        <h1>{elem.name}</h1>
-                        <h3>Сложность: {elem.difficulty}</h3>
-                        <h3>Описание: {elem.description}</h3>
-                        <h3>Количество вопросов: {elem?.questions_St?.length}</h3>
+                    <div className={"list-item-wrapper"}>
+                        <NavLink
+                            to={`/test/${elem.id}`}
+                            key={index}
+                            className={"list-item"}
+                            onClick={handleSelectTest}
+                        >
+                            <h1>{index + 1}.</h1>
+                            <h1>{elem.name}</h1>
+                            <h3>Сложность: {elem.difficulty}</h3>
+                            <h3>Описание: {elem.description}</h3>
+                            <h3>Количество вопросов: {elem?.questions_St?.length}</h3>
+
+                        </NavLink>
                         <button
-                            onClick={() => handleDelete(elem.id)}
+                            onClick={() => {
+                                setIsModal(true);
+                                setDelId(elem.id);
+                                modalSubmin.current?.focus();
+                            }}
                         >Удалить
                         </button>
-                    </NavLink>
+                    </div>
 
                 )) : <h1>Тесты не найдены</h1>}
             </div>
+
+
+            {isModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h1>Вы уверены что хотите удалить тест?</h1>
+                        <div className="modal-buttons">
+                            <button
+                                ref ={modalSubmin}
+                                onClick={() => {
+                                    setDelVal(delval + 1)
+                                    setIsModal(false);
+                                    handleDelete(delId);
+                                }}
+                            >Да
+                            </button>
+                            <button
+                                className={"cancel-button"}
+                                onClick={() =>{
+                                    setDelId(-1);
+                                    setDelVal(delval + 1)
+                                    setIsModal(false);
+                                }}
+                            >Нет
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 };

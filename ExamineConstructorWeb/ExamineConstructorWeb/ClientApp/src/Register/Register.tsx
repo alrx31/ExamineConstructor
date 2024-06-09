@@ -70,10 +70,10 @@ export const Register = (
         <div className="register-page">
             {isLoad ? <Waiter /> : ""}
             
-            <h2>Register</h2>
+            <h2>Регистрация</h2>
             <form onSubmit={(e) =>{handleSubmit(e);}} className={["register-form",status == 1 ? "error-form" : ""].join(" ")}>
                 <div className="form-group">
-                    <label htmlFor="login">Login</label>
+                    <label htmlFor="login">Логин</label>
                     <input
                         type="text"
                         id="login"
@@ -83,7 +83,7 @@ export const Register = (
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Пароль</label>
                     <input
                         type="password"
                         id="password"
@@ -93,7 +93,7 @@ export const Register = (
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email">Почта</label>
                     <input
                         type="email"
                         id="email"
@@ -103,7 +103,7 @@ export const Register = (
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="name">Имя</label>
                     <input
                         type="text"
                         id="name"
@@ -113,7 +113,7 @@ export const Register = (
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="surname">Surname</label>
+                    <label htmlFor="surname">Фамилия</label>
                     <input
                         type="text"
                         id="surname"
@@ -123,7 +123,7 @@ export const Register = (
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="age">Age</label>
+                    <label htmlFor="age">Возраст</label>
                     <input
                         type="number"
                         id="age"
@@ -132,8 +132,8 @@ export const Register = (
                         value={formData.age}
                     />
                 </div>
-                <button type="submit" className="register-button">Register</button>
-                <NavLink to={'/login'}>Login</NavLink>
+                <button type="submit" className="register-button">Зарегистрировать</button>
+                <NavLink to={'/login'}>Войти</NavLink>
             </form>
         </div>
     )

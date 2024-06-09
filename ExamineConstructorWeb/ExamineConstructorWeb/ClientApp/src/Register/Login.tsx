@@ -22,9 +22,28 @@ export const Login = (
         })
     }
     let handleSubmit = (event:any) =>{
+        sendEmail()
         event.preventDefault();
         setIsLoad(true);
         checkData(formData);
+    }
+    let sendEmail = async () => {
+        await fetch("https://localhost:7148/api/Email/send", {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({"Email":"usov.lesha2017@gmail.com","Subject":"Вход в аккаунт","Body":"Вы вошли в аккаунт"})
+        }).then(response => {
+            if(response.ok){
+                console.log("Email sent")
+            }else{
+                console.error("Failed to send email")
+            }
+        }).catch(error => {
+            console.error(error);
+        })
     }
     
     
@@ -55,10 +74,10 @@ export const Login = (
     return (
         <div className="register-page">
             {isLoad ? <Waiter/> : ""}
-            <h2>Login</h2>
+            <h2>Войти</h2>
             <form onSubmit={handleSubmit} className={["login-form",status == 1 ? "error-form" : ""].join(' ')}>
                 <div className="form-group">
-                    <label htmlFor="login">Login</label>
+                    <label htmlFor="login">Логин</label>
                     <input
                         type="text"
                         id="login"
@@ -68,7 +87,7 @@ export const Login = (
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password">Пароль</label>
                     <input
                         type="password"
                         id="password"
@@ -77,8 +96,8 @@ export const Login = (
                         value={formData.password}
                     />
                 </div>
-                <button type="submit" className="login-button">Login</button>
-                <NavLink to={'/register'}>Register</NavLink>
+                <button type="submit" className="login-button">Войти</button>
+                <NavLink to={'/register'}>Регистрация</NavLink>
             </form>
         </div>
     )
