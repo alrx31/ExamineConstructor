@@ -27,7 +27,7 @@ export const EditProfile:React.FC<IEditProfileProps> = ({
             .then((data:IUserData) => {
                 setIsLoad(false)
                 if(data){
-                    setUser(data);
+                    setUser({...data});
                 }else{
                     alert("User not found");
                     history("/")
@@ -97,27 +97,6 @@ export const EditProfile:React.FC<IEditProfileProps> = ({
     }
     
     let sendProfile =  (user:IUserData)=>{
-        /*await fetch(`https://localhost:7148/api/User/update/${user.id}`,{
-            method: "PUT",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem("token")}`
-            },
-            body: JSON.stringify(user)
-        }).then(response => {
-            setIsLoad(false)
-            if(response.ok){
-                alert("Профиль успешно обновлен");
-                history("/login")
-            }else{
-                alert("ошибка сервера");
-                history("/")
-            }
-        }).catch(error => {
-            alert("непредвиденная ошибка");
-            setIsLoad(false);
-            history("/")
-        })*/
         fetch(`https://localhost:7148/api/Reset/reset-request`,{
             method:"POST",
             headers: {

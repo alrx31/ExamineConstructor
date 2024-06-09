@@ -10,6 +10,7 @@ export interface IUserData {
     ruleLevel: number;
 }
 
+
 // данные о тесте
 export interface ITest {
     id: number;
