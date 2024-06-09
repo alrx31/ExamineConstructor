@@ -18,6 +18,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddControllers();
 
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IConfirmationService, ConfirmController>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost3000",

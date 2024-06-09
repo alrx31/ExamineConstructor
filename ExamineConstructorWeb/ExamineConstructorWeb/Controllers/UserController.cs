@@ -39,6 +39,7 @@ public class UserController:ControllerBase
     [HttpPut("update/{UserId}")]
     public IActionResult UpdateUser(int UserId, [FromBody] UserModel model)
     {
+        if (model.RuleLevel != 2) return BadRequest();
         if (!ModelState.IsValid) return BadRequest();
         var user = _context.Users.FirstOrDefault(u => u.ID == UserId);
         if (user == null) return BadRequest();

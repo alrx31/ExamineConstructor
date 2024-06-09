@@ -3,6 +3,7 @@ import './Profile.scss'
 import {useNavigate, useParams} from "react-router-dom";
 import {IUserData} from "../Interfaces";
 import {Waiter} from "../Waiter/Waiter";
+import {SubmitProfile} from "../submitPage/SubmitProfile";
 
 interface IEditProfileProps {
     thisUser: IUserData;
@@ -58,8 +59,10 @@ export const EditProfile:React.FC<IEditProfileProps> = ({
     let [editPassword, setEditPassword] = React.useState(false);
     let [editLogin, setEditLogin] = React.useState(false);
     let [secondPassword, setSecondPassword] = React.useState("");
-    let handleSavaProfile = () =>{
-        setIsLoad(true);
+    
+    let [isSubmitPage, setIsSubmitPage] = React.useState(false);
+    
+    let handleSaveProfile = () =>{
         if(user.name.length < 3){
             alert("Имя слишком короткое");
             setIsLoad(false);
@@ -90,16 +93,11 @@ export const EditProfile:React.FC<IEditProfileProps> = ({
             setIsLoad(false);
             return;
         }
-        if(user.password !== secondPassword){
-            alert("Пароли не совпадают");
-            setIsLoad(false);
-            return;
-        }
         sendProfile(user);
     }
     
-    let sendProfile = async (user:IUserData)=>{
-        await fetch(`https://localhost:7148/api/User/update/${user.id}`,{
+    let sendProfile =  (user:IUserData)=>{
+        /*await fetch(`https://localhost:7148/api/User/update/${user.id}`,{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -119,7 +117,23 @@ export const EditProfile:React.FC<IEditProfileProps> = ({
             alert("непредвиденная ошибка");
             setIsLoad(false);
             history("/")
+        })*/
+        fetch(`https://localhost:7148/api/Reset/reset-request`,{
+            method:"POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem("token")}`
+            },
+            body: JSON.stringify({email: user.email})
+        }).then(response => {
+            if (response.ok) {
+                console.log("Email sent")
+            } else {
+                console.error("Failed to send email")
+            }
         })
+        
+        setIsSubmitPage(true)
     }
     
     
@@ -256,17 +270,24 @@ export const EditProfile:React.FC<IEditProfileProps> = ({
                 </div>
             </div>
             <div className="edit-profile-controlls">
+
+                <button
+                    className={"save-button"}
+                    onClick={handleSaveProfile}
+                >Сохранить
+                </button>
+                
                 <button
                     onClick={() => history("/")}
                     className={"cancel-button"}
-                >Отмена</button>
-                <button
-                    className={"save-button"}
-                    onClick={handleSavaProfile}
-                >Сохранить</button>
+                >Отмена
+                </button>
             </div>
-            
-            
+
+            {isSubmitPage && (
+                <SubmitProfile user={user} setIsSubmitPage={setIsSubmitPage}/>
+            )}
+
         </div>
     )
 }

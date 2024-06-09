@@ -13,5 +13,6 @@ namespace ExamineConstructorWeb.Data
         public DbSet<TestModel> Tests { get; set; }
         public DbSet<Question_st_Model> Questions_standart { get; set; }
         public DbSet<RaitingModel> Raiting { get; set; }
+        public DbSet<ConfirmCode> ConfirmCodes { get; set; }
     }
 }
